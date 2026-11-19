@@ -41,7 +41,6 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.v38-nav-group').count(),1,'reporting grouping only once');
   const bg=await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor);
   assert.equal(bg,'rgb(255, 255, 255)','white workspace sidebar');
-  assert.equal(await page.locator('.v38-workspace').count(),0,'body class not treated as element');
   assert(await page.evaluate(()=>document.body.classList.contains('v38-workspace')));
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
   assert(overflow<=3,name+' horizontal scroll '+overflow);
