@@ -5,6 +5,7 @@ on:
       - main
       - develop/media-dashboard-v2
       - develop/media-dashboard-v2-1-centered-modals
+      - develop/media-dashboard-v3-reference-refresh
   pull_request:
     branches: [main]
 permissions:
@@ -27,6 +28,8 @@ jobs:
         run: node tests/v2-browser.cjs
       - name: Verify centered modals at all breakpoints
         run: node tests/v2-1-modals.cjs
+      - name: Validate reference-inspired V3 theme
+        run: node tests/v3-design.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
