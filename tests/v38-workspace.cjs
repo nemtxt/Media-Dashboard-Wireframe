@@ -39,6 +39,16 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.v35-quickfind').count(),0,'no extra quick find');
   assert.equal(await page.locator('#nav .navbtn').count(),7,'seven core screens');
   assert.equal(await page.locator('.v38-nav-group').count(),1,'reporting grouping only once');
+  if(width<=1020){
+    const measure=await page.evaluate(()=>{
+      const a=document.getElementById('page-eyebrow'),b=document.getElementById('page-title');
+      const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect(),bs=getComputedStyle(b);
+      return {eyebrowBottom:Math.round(ar.bottom),titleTop:Math.round(br.top),
+        titleTransform:bs.transform,titleAnimation:bs.animationName,titleOpacity:bs.opacity,
+        font:bs.fontFamily};
+    });
+    console.log('HEADING LAYOUT '+name,JSON.stringify(measure));
+  }
   const bg=await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor);
   assert.equal(bg,'rgb(255, 255, 255)','white workspace sidebar');
   assert(await page.evaluate(()=>document.body.classList.contains('v38-workspace')));
