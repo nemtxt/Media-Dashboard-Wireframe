@@ -1,0 +1,466 @@
+/* Media Dashboard V3.9 — Consistent visual hierarchy across every screen.
+ * The original navy sidebar remains untouched. The five approved brand colors
+ * remain primary; violet, teal and rose are used only for category distinction.
+ * Color never replaces text for status or data provenance.
+ */
+:root{
+ --ui-canvas:#F2F4F7;--ui-ink:#0B1F3B;--ui-text:#293F5C;
+ --ui-muted:#63758E;--ui-line:#E4EAF1;--ui-white:#FFF;
+ --ui-radius:14px;--ui-gap:14px;
+}
+body.v39-consistency{
+ --screen-accent:#1F6FEB;--screen-ink:#1851A2;
+ --screen-soft:#EAF2FF;--screen-line:#D1E2FB;
+ --screen-tint:#F7FAFF;
+}
+body.v39-consistency[data-studio-screen="content"]{
+ --screen-accent:#F57C24;--screen-ink:#955010;
+ --screen-soft:#FFF0E3;--screen-line:#F8D8BD;
+ --screen-tint:#FFF9F4;
+}
+body.v39-consistency[data-studio-screen="performance"]{
+ --screen-accent:#7659C9;--screen-ink:#543B98;
+ --screen-soft:#F0EAFF;--screen-line:#DCCFF7;
+ --screen-tint:#FAF8FF;
+}
+body.v39-consistency[data-studio-screen="ads"]{
+ --screen-accent:#D39300;--screen-ink:#7B5800;
+ --screen-soft:#FFF3D2;--screen-line:#F2D998;
+ --screen-tint:#FFFBF0;
+}
+body.v39-consistency[data-studio-screen="website"]{
+ --screen-accent:#008C90;--screen-ink:#005D66;
+ --screen-soft:#E4F7F7;--screen-line:#BCE6E4;
+ --screen-tint:#F6FCFC;
+}
+body.v39-consistency[data-studio-screen="strategy"]{
+ --screen-accent:#B75586;--screen-ink:#873E61;
+ --screen-soft:#FBEAF3;--screen-line:#EFC8DA;
+ --screen-tint:#FFF8FB;
+}
+body.v39-consistency[data-studio-screen="calendar"]{
+ --screen-accent:#147CAA;--screen-ink:#0C5B7F;
+ --screen-soft:#E5F5FB;--screen-line:#C0E2F2;
+ --screen-tint:#F6FBFD;
+}
+body.v39-consistency[data-studio-screen="settings"],
+body.v39-consistency[data-studio-screen="sources"]{
+ --screen-accent:#42698D;--screen-ink:#2E506F;
+ --screen-soft:#EAF1F8;--screen-line:#D3E0ED;
+ --screen-tint:#F8FBFD;
+}
+/* One typography and spacing rhythm on all dashboards. */
+body.v39-consistency .content{color:var(--ui-ink)}
+body.v39-consistency .pageheading{
+ margin-bottom:16px;align-items:end;gap:14px;
+}
+body.v39-consistency .pageheading .eyebrow{
+ display:flex;align-items:center;gap:8px;
+ font-size:9px;line-height:1.4;letter-spacing:.115em;
+ color:var(--screen-ink);font-weight:850;margin-bottom:8px;
+}
+body.v39-consistency .pageheading .eyebrow::before{
+ content:"";display:inline-block;flex:none;
+ width:7px;height:7px;border-radius:2px;background:var(--screen-accent);
+}
+body.v39-consistency .pageheading h1{
+ color:#0B1F3B;font-size:clamp(24px,2.8vw,31px);
+ letter-spacing:-.045em;line-height:1.16;margin:0 0 7px;font-weight:850;
+}
+body.v39-consistency .pageheading p{
+ color:#63758E;font-size:11px;line-height:1.6;max-width:760px;
+}
+body.v39-consistency .section-intro{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;flex-wrap:wrap;margin:4px 0 15px;
+}
+body.v39-consistency .section-intro h2{
+ font-size:16px;letter-spacing:-.03em;color:var(--ui-ink);
+}
+body.v39-consistency .v36-scopebar{
+ border:1px solid #E2E8F0;border-radius:13px;
+ min-height:56px;margin-bottom:17px;
+ box-shadow:none;background:#FFF;
+}
+body.v39-consistency .v36-scope-option[aria-pressed="true"]{
+ border-color:var(--screen-line);
+ background:var(--screen-soft);
+ color:var(--screen-ink);
+ box-shadow:none;
+}
+body.v39-consistency .v36-scope-option:hover:not([aria-pressed="true"]){
+ background:#EAF0F7;color:#194369;
+}
+body.v39-consistency .v37-period-select:focus-visible{
+ outline-color:var(--screen-accent);
+}
+/* KPI cards share a single structure; the accent tint distinguishes the
+ * selected dashboard, while four muted semantic hues improve scanability. */
+body.v39-consistency .page.active .stats{
+ gap:12px;margin-bottom:16px;
+}
+body.v39-consistency .page.active .stats .stat{
+ --tile:#1F6FEB;--tile-soft:#EAF2FF;--tile-line:#CADFFA;
+ min-height:113px;padding:16px 17px 14px;
+ background:linear-gradient(155deg,#FFF 50%,var(--tile-soft) 175%);
+ border:1px solid #E1E8F0;border-radius:13px;box-shadow:none;
+ position:relative;overflow:hidden;cursor:default;
+ transition:background-color .16s ease,border-color .16s ease,transform .16s ease;
+}
+body.v39-consistency .page.active .stats .stat:first-child{
+ --tile:var(--screen-accent);--tile-soft:var(--screen-soft);--tile-line:var(--screen-line);
+}
+body.v39-consistency .page.active .stats .stat:nth-child(2){
+ --tile:#4E6DC0;--tile-soft:#EEF1FF;--tile-line:#D8E1FA;
+}
+body.v39-consistency .page.active .stats .stat:nth-child(3){
+ --tile:#CF8700;--tile-soft:#FFF5DA;--tile-line:#F3E2B5;
+}
+body.v39-consistency .page.active .stats .stat:nth-child(4){
+ --tile:#087D85;--tile-soft:#E8F7F6;--tile-line:#CEEDEB;
+}
+body.v39-consistency .page.active .stats .stat::before{
+ content:"";position:absolute;top:0;left:0;right:0;height:3px;
+ background:var(--tile);border-radius:0;z-index:2;
+}
+body.v39-consistency .page.active .stats .stat::after{
+ width:68px;height:68px;top:-38px;right:-20px;
+ background:var(--tile-soft);opacity:.48;border-radius:50%;
+}
+body.v39-consistency .page.active .stats .stat-head{
+ display:flex;align-items:flex-start;justify-content:space-between;
+ font-size:10px;line-height:1.35;color:#516784;gap:8px;
+ font-weight:800;
+}
+body.v39-consistency .page.active .stats .stat-head svg{
+ box-sizing:border-box;width:32px;height:32px;
+ padding:7px;border-radius:9px;flex:none;
+ color:var(--tile)!important;background:var(--tile-soft);
+ z-index:3;position:relative;
+}
+body.v39-consistency .page.active .stats .stat>strong{
+ display:block;margin:11px 0 7px;font-size:27px;
+ font-weight:850;letter-spacing:-.045em;line-height:1.13;
+ font-variant-numeric:tabular-nums;color:var(--ui-ink);
+ overflow-wrap:anywhere;
+}
+body.v39-consistency .page.active .stats .stat .stat-foot{
+ line-height:1.45;min-width:0;font-size:10px;color:#6E8098;
+}
+body.v39-consistency .page.active .stats .stat[role="button"]{cursor:pointer}
+body.v39-consistency .page.active .stats .stat[role="button"]:hover{
+ background:linear-gradient(145deg,#FFF 10%,var(--tile-soft) 125%);
+ border-color:var(--tile-line);transform:translateY(-1px);
+}
+body.v39-consistency .page.active .stats .stat:focus-visible{
+ outline:3px solid var(--screen-accent);outline-offset:3px;
+}
+body.v39-consistency .page.active .stats .stat .v35-stat-affordance{
+ font-size:9px;color:var(--tile);font-weight:700;
+}
+/* Standard panels: header hierarchy, consistent inner padding and emphasis. */
+body.v39-consistency .page.active :is(.panel,.monthcard,.personcard,.kanbancol){
+ border-color:var(--ui-line);box-shadow:none;border-radius:14px;
+}
+body.v39-consistency .page.active .panel{
+ background:#FFF;overflow:hidden;
+}
+body.v39-consistency .page.active .panel-header{
+ gap:12px;align-items:center;
+ padding:17px 18px 12px;
+ border-bottom:0;
+}
+body.v39-consistency .page.active .panel-header h3{
+ display:flex;align-items:flex-start;gap:9px;
+ margin:0;color:#182F50;
+ font-size:13px;font-weight:850;line-height:1.4;
+ letter-spacing:-.016em;
+}
+body.v39-consistency .page.active .panel-header h3::before{
+ content:"";width:4px;height:15px;flex:none;
+ border-radius:3px;background:var(--screen-accent);
+ margin-top:2px;
+}
+body.v39-consistency .page.active .panel-header p{
+ color:#6D7F96;font-size:10.5px;
+ line-height:1.55;margin:5px 0 0;
+}
+body.v39-consistency .page.active .panel-body{
+ padding:9px 18px 18px;
+}
+body.v39-consistency .page.active .panel :is(.small-link,.v38-widget-footer button){
+ color:var(--screen-ink);font-weight:800;
+}
+body.v39-consistency .page.active .panel :is(.small-link,.v38-widget-footer button):hover{
+ text-decoration:underline;
+}
+/* Featured V3.8 overview cards use the same spacing and calibrated accents. */
+body.v39-consistency #overview.active .v38-panel-tasks{
+ background:#FFF;border-top:3px solid #1F6FEB;
+}
+body.v39-consistency #overview.active .v38-panel-projects{
+ background:#FFF;border-top:3px solid #FF8A2A;
+}
+body.v39-consistency #overview.active .v38-panel-goals{
+ background:#FFF;border-top:3px solid #7659C9;
+}
+body.v39-consistency #overview.active .v38-panel-calendar{
+ background:#FFF;border-top:3px solid #008C90;
+}
+body.v39-consistency #overview.active .v38-panel-projects .panel-header h3::before{background:#FF8A2A}
+body.v39-consistency #overview.active .v38-panel-goals .panel-header h3::before{background:#7659C9}
+body.v39-consistency #overview.active .v38-panel-calendar .panel-header h3::before{background:#008C90}
+body.v39-consistency #overview.active .v38-account-card{
+ border-color:#E4EAF1;background:#FFF;border-radius:11px;
+}
+body.v39-consistency #overview.active .v38-account-card:hover{
+ border-color:#B7D2F4;background:#F5F9FF;
+}
+body.v39-consistency #overview.active .v38-account-card:nth-of-type(2) .v38-account-meter i{background:#F18A2F}
+body.v39-consistency #overview.active .v38-account-card:nth-of-type(3) .v38-account-meter i{background:#008C90}
+body.v39-consistency #overview.active .v38-task-row:hover{
+ background:#F4F8FD;
+}
+body.v39-consistency #overview.active .v38-panel-goals .progresslist>div:nth-child(2n) .fill{
+ background:#7659C9;
+}
+body.v39-consistency #overview.active .v38-panel-goals .progresslist>div:nth-child(3n) .fill{
+ background:#FF8A2A;
+}
+/* Tabs are a single component everywhere; no double active background. */
+body.v39-consistency .page.active .tabs{
+ gap:14px;min-height:40px;
+ border:0;border-bottom:1px solid #E5EAF1;
+ background:transparent;box-shadow:none;border-radius:0;
+ padding:0;margin:0;overflow-x:auto;
+}
+body.v39-consistency .page.active .tabs .tab{
+ min-height:40px;padding:9px 4px 10px;
+ font-size:11px;font-weight:780;
+ border:0;border-bottom:2px solid transparent;border-radius:0;
+ color:#5D7089;background:transparent;box-shadow:none;
+}
+body.v39-consistency .page.active .tabs .tab.active{
+ background:transparent;box-shadow:none;
+ border-bottom-color:var(--screen-accent);
+ color:var(--screen-ink);
+}
+body.v39-consistency .page.active .tabs .tab:not(.active):hover{
+ color:var(--screen-ink);background:transparent;
+}
+body.v39-consistency .page.active .tabs .tab:focus-visible{
+ outline:3px solid var(--screen-accent);outline-offset:0;
+}
+/* Tables: shared header fill, aligned rows and hover feedback. */
+body.v39-consistency .page.active .table-scroller{
+ overflow-x:auto;max-width:100%;border-radius:9px;
+ scrollbar-width:thin;scrollbar-color:#C5D3E5 transparent;
+}
+body.v39-consistency .page.active table{
+ border-collapse:collapse;width:100%;
+ font-variant-numeric:tabular-nums;font-size:11px;
+}
+body.v39-consistency .page.active table thead th{
+ color:#506783;font-weight:820;font-size:10px;
+ background:var(--screen-tint);
+ border-bottom:1px solid #DDE6F0;
+ padding:12px 13px;white-space:nowrap;
+}
+body.v39-consistency .page.active table tbody td{
+ padding:12px 13px;
+ color:#40536D;border-bottom:1px solid #EDF1F6;
+}
+body.v39-consistency .page.active table tbody tr:last-child td{border-bottom:0}
+body.v39-consistency .page.active table tbody tr.clickrow:hover td{
+ background:var(--screen-tint);
+}
+body.v39-consistency .page.active table tbody tr.clickrow:focus-visible{
+ outline:2px solid var(--screen-accent);outline-offset:-2px;
+}
+body.v39-consistency .page.active table tbody strong{color:#1C3454}
+body.v39-consistency .page.active .ranknum{
+ width:25px;height:25px;border-radius:8px;
+ background:#EAF0F8;color:#4E6382;
+}
+body.v39-consistency .page.active .ranknum.first{
+ background:#FFF1BF;color:#7D5A04;
+}
+body.v39-consistency .page.active table tbody tr:nth-child(2) .ranknum{background:#ECE9FC;color:#5B4897}
+body.v39-consistency .page.active table tbody tr:nth-child(3) .ranknum{background:#FFF0E4;color:#995319}
+/* Status badges remain semantically correct, not recolored by selected route. */
+body.v39-consistency .pill{
+ font-size:10px;line-height:1.2;border-radius:7px;
+ font-weight:780;padding:6px 9px;gap:6px;
+}
+body.v39-consistency .pill.red{background:#FDECEF;color:#A52840}
+body.v39-consistency .pill.yellow{background:#FFF3CC;color:#7C5900}
+body.v39-consistency .pill.green{background:#E6F5EE;color:#166B49}
+body.v39-consistency .pill.blue{background:#E9F1FF;color:#205BAA}
+body.v39-consistency .pill.gray{background:#EDF1F6;color:#52647D}
+/* Content pipeline: four meaningful lanes, consistent column/ticket styling. */
+body.v39-consistency #content.active .kanban{gap:12px}
+body.v39-consistency #content.active .kanbancol{
+ --lane-color:#536F9D;--lane-soft:#EEF2FA;--lane-line:#D5DDEC;
+ padding:13px;border:1px solid var(--lane-line);
+ border-top:3px solid var(--lane-color);background:var(--lane-soft);
+}
+body.v39-consistency #content.active .kanbancol:nth-child(2){
+ --lane-color:#1F6FEB;--lane-soft:#EDF5FF;--lane-line:#D3E3FA;
+}
+body.v39-consistency #content.active .kanbancol:nth-child(3){
+ --lane-color:#D18A00;--lane-soft:#FFF7E4;--lane-line:#F0DEB8;
+}
+body.v39-consistency #content.active .kanbancol:nth-child(4){
+ --lane-color:#16846A;--lane-soft:#ECF8F2;--lane-line:#CBEBDD;
+}
+body.v39-consistency #content.active .kanbanhead{
+ color:#243D5A;font-size:11px;font-weight:850;
+ line-height:1.4;gap:8px;margin:0 0 12px;
+}
+body.v39-consistency #content.active .kanbanhead span{
+ padding:4px 8px;border-radius:8px;
+ background:#FFF;color:#445C79;border:1px solid var(--lane-line);
+}
+body.v39-consistency #content.active .ticket{
+ border-radius:10px;box-shadow:none;
+ border-color:#E3E9F1;background:#FFF;
+ min-height:100px;padding:13px;
+ transition:background-color .16s ease,border-color .16s ease,transform .16s ease;
+}
+body.v39-consistency #content.active .ticket:hover{
+ border-color:var(--lane-color);transform:translateY(-1px);
+}
+/* Performance ranking: visual comparison does not change grade calculation. */
+body.v39-consistency #performance.active .progresslist .track .fill{background:#7659C9}
+body.v39-consistency #performance.active .progresslist>div:nth-child(2n) .track .fill{background:#1F6FEB}
+body.v39-consistency #performance.active .progresslist>div:nth-child(3n) .track .fill{background:#008C90}
+/* Paid Ads: keep blue=Spend and yellow=Sales, matching existing legend. */
+body.v39-consistency #ads.active .chartbars .bar:not(.yellow){background:#1F6FEB}
+body.v39-consistency #ads.active .chartbars .bar.yellow{background:#FFD23F}
+body.v39-consistency #ads.active .callegend i:not(.y){background:#1F6FEB}
+body.v39-consistency #ads.active .callegend i.y{background:#FFD23F}
+/* Website channel indices: adjacent tracks are easier to scan in color. */
+body.v39-consistency #website.active .progresslist>div:nth-child(1) .fill{background:#008C90}
+body.v39-consistency #website.active .progresslist>div:nth-child(2) .fill{background:#1F6FEB}
+body.v39-consistency #website.active .progresslist>div:nth-child(3) .fill{background:#7659C9}
+body.v39-consistency #website.active .progresslist>div:nth-child(4) .fill{background:#F18A2F}
+body.v39-consistency #website.active .progresslist>div:nth-child(5) .fill{background:#BA5B88}
+/* Strategy has differentiated examples, but percentage values remain text. */
+body.v39-consistency #strategy.active .progresslist>div:nth-child(1) .fill{background:#B75586}
+body.v39-consistency #strategy.active .progresslist>div:nth-child(2) .fill{background:#7659C9}
+body.v39-consistency #strategy.active .progresslist>div:nth-child(3) .fill{background:#F18A2F}
+body.v39-consistency #strategy.active .progresslist>div:nth-child(4) .fill{background:#008C90}
+/* Calendar: colored headers for month separation, preserve status meaning. */
+body.v39-consistency #calendar.active .calendargrid{gap:13px}
+body.v39-consistency #calendar.active .monthcard{overflow:hidden;border-color:#DFE7F0}
+body.v39-consistency #calendar.active .monthhead{
+ padding:15px 16px;
+ background:#EAF3FF;border-bottom:1px solid #D8E7F9;
+ color:#1B578C;font-weight:850;
+}
+body.v39-consistency #calendar.active .monthcard:nth-child(2) .monthhead{
+ background:#FFF5DD;border-bottom-color:#F3E1B7;color:#80570B;
+}
+body.v39-consistency #calendar.active .monthcard:nth-child(3) .monthhead{
+ background:#E6F6F4;border-bottom-color:#CCEAE7;color:#00636A;
+}
+body.v39-consistency #calendar.active .day.today{
+ background:#FFF0BF;color:#704F00;
+}
+body.v39-consistency #calendar.active .day.selected{
+ outline:2px solid #1F6FEB;outline-offset:-1px;
+ background:#EAF2FF;color:#174F95;
+}
+body.v39-consistency #calendar.active .personcard{border-color:#E1E8F0}
+body.v39-consistency #calendar.active .personcard:hover{
+ border-color:#A6CDDF;background:#F7FBFE;
+ transform:translateY(-1px);box-shadow:none;
+}
+body.v39-consistency #calendar.active .personcard:nth-child(4n+1) .face{background:#EAF2FF;color:#1D62B1}
+body.v39-consistency #calendar.active .personcard:nth-child(4n+2) .face{background:#FFF3D1;color:#785706}
+body.v39-consistency #calendar.active .personcard:nth-child(4n+3) .face{background:#E8F5F1;color:#146D54}
+body.v39-consistency #calendar.active .personcard:nth-child(4n) .face{background:#F0EAFF;color:#6246A1}
+/* Source caveats and empty states are consistent across screens. */
+body.v39-consistency .page.active .warning-note{
+ border:1px solid #F1DCA8;border-left:3px solid #C9920A;
+ background:#FFFAEB;color:#71551C;
+ padding:12px 14px;border-radius:9px;
+ font-size:10.5px;line-height:1.6;
+}
+body.v39-consistency .page.active .empty{
+ padding:16px 12px;color:#708198;
+ background:#F8FAFC;border-radius:9px;
+ font-size:10.5px;
+}
+/* Settings and data catalog match the shared spacing language. */
+body.v39-consistency #settings.active .md-settings-section,
+body.v39-consistency #settings.active .md-settings-mini{
+ border-color:#E0E8F0;border-radius:13px;
+}
+body.v39-consistency #settings.active .md-settings-mini-grid{gap:12px}
+body.v39-consistency #settings.active .md-settings-nav button[aria-selected="true"]{
+ background:#EAF1F8;color:#2E506F;
+ box-shadow:inset 3px 0 0 #42698D;
+}
+body.v39-consistency #settings.active .md-settings-heading h3{color:#0B1F3B}
+body.v39-consistency #settings.active .md-settings-tag{
+ background:#EAF1F8;color:#2E506F;
+}
+body.v39-consistency .detail-overlay.open .drawer.centered-modal{
+ border-top:3px solid var(--screen-accent);
+ background:#FFF;
+ box-shadow:0 25px 70px rgba(11,31,59,.19);
+}
+body.v39-consistency .detail-overlay.open .drawer-header{
+ padding:18px 22px 15px;border-color:#E4EAF1;
+}
+body.v39-consistency .detail-overlay.open .drawer-body{
+ padding:16px 22px 21px;
+}
+body.v39-consistency .detail-overlay.open .drawer-header .eyebrow{
+ color:var(--screen-ink);
+}
+/* Keyboard, hover and focus across read-only data rows. */
+body.v39-consistency :is(.v38-task-row,.v38-account-card,.v38-week-button,.v38-calendar-event,.ticket,.clickrow,.personcard):focus-visible{
+ outline:3px solid var(--screen-accent);outline-offset:2px;
+}
+body.v39-consistency :is(.v36-clear,.v36-scope-option,.v37-period-select,.tab,.small-link,.outlinebtn):focus-visible{
+ outline:3px solid var(--screen-accent);outline-offset:2px;
+}
+body.v39-consistency #nav .navbtn:focus-visible{
+ outline:3px solid #FFD23F;outline-offset:1px;
+}
+/* Purely decorative transitions are short and never obscure data. */
+@media(prefers-reduced-motion:reduce){
+ body.v39-consistency .page.active .stats .stat,
+ body.v39-consistency #content.active .ticket,
+ body.v39-consistency #calendar.active .personcard{
+  transition:none!important;transform:none!important;
+ }
+}
+html.motion-paused body.v39-consistency .page.active .stats .stat,
+html.motion-paused body.v39-consistency #content.active .ticket,
+html.motion-paused body.v39-consistency #calendar.active .personcard{
+ transition:none!important;transform:none!important;
+}
+/* Existing phone layouts keep their grid rules; only scale padding. */
+@media(max-width:850px){
+ body.v39-consistency .page.active .stats{gap:10px}
+ body.v39-consistency .page.active .stats .stat{min-height:106px;padding:13px}
+ body.v39-consistency .page.active .panel-header{padding:15px 15px 11px}
+ body.v39-consistency .page.active .panel-body{padding:9px 15px 16px}
+ body.v39-consistency #calendar.active .calendargrid{gap:10px}
+}
+@media(max-width:520px){
+ body.v39-consistency .pageheading{margin-bottom:13px}
+ body.v39-consistency .page.active .stats .stat{padding:13px 12px}
+ body.v39-consistency .page.active .stats .stat>strong{font-size:24px}
+ body.v39-consistency .page.active .stats .stat-head{font-size:9.5px}
+ body.v39-consistency .page.active .stats .stat-head svg{width:28px;height:28px;padding:6px}
+ body.v39-consistency .page.active .panel-header{padding:14px 13px 10px}
+ body.v39-consistency .page.active .panel-body{padding:9px 13px 15px}
+ body.v39-consistency .page.active .tabs{gap:9px}
+ body.v39-consistency #calendar.active .monthhead{padding:13px 12px}
+ body.v39-consistency .detail-overlay.open .drawer-header{padding:15px 17px 12px}
+ body.v39-consistency .detail-overlay.open .drawer-body{padding:13px 17px 16px}
+}
