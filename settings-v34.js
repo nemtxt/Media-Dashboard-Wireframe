@@ -5,7 +5,7 @@
 const root=document.getElementById('settings');
 if(!root)return;
 const PREF_KEY='media-dashboard-v34-prefs';
-const defaults={density:'comfortable',text:'standard',contrast:false,calm:false,largeTargets:false,links:false};
+const defaults={theme:'light',density:'comfortable',text:'standard',contrast:false,calm:false,largeTargets:false,links:false};
 const AREAS=[
  ['Content Production','Content scheduling, multimedia requests and episodic production'],
  ['Organic Post Performance','Post-level metrics, 24-hour and seven-day results'],
@@ -64,6 +64,8 @@ const escapeText=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 function persist(){try{localStorage.setItem(PREF_KEY,JSON.stringify(prefs))}catch(_){}}
 function applyPrefs(){
  const body=document.body;
+ prefs.theme=prefs.theme==='dark'?'dark':'light';
+ document.documentElement.dataset.studioTheme=prefs.theme;
  body.classList.toggle('md-density-compact',prefs.density==='compact');
  body.classList.toggle('md-text-large',prefs.text==='large');
  body.classList.toggle('md-high-contrast',!!prefs.contrast);
@@ -74,7 +76,7 @@ function applyPrefs(){
 }
 applyPrefs();
 const rows=(title,description,control)=>'<div class="md-settings-row"><div class="md-settings-row-text"><b>'+title+'</b><p>'+description+'</p></div>'+control+'</div>';
-const selector=(key,items)=>'<select class="md-settings-select" data-md-pref="'+key+'" aria-label="'+(key==='density'?'Display density':'Text size')+'">'+items.map(([v,label])=>'<option value="'+v+'"'+(prefs[key]===v?' selected':'')+'>'+label+'</option>').join('')+'</select>';
+const selector=(key,items)=>'<select class="md-settings-select" data-md-pref="'+key+'" aria-label="'+(key==='theme'?'Workspace color theme':key==='density'?'Display density':'Text size')+'">'+items.map(([v,label])=>'<option value="'+v+'"'+(prefs[key]===v?' selected':'')+'>'+label+'</option>').join('')+'</select>';
 const switcher=(key,aria,checked,disabled=false)=>'<button type="button" role="switch" class="md-settings-switch" aria-label="'+aria+'" aria-checked="'+!!checked+'"'+(disabled?' disabled aria-disabled="true"':'')+' data-md-toggle="'+key+'"></button>';
 const sectionHead=(title,description)=>'<div class="md-settings-heading"><div><h3>'+title+'</h3><p>'+description+'</p></div></div>';
 const note=(body,warn=false)=>'<div class="md-settings-note'+(warn?' warning':'')+'">'+body+'</div>';
@@ -82,6 +84,7 @@ function appearance(){
  const motionToggle=document.getElementById('motionToggle');
  const enabled=motionToggle?.getAttribute('aria-pressed')==='true';
  return sectionHead('Appearance & motion','Customize only how this prototype is presented. All monitoring data stays visible and unchanged.')+
+ rows('Workspace theme','Light is pure white. Dark is pure black. This setting applies across all dashboards and popups.',selector('theme',[['light','Light — Pure white'],['dark','Dark — Pure black']]))+
  rows('Information density','Choose comfortable spacing for presentation or compact spacing for frequent monitoring.',selector('density',[['comfortable','Comfortable'],['compact','Compact']]))+
  rows('Calm workspace','Reduce decorative backgrounds and ambient elements while preserving charts and records.',switcher('calm','Calm workspace',prefs.calm))+
  rows('Motion effects','Play or pause optional motion graphics throughout the dashboard; linked to the existing header control.',
@@ -163,11 +166,11 @@ const tabs=[
  ['appearance','Appearance','Visual'],
  ['accessibility','Accessibility','Reading'],
  ['architecture','Airtable Architecture','25 tables'],
- ['health','Data & System Health','Read-only']
+ ['health','Source Quality','Read-only']
 ];
 function render(){
  root.innerHTML='<div class="md-settings">'+
- '<div class="md-settings-intro"><div><div class="md-settings-kicker">WORKSPACE / PREFERENCES</div><h2>Make the dashboard work for you.</h2><p>Control your viewing experience and inspect the Media base architecture without crowding the operational dashboards.</p></div>'+
+ '<div class="md-settings-intro"><div><div class="md-settings-kicker">WORKSPACE / PREFERENCES</div><h2>Make the dashboard work for you.</h2><p>Adjust appearance and accessibility, and inspect the reported Airtable source architecture and data-quality notes. No record editing, account permissions or operational controls.</p></div>'+
  '<div class="md-settings-status"><b><i class="md-settings-dot"></i> Demonstration mode</b><small>No Airtable sync or edits</small></div></div>'+
  '<div class="md-settings-shell"><nav class="md-settings-nav" role="tablist" aria-label="Settings categories">'+
  tabs.map(([key,label,hint])=>'<button type="button" role="tab" data-md-tab="'+key+'" aria-selected="'+(tab===key)+'" aria-controls="md-settings-panel" id="md-settings-tab-'+key+'"><span>'+label+'</span><span class="md-settings-tab-count">'+hint+'</span></button>').join('')+
@@ -232,6 +235,7 @@ root.addEventListener('keydown',e=>{
 root.addEventListener('change',e=>{
  const inp=e.target.closest('[data-md-pref]');if(inp){
   const key=inp.dataset.mdPref;
+  if(key==='theme'&&['light','dark'].includes(inp.value))prefs.theme=inp.value;
   if(key==='density'&&['comfortable','compact'].includes(inp.value))prefs.density=inp.value;
   if(key==='text'&&['standard','large'].includes(inp.value))prefs.text=inp.value;
   applyPrefs();
