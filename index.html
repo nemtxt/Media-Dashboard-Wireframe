@@ -202,10 +202,22 @@ function accRows(){
     <b>${shown}</b></div>`;
  }).join('');
 }
+function statusBreakdown(){
+ const ts=visible(tasks),total=ts.length;
+ if(!total)return '<div class="empty">No fictional assignments match these filters.</div>';
+ const groups=['Overdue','In progress','For review','Scheduled','Not started','Completed','Posted','Blocked']
+  .map(name=>({name,count:ts.filter(t=>status(t)===name).length}))
+  .filter(x=>x.count>0);
+ return '<div class="progresslist">'+groups.map(x=>{
+  const portion=Math.round(x.count/total*100);
+  return `<div><div class="progressrow"><b>${x.name}</b><span class="muted">${x.count} of ${total} (${portion}%)</span></div>
+   <div class="track"><div class="fill" style="width:${x.count/total*100}%"></div></div></div>`;
+ }).join('')+'</div>';
+}
 function renderOverview(){let t=visible(tasks),activeTasks=t.filter(x=>!allDone(x)),ov=t.filter(overdue),coming=t.filter(x=>x.date>=today&&!allDone(x)).sort((a,b)=>a.date.localeCompare(b.date)); const f=filters(),key='Overview';
 $('overview').innerHTML=`<div class="hero"><div><div class="hero-kicker">YOUR MEDIA WORKSPACE / NOVEMBER 2026</div><h2>See the whole picture.<br>Focus on what matters.</h2><p>Performance, team progress and next deadlines—organized into one clear monitoring experience.</p></div><div class="hero-right"><div class="score">8.4<span style="font-size:18px;font-weight:600">/10</span></div><div class="scorelabel">SAMPLE MONTHLY SCORE</div><div class="trendtag">↑ 0.6 vs last month · Demo</div></div></div>
 <div class="stats">${stat('Assigned work',t.length,'<b>Matching fictional records</b>','content')}${stat('In the pipeline',activeTasks.length,'<b>Across all work types</b>','clock')}${stat('Overdue deadlines',ov.length,ov.length?'<b class="danger">Needs attention</b>':'No overdue tasks','alert',true)}${stat('Upcoming work',coming.length,'<b>From selected filters</b>','calendar')}</div>
-<div class="dashboardgrid">${panel('Performance at a glance','Illustrative monthly social trajectory',miniLine()+'<div style="display:flex;gap:17px;font-size:10px;color:#8090a5;margin-top:10px"><span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1761f5;margin-right:5px"></i>Engagement index</span><span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#f4c93a;margin-right:5px"></i>Audience growth</span></div>','<button class="small-link" data-open="performance">View insights →</button>')}
+<div class="dashboardgrid">${panel('Work status distribution','Counts and shares computed from filtered fictional assignments',statusBreakdown(),'<button class="small-link" data-open="content">View production →</button>')}
 ${panel('Work progress by account','Mean task progress for matching fictional assignments',accRows()+'<div class="tiny-foot">Calculated from filtered demo tasks, not Airtable scores.</div>','<button class="small-link" data-open="performance">View comparison →</button>')}</div>
 <div class="dashboardgrid">${panel('Deadlines & priorities','What is approaching or already past due',t.filter(x=>!allDone(x)).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5).map(x=>`<div class="alert" data-task="${x.id}"><span class="bullet" style="background:${overdue(x)?'#ec5b6b':'#f0c232'}"></span><div style="flex:1"><b>${x.title}</b><p>${person(x.owner).name} · ${shortDate(x.date)} · ${x.account}</p></div>${badge(status(x))}</div>`).join('')||'<div class="empty">No work matches your filters.</div>','<button class="small-link" data-open="calendar">Open calendar →</button>')}
 ${panel('People at a glance','Workload distribution by assignee',people.map(p=>{let n=t.filter(x=>x.owner===p.id&&!allDone(x)).length;return `<div class="account-row" style="grid-template-columns:104px 1fr 24px"><span class="accname">${p.name}</span><div class="track"><div class="fill" style="width:${Math.min(100,n*20)}%"></div></div><b>${n}</b></div>`}).join(''),'<button class="small-link" data-open="calendar" data-subtab="workload">People view →</button>')}</div>`;}
