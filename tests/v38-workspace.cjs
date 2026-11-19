@@ -33,22 +33,23 @@ const server=http.createServer((req,res)=>{
   assert((await page.locator('#overview .hero h2').textContent()).includes('One clear view'));
   assert.equal(await page.locator('.v38-account-card').count(),3);
   assert(await page.locator('.v38-task-row').count()>0,'grouped tasks');
+  assert((await page.locator('.v38-task-row').count())<=5,'overview must stay concise; full tasks live in Content Pipeline');
   assert.equal(await page.locator('.v38-week-day').count(),7,'compact calendar');
   assert((await page.locator('.v38-person-row').count())>=2,'team people');
   assert.equal(await page.locator('#search').count(),1,'only one header search');
   assert.equal(await page.locator('.v35-quickfind').count(),0,'no extra quick find');
   assert.equal(await page.locator('#nav .navbtn').count(),7,'seven core screens');
   assert.equal(await page.locator('.v38-nav-group').count(),1,'reporting grouping only once');
-  if(width<=1020){
-    const measure=await page.evaluate(()=>{
-      const a=document.getElementById('page-eyebrow'),b=document.getElementById('page-title');
-      const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect(),bs=getComputedStyle(b);
-      return {eyebrowBottom:Math.round(ar.bottom),titleTop:Math.round(br.top),
-        titleTransform:bs.transform,titleAnimation:bs.animationName,titleOpacity:bs.opacity,
-        font:bs.fontFamily};
-    });
-    console.log('HEADING LAYOUT '+name,JSON.stringify(measure));
-  }
+  const titlePosition=await page.evaluate(()=>{
+    const a=document.getElementById('page-eyebrow'),b=document.getElementById('page-title');
+    const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect(),style=getComputedStyle(b);
+    return {labelBottom:ar.bottom,titleTop:br.top,animation:style.animationName,opacity:Number(style.opacity)};
+  });
+  assert(titlePosition.titleTop>=titlePosition.labelBottom-1,
+    name+' title must never overlap its section label '+JSON.stringify(titlePosition));
+  assert(!/fadeInDown/.test(titlePosition.animation),
+    name+' page title must not slide through section label');
+  assert(titlePosition.opacity>.95,name+' heading must be readable on first paint');
   const bg=await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor);
   assert.equal(bg,'rgb(255, 255, 255)','white workspace sidebar');
   assert(await page.evaluate(()=>document.body.classList.contains('v38-workspace')));
