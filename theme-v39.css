@@ -60,9 +60,9 @@ html[data-studio-theme="light"] .md-settings-nav [aria-selected="true"]{
 }
 html[data-studio-theme="light"] #calendar .monthhead{background:#FFFFFF!important}
 
-/* Dark — every structural surface is true BLACK, not navy or charcoal.
-   Boundaries use fine neutral strokes rather than elevation/gray panels. */
-html[data-studio-theme="dark"] :is(body,.app,.main,.content,.topbar,.sidebar){
+/* Dark — work area and all reporting surfaces are true BLACK.
+   The persistent navy navigation and all of its colors are explicitly excluded. */
+html[data-studio-theme="dark"] :is(body,.app,.main,.content,.topbar){
  background:#000000!important;background-image:none!important;
  color:#FFFFFF!important;
 }
@@ -85,7 +85,6 @@ html[data-studio-theme="dark"] :is(
  .md-settings-table-wrap,.md-settings-catalog-toolbar,
  .md-settings-chain,.md-settings-linkgraph,.md-settings-quality,
  .md-settings-field,.md-settings-btn,
- .sidebar .brand,.sidebar .sourcebox,
  .detail-overlay.open .drawer.centered-modal,
  .detail-overlay.open .drawer-header,
  .detail-overlay.open .drawer-body,
@@ -96,7 +95,7 @@ html[data-studio-theme="dark"] :is(
  background-color:#000000!important;background-image:none!important;
  box-shadow:none!important;color:#FFFFFF!important;
 }
-html[data-studio-theme="dark"] :is(.main,.topbar,.sidebar,.sidebar .brand,.sidebar .sourcebox){
+html[data-studio-theme="dark"] :is(.main,.topbar){
  border-color:#343434!important;
 }
 html[data-studio-theme="dark"] :is(
@@ -130,7 +129,6 @@ html[data-studio-theme="dark"] :is(
  .detail-overlay.open .drawer-header h2,
  .detail-overlay.open .kv strong,
  .detail-overlay.open .v36-detail-status strong,
- .sidebar .sourcebox strong,
  .breadcrumb b
 ){color:#FFFFFF!important}
 html[data-studio-theme="dark"] :is(
@@ -151,27 +149,11 @@ html[data-studio-theme="dark"] :is(
  .detail-overlay.open .drawer-subtitle,
  .detail-overlay.open .kv span,
  .detail-overlay.open .v36-detail-status,
- .sidebar .sourcebox p,.breadcrumb,
+ .breadcrumb,
  .v36-scope-label,.v36-scope-status
 ){color:#C5C5C5!important}
-/* Dark navigation still uses blue active page and yellow marker, but its
-   backdrop and inactive navigation are black. */
-html[data-studio-theme="dark"] .sidebar .navbtn:not(.active),
-html[data-studio-theme="dark"] .sidebar .md-settings-entry:not(.active){
- background:#000000!important;color:#E2E2E2!important;
- border-color:transparent!important;
-}
-html[data-studio-theme="dark"] .sidebar .navbtn:hover:not(.active){
- background:#111111!important;color:#FFFFFF!important;
-}
-html[data-studio-theme="dark"] .sidebar .brandmark{
- background:#000000!important;border-color:#777777!important;
-}
-html[data-studio-theme="dark"] .sidebar .v37-brand-title{color:#FFFFFF!important}
-html[data-studio-theme="dark"] .sidebar .side-label{color:#BDBDBD!important}
-html[data-studio-theme="dark"] .sidebar .v38-version{
- background:#000000!important;color:#ECECEC!important;border-color:#636363!important;
-}
+/* Navigation always uses the exact colors from sidebar-restore-v38.css in both modes.
+   Do not apply any appearance-mode override to .sidebar or its descendants. */
 /* Controls must remain visible and editable while their surfaces stay black. */
 html[data-studio-theme="dark"] :is(
  input,select,textarea,.select,.v37-period-select,
