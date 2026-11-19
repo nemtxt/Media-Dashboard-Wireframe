@@ -1,0 +1,30 @@
+name: Media Dashboard Settings regression
+on:
+  push:
+    branches:
+      - main
+      - develop/media-dashboard-v3-4-settings-architecture
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  settings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Settings script parses
+        run: node --check settings-v34.js
+      - name: Install browser test runner
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Test Settings behavior and Airtable catalog
+        run: node tests/v34-settings.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: settings-viewport-captures
+          path: test-results/v34-*.png
+          if-no-files-found: ignore
