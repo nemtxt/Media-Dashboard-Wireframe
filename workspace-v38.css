@@ -1,0 +1,388 @@
+/* Media Dashboard V3.8 — structured workspace redesign.
+ * Visual layout cues: lightweight project workspace, quiet left navigation,
+ * grouped assignment cards, four summary widgets and restrained micro-motion.
+ * Uses only the existing Madhouse five-color palette and semantic status colors.
+ */
+:root{
+ --v38-navy:#0B1F3B;--v38-blue:#1F6FEB;--v38-yellow:#FFD23F;
+ --v38-orange:#FF8A2A;--v38-neutral:#F2F4F7;--v38-line:#E6EAF0;
+ --v38-muted:#738198;--v38-surface:#FFF;
+ --v38-shadow:0 3px 16px rgba(11,31,59,.025);
+}
+/* Shell: lighter project-workspace framing. */
+body.v38-workspace,.v38-workspace .main,.v38-workspace .content{background:#F7F8FB}
+.v38-workspace .sidebar{
+ width:235px;background:#FFF;border-right:1px solid #E6EAF0;
+ box-shadow:none;color:#0B1F3B;
+}
+.v38-workspace .main{width:calc(100% - 235px);margin-left:235px}
+.v38-workspace .sidebar .brand{
+ min-height:83px;padding:19px 17px 18px;border-bottom:1px solid #F0F2F6;
+ gap:12px;
+}
+.v38-workspace .sidebar .brandmark{
+ width:44px;height:44px;flex:0 0 44px;border:1px solid #DCE9FA;
+ background:#F0F6FE;box-shadow:none;border-radius:12px;padding:6px;
+}
+.v38-workspace .sidebar .brandmark img{
+ width:100%;height:100%;object-fit:contain;filter:none;
+}
+.v38-workspace .sidebar .brand .v37-brand-title{
+ color:#0B1F3B;font-size:15px;line-height:1.22;font-weight:850;white-space:normal;
+}
+.v38-workspace .sidebar .side-label{
+ font-size:9px;letter-spacing:.11em;color:#91A0B3;font-weight:850;
+ margin:21px 21px 9px;
+}
+.v38-workspace .sidebar .nav{padding:0 11px;gap:3px}
+.v38-workspace .sidebar .navbtn{
+ color:#596B81;background:transparent;box-shadow:none;
+ border-radius:10px;min-height:42px;padding:10px 12px;
+ font-size:11px;font-weight:720;gap:11px;line-height:1.4;
+ border:1px solid transparent;position:relative;
+ transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+.v38-workspace .sidebar .navbtn .ico{width:17px;height:17px;color:#8193AA}
+.v38-workspace .sidebar .navbtn:hover{
+ color:#0B1F3B;background:#F5F8FC;border-color:#EBF0F6;
+}
+.v38-workspace .sidebar .navbtn:hover .ico{color:#205CAB}
+.v38-workspace .sidebar .navbtn.active,
+.v38-workspace .sidebar .navbtn.md-settings-entry.active{
+ color:#1857AD;background:#ECF3FF;border-color:#DFE9FC;box-shadow:none;
+ font-weight:850;
+}
+.v38-workspace .sidebar .navbtn.active:before{
+ content:"";position:absolute;left:-11px;top:10px;bottom:10px;
+ width:3px;background:#1F6FEB;border-radius:0 3px 3px 0;
+}
+.v38-workspace .sidebar .navbtn.active .ico{color:#1F6FEB}
+.v38-workspace .sidebar .navbtn.active:after{display:none}
+.v38-workspace .v38-nav-group{
+ font-size:9px;font-weight:850;letter-spacing:.12em;color:#94A2B4;
+ padding:17px 10px 8px;margin-top:9px;border-top:1px solid #F0F3F7;
+}
+.v38-workspace .sidebar .side-bottom{padding:16px 13px 19px}
+.v38-workspace .sidebar .sourcebox{
+ background:#F7F9FE;color:#0B1F3B;border:1px solid #E2EBF6;
+ border-radius:12px;padding:14px;box-shadow:none;
+}
+.v38-workspace .sidebar .sourcebox strong{font-size:11px;color:#294866}
+.v38-workspace .sidebar .sourcebox p{font-size:10px;color:#7B8AA0;line-height:1.55}
+.v38-workspace .sidebar .readtag{
+ border:0;background:transparent;color:#526D91;font-size:9px;padding:5px 0 0;
+}
+.v38-workspace .sidebar .readtag .dot{background:#1F6FEB}
+/* Crisp, quiet header */
+.v38-workspace .topbar{
+ height:67px;background:#FFF;border-bottom:1px solid #EBEEF4;
+ box-shadow:none;padding:0 clamp(17px,2.6vw,34px);
+}
+.v38-workspace .topbar .breadcrumb{
+ color:#7E8DA1;font-size:10px;letter-spacing:.015em;
+}
+.v38-workspace .topbar .breadcrumb b{color:#153556;font-weight:850}
+.v38-workspace .topbar .topdate{font-size:10px;color:#8697AC}
+.v38-workspace .topbar .searchwrap{
+ width:min(260px,23vw);min-height:36px;
+ background:#F7F9FC;border:1px solid #E5EAF2;padding:9px 11px;
+}
+.v38-workspace .topbar .demo{
+ background:#FFF6DA;border-color:#FCE9B8;
+ padding:6px 10px;font-size:9px;color:#765B20;
+}
+.v38-workspace .topbar .avatar{
+ background:#0B1F3B;border:1px solid #0B1F3B;color:#FFD23F;
+ border-radius:10px;width:34px;height:34px;font-size:10px;
+}
+.v38-workspace .content{max-width:1540px;padding:26px 30px 50px}
+.v38-workspace .pageheading{margin-bottom:18px;align-items:flex-end}
+.v38-workspace .pageheading h1{
+ color:#0B1F3B;font-size:clamp(24px,2.8vw,31px);
+ letter-spacing:-.058em;margin-bottom:7px;
+}
+.v38-workspace .pageheading .eyebrow{font-size:9px;letter-spacing:.13em;color:#3869AD}
+.v38-workspace .pageheading p{font-size:11px;color:#7B8A9D;line-height:1.55}
+.v38-workspace .v36-scopebar{
+ border:1px solid #E8ECF2;background:#FFF;border-radius:13px;
+ box-shadow:none;min-height:58px;padding:9px 14px;margin:0 0 18px;
+}
+.v38-workspace .v36-scope-options{background:#F2F4F7}
+.v38-workspace .v36-scope-option[aria-pressed="true"]{
+ border-color:#DAE6F5;background:#FFF;color:#155DB2;box-shadow:0 1px 5px rgba(11,31,59,.025);
+}
+.v38-workspace .v36-scope-label{font-size:9px;color:#657894}
+.v38-workspace .v37-period-select{background:#FFF;border-color:#DCE5F0}
+.v38-workspace .v36-clear{border-color:#DCE6F1}
+/* All screens: restrained cards and consistent table/chip sizes. */
+.v38-workspace .page.active .panel,
+.v38-workspace .page.active .stat,
+.v38-workspace .page.active .monthcard,
+.v38-workspace .page.active .personcard{
+ border-color:#E8ECF2;background:#FFF;box-shadow:var(--v38-shadow);
+ border-radius:15px;
+}
+.v38-workspace .page.active .panel-header{padding:17px 19px 12px;gap:11px}
+.v38-workspace .page.active .panel-header h3{font-size:13px;letter-spacing:-.025em}
+.v38-workspace .page.active .panel-header p{font-size:10px;color:#90A0B3;line-height:1.45}
+.v38-workspace .page.active .panel-body{padding:5px 19px 19px}
+.v38-workspace .page.active table thead th{
+ padding:11px 12px;color:#8293AA;background:#FAFBFD;font-size:10px;
+ border-bottom-color:#E8EDF4;
+}
+.v38-workspace .page.active table tbody td{padding:12px;font-size:11px;color:#50627C}
+.v38-workspace .page.active table tbody tr:hover{background:#F7FAFE}
+.v38-workspace .page.active .tabs{background:transparent;border:0;border-bottom:1px solid #E8ECF4;border-radius:0;padding:0;gap:13px}
+.v38-workspace .page.active .tab{border-radius:0;min-height:37px;padding:8px 4px;font-size:11px;color:#8191A6;box-shadow:none;border-bottom:2px solid transparent}
+.v38-workspace .page.active .tab.active{color:#155CB2;background:transparent;border-bottom-color:#1F6FEB}
+.v38-workspace .page.active .tab:hover{color:#1F6FEB;background:transparent}
+.v38-workspace .page.active .stat{min-height:104px;padding:14px 16px}
+.v38-workspace .page.active .stat strong{font-size:25px;color:#0B1F3B}
+.v38-workspace .page.active .stat-head{font-size:10px}
+.v38-workspace .page.active .stat-foot{font-size:9px;line-height:1.4}
+.v38-workspace .page.active .ticket{box-shadow:none;border-color:#E8EDF4}
+.v38-workspace .page.active .ticket:hover{background:#FBFDFF;border-color:#BAD1F7}
+.v38-workspace .page.active .warning-note{border-color:#F4E2B4;background:#FFFBED}
+.v38-workspace .page.active .v35-insight{background:#FFF!important;box-shadow:none;border-color:#E8EDF4}
+.v38-workspace .detail-overlay .drawer.centered-modal{
+ border-radius:16px;box-shadow:0 26px 90px rgba(11,31,59,.18);
+}
+/* Overview editorial grid */
+.v38-workspace #overview{
+ display:grid;grid-template-columns:minmax(0,1.17fr) minmax(0,.83fr);
+ gap:15px 17px;align-items:stretch;min-width:0;
+}
+.v38-workspace #overview > .v2-banner,
+.v38-workspace #overview > .v33-studio-pulse,
+.v38-workspace #overview > .v35-insight{display:none!important}
+.v38-workspace #overview > .dashboardgrid{display:contents}
+.v38-workspace #overview > .hero{
+ grid-column:1/-1;order:0;
+ min-height:124px;margin:0;padding:25px 28px;border:1px solid #E6EDF5;
+ border-radius:17px;box-shadow:none;
+ background-color:#FFF;
+ background-image:linear-gradient(rgba(31,111,235,.045) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(31,111,235,.045) 1px,transparent 1px),
+ radial-gradient(ellipse at 92% 40%,rgba(255,210,63,.10),transparent 35%);
+ background-size:32px 32px,32px 32px,auto;
+ color:#0B1F3B;
+}
+.v38-workspace #overview > .hero:before,
+.v38-workspace #overview > .hero:after{display:none!important}
+.v38-workspace #overview .hero .hero-kicker{color:#6F85A4;font-size:9px;letter-spacing:.13em}
+.v38-workspace #overview .hero h2{
+ max-width:none;color:#0B1F3B;letter-spacing:-.055em;
+ font-weight:850;font-size:clamp(24px,3.2vw,35px);
+ line-height:1.13;margin:10px 0 7px;
+}
+.v38-workspace #overview .hero .v38-highlight{color:#2E7EDB}
+.v38-workspace #overview .hero p{color:#71829A;font-size:11px;max-width:680px;margin:0}
+.v38-workspace #overview > .stats{
+ grid-column:1/-1;order:1;margin:0;gap:11px;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+}
+.v38-workspace #overview > .stats .stat{
+ min-height:107px;border-radius:14px;padding:14px 16px;box-shadow:none;
+}
+.v38-workspace #overview > .stats .stat strong{font-size:26px}
+.v38-workspace #overview > .stats .stat:after{width:43px;height:43px;top:8px;right:-13px;opacity:.6}
+.v38-workspace #overview .panel{min-width:0;margin:0;border-radius:16px}
+.v38-workspace #overview .panel-header{
+ padding:19px 19px 14px;border-bottom:1px solid #EDF0F5;align-items:center;
+}
+.v38-workspace #overview .panel-header h3{font-size:13px;color:#0B1F3B;letter-spacing:-.025em}
+.v38-workspace #overview .panel-header p{font-size:10px;color:#90A0B4}
+.v38-workspace #overview .panel-body{padding:10px 18px 17px}
+.v38-workspace #overview .panel-header .small-link{font-size:10px;color:#1F6FEB}
+.v38-workspace #overview .v38-panel-tasks{order:2;grid-column:1;min-height:330px}
+.v38-workspace #overview .v38-panel-projects{order:3;grid-column:2;min-height:330px}
+.v38-workspace #overview .v38-panel-goals{order:4;grid-column:1;min-height:254px}
+.v38-workspace #overview .v38-panel-calendar{order:5;grid-column:2;min-height:254px}
+/* Grouped assignment list: gentle badge hierarchy, not another kanban. */
+.v38-task-sections{display:grid;gap:9px}
+.v38-task-legend{
+ display:grid;grid-template-columns:minmax(0,1fr) 59px 45px;
+ gap:8px;color:#A0ABBA;font-size:8px;font-weight:800;
+ letter-spacing:.07em;padding:1px 0 6px;border-bottom:1px solid #E9EDF2;
+}
+.v38-task-legend span:first-child{padding-left:18px}
+.v38-task-group{display:grid;gap:2px}
+.v38-task-group-heading{display:flex;align-items:center;gap:7px;padding:6px 0 3px}
+.v38-task-group-heading small{font-size:9px;color:#8998AB}
+.v38-task-group-label{
+ display:inline-flex;align-items:center;border-radius:6px;
+ padding:4px 7px;font-size:9px;font-weight:850;line-height:1;
+}
+.v38-task-group-label.overdue{background:#FDECEF;color:#A72A42}
+.v38-task-group-label.in-progress{background:#DEF7F8;color:#1F6B73}
+.v38-task-group-label.review{background:#FFF3CC;color:#846000}
+.v38-task-group-label.upcoming{background:#FFF0E0;color:#995115}
+.v38-task-group-label.complete{background:#EAF0FE;color:#43569E}
+.v38-task-row{
+ width:100%;text-align:left;display:grid;grid-template-columns:9px minmax(0,1fr) 59px 45px;
+ align-items:center;gap:8px;min-height:39px;border:0;border-bottom:1px solid #F0F2F5;
+ background:transparent;padding:4px 0;color:#0B1F3B;cursor:pointer;
+}
+.v38-task-row:hover,.v38-task-row:focus-visible{background:#F8FAFE}
+.v38-task-dot{width:7px;height:7px;border-radius:2px;background:#D9E0EB;justify-self:center}
+.v38-task-dot.progress{background:#86C5FF}
+.v38-task-dot.review{background:#FFD23F}
+.v38-task-dot.scheduled{background:#FF8A2A}
+.v38-task-dot.done{background:#9DA9E5}
+.v38-task-dot.overdue{background:#D7475F}
+.v38-task-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.v38-task-main strong{font-size:10.5px;line-height:1.25;font-weight:760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v38-task-main small{font-size:9px;color:#92A0B3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v38-task-priority{display:inline-flex;justify-content:center;align-items:center;border-radius:6px;font-size:9px;font-weight:800;padding:5px 5px;color:#587089;background:#F2F4F7}
+.v38-task-priority.high{color:#A33A50;background:#FCECEF}
+.v38-task-priority.medium{color:#92511C;background:#FFF0E2}
+.v38-task-due{font-size:9px;color:#73829B;text-align:right;white-space:nowrap}
+.v38-widget-footer{
+ border-top:1px solid #EEF1F5;padding:11px 0 0;margin-top:7px;
+ display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap
+}
+.v38-widget-footer span{font-size:9px;color:#91A0B3}
+.v38-widget-footer button,.v38-calendar-head button{
+ background:transparent;border:0;padding:3px 0;color:#1D60B8;
+ font-size:10px;font-weight:760;white-space:nowrap
+}
+.v38-widget-footer button:hover,.v38-calendar-head button:hover{text-decoration:underline}
+/* Account projects: one clear scope drilldown per brand. */
+.v38-account-grid{display:grid;gap:7px}
+.v38-account-card{
+ width:100%;display:grid;grid-template-columns:34px minmax(0,1fr) auto;
+ grid-template-rows:auto 4px;gap:9px 10px;
+ text-align:left;align-items:center;min-height:67px;
+ border:1px solid #EAEFF6;border-radius:11px;background:#FFF;padding:11px 12px;
+ color:#0B1F3B;transition:border-color .15s ease,background-color .15s ease;
+}
+.v38-account-card:hover{border-color:#ABC7EE;background:#FAFCFF}
+.v38-account-symbol{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;font-size:17px;background:#EAF2FF;color:#1F6FEB}
+.v38-account-symbol.s1{color:#8C5B16;background:#FFF2CB}
+.v38-account-symbol.s2{background:#E9F0FD;color:#0B1F3B}
+.v38-account-info{min-width:0;display:grid;gap:4px}
+.v38-account-info strong{font-size:11px;font-weight:850;color:#0B1F3B}
+.v38-account-info small{font-size:9px;color:#8A9AAF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v38-account-score{font-size:12px;font-weight:850;color:#205AAA}
+.v38-account-meter{grid-column:1/-1;display:block;height:4px;border-radius:4px;background:#E8EDF5;overflow:hidden}
+.v38-account-meter i{display:block;height:100%;background:#1F6FEB;border-radius:4px}
+.v38-account-card:nth-child(2) .v38-account-meter i{background:#FFD23F}
+.v38-account-card:nth-child(3) .v38-account-meter i{background:#FF8A2A}
+/* Compact team calendar */
+.v38-calendar-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 0 11px}
+.v38-calendar-head>span{font-size:9px;font-weight:850;letter-spacing:.07em;color:#7B8BA1}
+.v38-week-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding:8px;border:1px solid #E8ECF4;border-radius:11px;background:#F9FAFD}
+.v38-week-day{
+ min-width:0;display:grid;place-items:center;gap:3px;
+ min-height:43px;padding:4px 1px;border:0;border-radius:8px;
+ background:transparent;color:#8896A8
+}
+.v38-week-day span{font-size:8px}
+.v38-week-day strong{font-size:11px;color:#475D77}
+.v38-week-day i{width:4px;height:4px;border-radius:50%;background:transparent}
+.v38-week-day i.has-events{background:#FF8A2A}
+.v38-week-day.selected{background:#1F6FEB;color:#FFF}
+.v38-week-day.selected strong{color:#FFF}
+.v38-week-day:hover:not(.selected){background:#EAF2FC}
+.v38-team-heading{display:flex;justify-content:space-between;gap:5px;align-items:center;margin:15px 0 7px}
+.v38-team-heading b{font-size:11px}
+.v38-team-heading>span{font-size:9px;color:#8B9BAD}
+.v38-team-list{display:grid;gap:3px}
+.v38-person-row{
+ width:100%;display:flex;align-items:center;gap:9px;
+ padding:7px 3px;background:transparent;border:0;border-bottom:1px solid #F0F2F6;text-align:left;
+}
+.v38-person-row:hover{background:#F9FBFE}
+.v38-person-avatar{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:#EAF2FF;color:#2465B9;font-size:10px;font-weight:850}
+.v38-person-row:nth-child(2) .v38-person-avatar{background:#FFF0D8;color:#925113}
+.v38-person-row:nth-child(3) .v38-person-avatar{background:#EDF0F9;color:#2F5285}
+.v38-person-meta{display:grid;gap:3px;flex:1;min-width:0}
+.v38-person-meta strong{font-size:10.5px;font-weight:850;color:#28415D}
+.v38-person-meta small{font-size:9px;color:#98A3B3}
+.v38-person-count{font-size:9px;color:#7C91AA;white-space:nowrap}
+.v38-next-due{display:grid;gap:3px;margin-top:11px}
+.v38-next-due>span{font-size:8px;letter-spacing:.08em;color:#94A0B2;font-weight:850}
+.v38-next-due button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:6px 1px;background:transparent;border:0;text-align:left}
+.v38-next-due button strong{font-size:10px;font-weight:750;color:#405874;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v38-next-due button small{font-size:9px;color:#7E91AA;white-space:nowrap}
+.v38-next-due button:hover strong{color:#1F6FEB}
+.v38-workspace #overview .v38-panel-goals .progresslist{gap:13px}
+.v38-workspace #overview .v38-panel-goals .progressrow{font-size:10px;color:#506781;margin:0 0 6px}
+.v38-workspace #overview .v38-panel-goals .progressrow b{font-size:10.5px}
+.v38-workspace #overview .v38-panel-goals .track{height:6px;background:#EDF1F6}
+.v38-workspace #overview .v38-panel-goals .fill{background:#1F6FEB}
+.v38-workspace #overview .v38-panel-goals .progresslist>div:nth-child(2n) .fill{background:#FFD23F}
+.v38-workspace #overview .v38-panel-goals .progresslist>div:nth-child(3n) .fill{background:#FF8A2A}
+/* Avoid heavy animation: only meaningful hover and short view transitions. */
+.v38-workspace .page.active{animation:v38-appear .18s ease-out both}
+@keyframes v38-appear{from{opacity:.9}to{opacity:1}}
+.v38-workspace .page.active .panel:hover,.v38-workspace .page.active .stat:hover{transform:none;box-shadow:var(--v38-shadow)}
+.v38-workspace .page.active .navbtn{transition-duration:.15s}
+.v38-workspace :is(.v38-task-row,.v38-account-card,.v38-person-row,.v38-week-day,.v38-widget-footer button):focus-visible{
+ outline:3px solid #1F6FEB;outline-offset:2px;border-radius:7px
+}
+/* Collapse behavior retained from existing implementation. */
+.v38-workspace.nav-collapsed .sidebar{width:75px}
+.v38-workspace.nav-collapsed .main{margin-left:75px;width:calc(100% - 75px)}
+.v38-workspace.nav-collapsed .sidebar .brand{padding:20px 13px}
+.v38-workspace.nav-collapsed .sidebar .brand .v37-brand-title,.v38-workspace.nav-collapsed .v38-nav-group{display:none}
+.v38-workspace.nav-collapsed .sidebar .navbtn{justify-content:center;padding:12px 0}
+@media(max-width:1270px){
+ .v38-workspace .content{padding:23px 23px 42px}
+ .v38-workspace .sidebar{width:217px}
+ .v38-workspace .main{margin-left:217px;width:calc(100% - 217px)}
+ .v38-workspace #overview{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:13px}
+}
+@media(max-width:1100px){
+ .v38-workspace #overview{grid-template-columns:minmax(0,1fr)}
+ .v38-workspace #overview .v38-panel-tasks,
+ .v38-workspace #overview .v38-panel-projects,
+ .v38-workspace #overview .v38-panel-goals,
+ .v38-workspace #overview .v38-panel-calendar{grid-column:1;min-height:0}
+ .v38-workspace #overview .v38-panel-tasks{order:2}
+ .v38-workspace #overview .v38-panel-projects{order:3}
+ .v38-workspace #overview .v38-panel-goals{order:4}
+ .v38-workspace #overview .v38-panel-calendar{order:5}
+}
+@media(max-width:1020px){
+ .v38-workspace .sidebar{transform:translateX(-105%);width:244px;box-shadow:0 14px 40px rgba(11,31,59,.15)}
+ .v38-workspace .sidebar.show{transform:translateX(0)}
+ .v38-workspace .main,.v38-workspace.nav-collapsed .main{width:100%;margin-left:0}
+ .v38-workspace .content{max-width:920px;margin:auto}
+}
+@media(max-width:670px){
+ .v38-workspace .topbar{height:60px;padding:0 14px}
+ .v38-workspace .content{padding:17px 13px 30px}
+ .v38-workspace .pageheading{margin-bottom:13px}
+ .v38-workspace .pageheading h1{font-size:25px}
+ .v38-workspace #overview{gap:11px}
+ .v38-workspace #overview > .hero{min-height:120px;padding:21px 19px}
+ .v38-workspace #overview .hero h2{font-size:26px}
+ .v38-workspace #overview > .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .v38-workspace #overview > .stats .stat{min-height:104px}
+ .v38-workspace #overview .panel-header{padding:16px 14px 12px}
+ .v38-workspace #overview .panel-body{padding:8px 14px 15px}
+ .v38-workspace .page.active .panel-body{padding-left:14px;padding-right:14px}
+ .v38-workspace .page.active .panel-header{padding-left:14px;padding-right:14px}
+ .v38-task-legend{grid-template-columns:minmax(0,1fr) 50px 40px}
+ .v38-task-row{grid-template-columns:9px minmax(0,1fr) 50px 40px;gap:6px}
+ .v38-task-priority{font-size:8.5px}
+}
+@media(max-width:390px){
+ .v38-workspace #overview > .hero{padding:18px 15px}
+ .v38-workspace #overview .hero h2{font-size:24px}
+ .v38-task-main strong{font-size:10px}
+ .v38-task-main small{font-size:8.5px}
+ .v38-task-due{font-size:8.5px}
+ .v38-account-card{padding:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .v38-workspace .page.active{animation:none!important}
+ .v38-workspace .v38-account-card,.v38-workspace .navbtn{transition:none!important}
+}
+html.motion-paused .v38-workspace .page.active{animation:none!important}
+body.md-calm.v38-workspace #overview > .hero{background-image:none}
+body.md-density-compact.v38-workspace #overview .panel-body{padding-top:6px;padding-bottom:10px}
+body.md-high-contrast.v38-workspace .sidebar .navbtn.active{
+ border-color:#1F6FEB;background:#E5F0FF
+}
