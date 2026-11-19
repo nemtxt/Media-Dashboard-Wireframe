@@ -369,3 +369,10 @@ td strong{color:#0B1F3B;font-weight:750}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Tablet topbar: reserve real room for breadcrumbs and search without horizontal panning. */
+@media(min-width:701px) and (max-width:1020px){
+  .topbar .avatar{display:none}
+  .topbar .top-actions{gap:8px;min-width:0}
+  .topbar .breadcrumb{min-width:0;overflow:hidden;text-overflow:ellipsis}
+}
