@@ -28,15 +28,15 @@ const assert = require('node:assert/strict');
     assert(!await page.locator('html').evaluate(el=>el.classList.contains('intro-active')),'scroll-lock class must be gone');
     await page.locator('#introReplay').click();
     await splash.waitFor({state:'visible'});
-    assert(await page.locator('#introSkip').isFocused(),name+' skip should receive keyboard focus');
+    assert(await page.locator('#introSkip')evaluate(el=>document.activeElement===el),name+' skip should receive keyboard focus');
     await page.keyboard.press('Escape');
     await splash.waitFor({state:'hidden'});
-    assert(await page.locator('#introReplay').isFocused(),name+' replay should regain focus');
+    assert(await page.locator('#introReplay')evaluate(el=>document.activeElement===el),name+' replay should regain focus');
     await page.locator('#introReplay').click();
     await splash.waitFor({state:'visible'});
     await splash.waitFor({state:'hidden',timeout:6500}); // cinematic sequence + exit
     assert.equal(await page.locator('.app').evaluate(el=>el.inert),false);
-    assert(await page.locator('#introReplay').isFocused(),name+' auto exit restores replay focus');
+    assert(await page.locator('#introReplay')evaluate(el=>document.activeElement===el),name+' auto exit restores replay focus');
     await page.goto(source); // repeat page view in same tab suppresses the splash
     await page.locator('#introReplay').waitFor();
     assert.equal(await splash.isVisible(),false,name+' same-tab repeat visit should not block dashboard');
