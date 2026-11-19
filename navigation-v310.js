@@ -23,6 +23,13 @@
   const smallScreen = window.matchMedia('(max-width:1020px)');
   const narrowScreen = window.matchMedia('(max-width:700px)');
 
+  // V3.6 hides the legacy .filters container; V2's mobile search lived there.
+  // Move the existing, already-wired search field into the visible page heading.
+  // This preserves a single source of search state and prevents a mobile-only dead end.
+  const mobileSearchWrapper = mobileSearch?.closest('.mobile-search');
+  const pageHeading = document.querySelector('.pageheading');
+  if (mobileSearchWrapper && pageHeading) pageHeading.appendChild(mobileSearchWrapper);
+
   const skip = document.createElement('a');
   skip.className = 'v310-skip';
   skip.href = '#page-title';
