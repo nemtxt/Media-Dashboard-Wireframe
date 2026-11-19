@@ -55,6 +55,7 @@ const server=http.createServer((req,res)=>{
   if(w<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="content"]').click();
   console.log('NAV PASS '+name); await page.locator('[data-v35-gallery]').click();
+  await page.locator('.v35-gallery-card').first().waitFor({state:'visible',timeout:7000});
   assert(await page.locator('.v35-gallery-card').count()>0,'gallery shows fictional work');
   await page.screenshot({path:'test-results/v35-'+name+'-gallery.png'});
   await page.locator('.v35-gallery-card').first().click();
