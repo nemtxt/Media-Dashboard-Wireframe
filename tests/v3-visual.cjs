@@ -21,7 +21,7 @@ const {existsSync,mkdirSync}=require('node:fs');
   assert.equal(design.sidebar,'rgb(11, 31, 59)');assert(design.cards>=4);
   assert.match(design.hero,/radial-gradient/,'Editorial hero requires original art treatment');
   async function noOverflow(section){
-    const dims=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
+    const dims=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,overflowing:[...document.querySelectorAll('*')].filter(el=>{const r=el.getBoundingClientRect();return r.right>innerWidth+4 && getComputedStyle(el).display!=='none'}).slice(0,8).map(el=>({tag:el.tagName,cls:el.className?.baseVal||el.className,id:el.id,right:Math.round(el.getBoundingClientRect().right)}))}));
     assert(dims.scroll-dims.width<=3,device+' '+section+' horizontal overflow '+JSON.stringify(dims));
   }
   await noOverflow('overview');
