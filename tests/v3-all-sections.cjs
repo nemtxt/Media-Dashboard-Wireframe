@@ -10,7 +10,7 @@ const {existsSync,mkdirSync}=require('node:fs');
  for(const [device,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['small-mobile',320,720]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('file://'+path.resolve('index.html'));
+  await page.goto('file://'+path.resolve('index.html')+'?intro=0');
   await page.locator('#overview .hero').waitFor();
   const design=await page.evaluate(()=>{
    const root=getComputedStyle(document.documentElement);
