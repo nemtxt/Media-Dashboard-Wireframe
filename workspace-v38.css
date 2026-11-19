@@ -10,7 +10,8 @@
  --v38-shadow:0 3px 16px rgba(11,31,59,.025);
 }
 /* Shell: lighter project-workspace framing. */
-body.v38-workspace,.v38-workspace .main,.v38-workspace .content{background:#F7F8FB}
+body.v38-workspace{background:#F2F4F7}
+.v38-workspace .main,.v38-workspace .content{background:#F7F8FB}
 .v38-workspace .sidebar{
  width:235px;background:#FFF;border-right:1px solid #E6EAF0;
  box-shadow:none;color:#0B1F3B;
@@ -327,6 +328,14 @@ body.v38-workspace,.v38-workspace .main,.v38-workspace .content{background:#F7F8
 .v38-workspace.nav-collapsed .sidebar .brand{padding:20px 13px}
 .v38-workspace.nav-collapsed .sidebar .brand .v37-brand-title,.v38-workspace.nav-collapsed .v38-nav-group{display:none}
 .v38-workspace.nav-collapsed .sidebar .navbtn{justify-content:center;padding:12px 0}
+/* Preserve one-search header without horizontal overflow at intermediate widths. */
+@media(min-width:1021px) and (max-width:1250px){
+ .v38-workspace .topbar{padding:0 17px;gap:10px}
+ .v38-workspace .topbar .top-actions{gap:7px}
+ .v38-workspace .topbar .searchwrap{width:200px}
+ .v38-workspace .topbar .topdate{font-size:9px}
+ .v38-workspace .topbar .demo{padding:5px 8px;font-size:8px}
+}
 @media(max-width:1270px){
  .v38-workspace .content{padding:23px 23px 42px}
  .v38-workspace .sidebar{width:217px}
