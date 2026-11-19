@@ -316,3 +316,20 @@ body.md-settings-active .v36-scopebar{display:none!important}
 }
 .detail-overlay .v36-detail-summary .modal-focus strong{font-size:13px;color:#1D3553}
 .detail-overlay .v36-detail-summary .modal-focus span{font-size:10.5px}
+
+/* Use flex centering to avoid intrinsic-width grid tracks shrinking wide previews. */
+.detail-overlay.open{
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+}
+.detail-overlay.open .drawer.centered-modal{
+ flex:0 1 980px;
+ width:min(980px,calc(100vw - 56px))!important;
+}
+@media(max-width:760px){
+ .detail-overlay.open .drawer.centered-modal{
+  flex:0 1 100%;
+  width:100%!important;
+ }
+}
