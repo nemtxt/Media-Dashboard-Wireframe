@@ -53,7 +53,7 @@
   </div>
 </main>
 </div>
-<div class="detail-overlay" id="overlay" role="presentation"><section class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawertitle"><div class="drawer-header"><div><span class="eyebrow" id="drawer-kicker">DETAIL</span><h2 id="drawertitle">Detail</h2><div class="muted" id="drawer-subtitle"></div></div><button class="iconbtn" id="closedrawer" aria-label="Close detail"><svg class="ico"><use href="#ic-close"/></svg></button></div><div class="drawer-body" id="drawerbody"></div></section></div>
+<div class="detail-overlay" id="overlay" role="presentation"><section class="drawer centered-modal" role="dialog" aria-modal="true" aria-labelledby="drawertitle" aria-describedby="drawer-subtitle" tabindex="-1"><div class="drawer-header"><div><span class="eyebrow" id="drawer-kicker">DETAIL</span><h2 id="drawertitle">Detail</h2><div class="muted" id="drawer-subtitle"></div></div><button class="iconbtn" id="closedrawer" aria-label="Close popup" title="Close popup"><svg class="ico"><use href="#ic-close"/></svg></button></div><div class="drawer-body" id="drawerbody"></div></section></div>
 <script>
 (function(){'use strict';
 const icons={overview:'grid',content:'content',performance:'chart',ads:'ads',website:'globe',strategy:'target',calendar:'calendar',sources:'content'};
@@ -258,8 +258,8 @@ $('resetfilters').addEventListener('click',()=>{$('account').value='All';$('plat
   renderNav=function(){oldNav();$('nav').querySelectorAll('.navbtn').forEach(el=>{el.setAttribute('title',el.textContent.trim());if(el.dataset.open===active)el.setAttribute('aria-current','page');});};
   const previousFocus={el:null};
   const oldShow=showDrawer;
-  showDrawer=function(...args){previousFocus.el=document.activeElement;oldShow(...args);document.body.style.overflow='hidden';};
-  const closeModal=()=>{if(!$('overlay').classList.contains('open')){document.body.style.overflow='';previousFocus.el?.focus?.();}};
+  showDrawer=function(...args){if(!$('overlay').classList.contains('open'))previousFocus.el=document.activeElement;oldShow(...args);document.body.style.overflow='hidden';};
+  const closeModal=()=>{if(!$('overlay').classList.contains('open')){document.body.style.overflow='';if(previousFocus.el?.isConnected)previousFocus.el.focus?.();previousFocus.el=null;}};
   $('closedrawer').addEventListener('click',()=>setTimeout(closeModal,0));
   $('overlay').addEventListener('click',()=>setTimeout(closeModal,0));
   document.addEventListener('keydown',e=>{
