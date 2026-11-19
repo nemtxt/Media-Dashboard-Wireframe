@@ -19,6 +19,15 @@ async function assertTheme(page,theme,screen,viewport){
    document:document.documentElement.dataset.studioTheme,
    body:take('body'),main:take('.main'),content:take('.content'),topbar:take('.topbar'),
    sidebar:take('.sidebar'),panel:take('.page.active .panel'),stat:take('.page.active .stat'),
+   navActive:take('.sidebar .navbtn.active'),
+   navInactive:take('.sidebar .navbtn:not(.active)'),
+   navHoverText:(()=>{const el=document.querySelector('.sidebar .navbtn:not(.active)');return el?getComputedStyle(el).color:null})(),
+   navActiveDot:(()=>{const el=document.querySelector('.sidebar .navbtn.active');return el?getComputedStyle(el,'::after').backgroundColor:null})(),
+   navActiveMarker:(()=>{const el=document.querySelector('.sidebar .navbtn.active');return el?getComputedStyle(el,'::before').backgroundColor:null})(),
+   navBrandmark:take('.sidebar .brandmark'),
+   navSourcebox:take('.sidebar .sourcebox'),
+   navSourceBorder:(()=>{const el=document.querySelector('.sidebar .sourcebox');return el?getComputedStyle(el).borderColor:null})(),
+   navVersion:take('.sidebar .v38-version'),
    month:take('.page.active .monthcard'),ticket:take('.page.active .ticket'),
    intro:document.querySelector('#introSplash')?.classList.contains('active'),
    screen:active?.id,overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
@@ -31,11 +40,22 @@ async function assertTheme(page,theme,screen,viewport){
  }
  for(const key of ['panel','stat','month','ticket'])if(result[key]!==null)
    assert.equal(result[key],expected,viewport+' '+screen+' '+key+' must be literal '+theme);
+ // Navigation appearance must never change with the workspace theme.
+ const navColors={
+  sidebar:'rgb(11, 31, 59)',
+  navActive:'rgb(31, 111, 235)',
+  navInactive:'rgba(0, 0, 0, 0)',
+  navHoverText:'rgb(183, 201, 221)',
+  navActiveDot:'rgb(255, 210, 63)',
+  navActiveMarker:'rgb(255, 210, 63)',
+  navBrandmark:'rgb(25, 53, 87)',
+  navSourcebox:'rgb(20, 46, 79)'
+ };
+ for(const [key,value] of Object.entries(navColors)){
+   assert.equal(result[key],value,viewport+' '+screen+' '+key+' navigation must not change with theme');
+ }
  if(theme==='dark'){
-  assert.equal(result.sidebar,expected,viewport+' '+screen+' dark sidebar black');
-  assert.equal(result.title,'rgb(255, 255, 255)',viewport+' '+screen+' white heading');
- }else{
-  assert.equal(result.sidebar,'rgb(11, 31, 59)','preserve original navy sidebar in light mode');
+   assert.equal(result.title,'rgb(255, 255, 255)',viewport+' '+screen+' white heading');
  }
  assert(result.overflow<=3,viewport+'/'+screen+' horizontal overflow '+result.overflow);
 }
