@@ -66,6 +66,7 @@ const server=http.createServer((req,res)=>{
   if(w<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="ads"]').click();
   console.log('GALLERY PASS '+name); const bars=page.locator('#ads [data-v35-campaign]');
+  await bars.first().waitFor({state:'visible',timeout:7000});
   assert(await bars.count()>0,'ads chart annotated');
   await bars.first().click();
   assert(await page.locator('#overlay').evaluate(el=>el.classList.contains('open')),'campaign chart opens detail');
