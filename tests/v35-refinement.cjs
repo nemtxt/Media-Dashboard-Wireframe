@@ -23,8 +23,10 @@ const server=http.createServer((req,res)=>{
   const page=await context.newPage();page.setDefaultTimeout(9500);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base,{waitUntil:'domcontentloaded'});
-  await page.locator('.v35-ribbon').waitFor({state:'visible'});
-  assert.equal(await page.locator('.v35-ribbon').count(),1);
+  await page.locator('#v36Scope').waitFor({state:'visible'});
+  assert.equal(await page.locator('.v35-ribbon').count(),0,'redundant secondary search ribbon removed');
+  assert.equal(await page.locator('.v35-quickfind').count(),0,'no duplicate Quick Find control');
+  assert.equal(await page.locator('#search').count(),1,'one canonical header search');
   assert.equal(await page.locator('#introSplash').isVisible(),false,'?intro=0 must bypass splash');
   assert.equal(await page.evaluate(()=>window.MediaDashboardV35?.version),'3.5.0');
   assert(await page.locator('#overview .v35-insight').count(),'overview decision summary');
@@ -35,14 +37,17 @@ const server=http.createServer((req,res)=>{
   assert((await page.locator('#drawertitle').textContent()).length>1);
   assert(await page.locator('#drawerbody').textContent().then(x=>x.includes('source')));
   await page.locator('#closedrawer').click();
-  console.log('KPI PASS '+name); await page.locator('.v35-quickfind').click();
-  await page.locator('#v35Search').fill('Holiday video teaser');
-  assert.equal(await page.locator('#v35SearchResults [data-v35-task]').count(),1,'quick-find work match');
-  await page.locator('#v35SearchResults [data-v35-task]').first().click();
-  assert(await page.locator('#overlay').evaluate(el=>el.classList.contains('open')),'work detail opens from quick find');
-  assert(await page.locator('#drawertitle').textContent().then(x=>x.includes('Holiday video teaser')));
-  await page.locator('#closedrawer').click();
-  console.log('PASS '+name+' KPI and search drilldowns');
+  console.log('KPI PASS '+name+'; verifying canonical header search');
+  await page.locator('#search').evaluate(el=>{
+    el.value='Holiday video teaser';
+    el.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  const filtered=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().tasks);
+  assert(filtered.length>0 && filtered.every(t=>t.title.toLowerCase().includes('holiday video teaser')),
+    'single header search filters matching task records');
+  assert.equal(await page.locator('#v35Search').count(),0,'no second search modal');
+  await page.locator('#search').evaluate(el=>{el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))});
+  console.log('PASS '+name+' KPI and canonical header search');
   // 7 operational sections, no access or data changes
   console.log('SEARCH PASS '+name); const sections=['content','performance','ads','website','strategy','calendar','overview'];
   for(const id of sections){
@@ -76,7 +81,7 @@ const server=http.createServer((req,res)=>{
   assert(await page.locator('#settings').evaluate(el=>el.classList.contains('active')),'Settings route');
   assert.equal(await page.locator('.md-settings-credit').count(),1,'Developer credit in settings');
   assert(await page.locator('.md-settings-dev-text').textContent().then(x=>x.includes('NemDev')));
-  assert.equal(await page.locator('.v35-ribbon:visible').count(),0,'hide global ribbon in Settings');
+  assert.equal(await page.locator('.v35-ribbon').count(),0,'no redundant toolbar anywhere');
   await page.screenshot({path:'test-results/v35-'+name+'-settings.png'});
   if(w<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="overview"]').click();

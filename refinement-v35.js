@@ -58,7 +58,7 @@ const sourceMap={
 };
 const pages=[['overview','Overview'],['content','Content Pipeline'],['performance','Performance'],['ads','Paid Ads'],
  ['website','Website & SEO'],['strategy','Strategy & Operations'],['calendar','Calendar & Team'],['settings','Settings & Data']];
-let gallery=false,scheduled=false,modalFocused=null,searchQuery='';
+let gallery=false,scheduled=false,modalFocused=null;
 const state={version:'3.5.0',readOnly:true,searchEnabled:true,refinement:true};
 window.MediaDashboardV35=state;
 function snapshot(){return bridge.snapshot()}
@@ -113,16 +113,6 @@ function summaryData(id,s){
   values:s.people.map(p=>t.filter(x=>x.owner===p.id&&!x.done).length),rows:up.slice(0,7).map(x=>[x.title,shortDate(x.date)+' · '+x.ownerName])}
  };
  return result[id];
-}
-function ribbon(){
- if(document.querySelector('.v35-ribbon'))return;
- const heading=host.querySelector('.pageheading');if(!heading)return;
- heading.insertAdjacentHTML('afterend','<div class="v35-ribbon" role="group" aria-label="Creative workspace tools">'+
-  '<div class="v35-ribbon-copy"><span class="v35-ribbon-label">CREATIVE OPERATIONS</span>'+
-  '<span class="v35-ribbon-desc">Focused monitoring · details on demand</span>'+
-  '<span class="v35-ribbon-flag">FICTIONAL PREVIEW</span></div>'+
-  '<div class="v35-ribbon-tools"><button type="button" class="v35-ribbon-help" data-v35-guide>Metric guide</button>'+
-  '<button type="button" class="v35-quickfind" data-v35-find aria-keyshortcuts="Control+K Meta+K">Quick find <kbd>Ctrl K</kbd></button></div></div>');
 }
 function insight(id,s,p){
  if(p.querySelector('.v35-insight'))return;
@@ -184,7 +174,7 @@ function galleryView(id,s,p){
 }
 function enhance(){
  const s=snapshot(),id=s.active,p=page();if(!p)return;
- ribbon();document.body.classList.toggle('v35-dashboard',!document.body.classList.contains('md-settings-active'));
+ document.body.classList.toggle('v35-dashboard',!document.body.classList.contains('md-settings-active'));
  if(!info[id])return;
  insight(id,s,p);statCards(p);chartEnhancement(id,s,p);galleryView(id,s,p);
 }
@@ -196,49 +186,6 @@ function summaryDetails(id){
   '<br>All assignment details are fictional. Reported source-table counts are not live.</div>'+
   (d.rows.length?infoTable(d.rows):'<div class="v35-empty">Nothing matches the selected filters.</div>')+
   '<div class="v35-modal-buttons"><button type="button" class="v35-button primary" data-v35-route="'+id+'">Return to '+html(info[id][0])+'</button></div>');
-}
-function guide(){
- dialog('METRIC DEFINITIONS','Reading the dashboard','How to interpret sample results',
-  '<div class="v35-definition">Metrics are fictional or reported source-table counts. No live Airtable records or calculations are fetched by this wireframe.</div>'+
-  infoTable([
-   ['ROAS','Attributed sales ÷ advertising spend.'],
-   ['CTR','Clicks ÷ impressions × 100.'],
-   ['CPR','Cost per result; its meaning depends on campaign objective.'],
-   ['24H / 7D','Different elapsed periods used for post reporting.'],
-   ['Consolidated score','Reported weighted rollup; source grading thresholds require verification.']
-  ])+'<div class="v35-sourcebox">Full table architecture: Settings & Data → Airtable Architecture. No formulas are rewritten in this prototype.</div>'+
-  '<div class="v35-modal-buttons"><button type="button" class="v35-button primary" data-v35-route="settings">Open Settings</button></div>');
-}
-function searchResults(q){
- const s=snapshot(),text=q.toLowerCase().trim(),matching=(a,...fields)=>!text||fields.some(x=>String(x??'').toLowerCase().includes(text));
- const matches=[];
- pages.forEach(([id,title])=>{if(matching(0,title,id))matches.push({type:'Page',title,detail:'Workspace section',route:id})});
- s.tasks.forEach(t=>{if(matching(0,t.title,t.ownerName,t.account,t.platform,t.kind,t.displayStatus))matches.push({
-  type:'Work',title:t.title,detail:t.ownerName+' · '+t.displayStatus+' · '+shortDate(t.date),task:t.id})});
- s.people.forEach(p=>{if(matching(0,p.name,p.role))matches.push({type:'Team',title:p.name,detail:p.role,person:p.id})});
- s.campaigns.forEach(c=>{if(matching(0,c.name,c.account,c.platform))matches.push({type:'Campaign',title:c.name,detail:peso(c.spend)+' spend · '+c.roas+'× ROAS',campaign:c.index})});
- s.organic.forEach(p=>{if(matching(0,p.title,p.account,p.platform))matches.push({type:'Post',title:p.title,detail:format(p.views)+' views · '+p.grade7+'/10',post:p.index})});
- return matches.slice(0,45);
-}
-function populateSearch(){
- const input=document.getElementById('v35Search');
- const container=document.getElementById('v35SearchResults');if(!container||!input)return;
- const results=searchResults(input.value);
- container.innerHTML=results.length?results.map(x=>{
-  const props=x.route?'data-v35-route="'+x.route+'"':x.task!=null?'data-v35-task="'+x.task+'"':
-   x.person?'data-v35-person="'+x.person+'"':x.campaign!=null?'data-v35-campaign="'+x.campaign+'"':'data-v35-post="'+x.post+'"';
-  return '<button type="button" class="v35-find-item" '+props+'><strong>'+html(x.title)+'</strong><small>'+html(x.type)+'</small>'+
-  '<span>'+html(x.detail)+'</span></button>';
- }).join(''):'<div class="v35-empty">No matching fictional records. Try a name, assignment, campaign or workspace.</div>';
- const status=document.getElementById('v35SearchCount');if(status)status.textContent=results.length+' matches (max 45)';
-}
-function openFind(){
- dialog('QUICK FIND','Find work, people and reporting','Keyboard shortcut: Ctrl+K or ⌘K',
-  '<label class="v35-find-label" for="v35Search">Search the fictional Media Dashboard</label>'+
-  '<input id="v35Search" class="v35-find-input" type="search" placeholder="Type an item, person, campaign or page" autocomplete="off">'+
-  '<div class="v35-find-hint" id="v35SearchCount" aria-live="polite">Search across the current demo dataset</div>'+
-  '<div class="v35-find-results" id="v35SearchResults" role="group" aria-label="Matching records"></div>');
- const input=document.getElementById('v35Search');if(input){input.value=searchQuery;populateSearch();input.focus()}
 }
 function routeFromResult(id,sub){
  const overlay=document.getElementById('overlay');overlay?.classList.remove('open');
@@ -255,20 +202,13 @@ function keyActivate(e){
  const el=e.target.closest?.('.v35-stat,[data-v35-campaign]');
  if(el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();el.click();}
 }
-document.addEventListener('keydown',e=>{
- if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openFind();return}
- if(e.key==='Escape')searchQuery='';
- keyActivate(e);
-},true);
+document.addEventListener('keydown',keyActivate,true);
 document.addEventListener('click',e=>{
  if(e.target.closest('[data-content-view]'))gallery=false;
  const get=attr=>e.target.closest('['+attr+']');
  const galleryButton=get('data-v35-gallery');
  if(galleryButton){e.preventDefault();gallery=true;bridge.contentView('kanban');return}
- const find=get('data-v35-find');
- if(find){e.preventDefault();openFind();return}
  const metric=get('data-v35-metric');if(metric){e.preventDefault();explainMetric(metric);return}
- const g=get('data-v35-guide');if(g){e.preventDefault();guide();return}
  const sum=get('data-v35-summary');if(sum){e.preventDefault();summaryDetails(sum.dataset.v35Summary);return}
  const task=get('data-v35-task');if(task){e.preventDefault();useResult('task',task.dataset.v35Task);return}
  const person=get('data-v35-person');if(person){e.preventDefault();useResult('person',person.dataset.v35Person);return}
@@ -276,9 +216,6 @@ document.addEventListener('click',e=>{
  const post=get('data-v35-post');if(post){e.preventDefault();useResult('post',post.dataset.v35Post);return}
  const route=get('data-v35-route');if(route){e.preventDefault();routeFromResult(route.dataset.v35Route,route.dataset.v35Subtab);return}
 },true);
-document.addEventListener('input',e=>{
- if(e.target.id==='v35Search'){searchQuery=e.target.value;populateSearch()}
-});
 const observer=new MutationObserver(mutations=>{
  if(mutations.some(r=>r.type==='childList'&&[...r.addedNodes,...r.removedNodes].some(x=>x.nodeType===1)))queue();
 });
