@@ -7,6 +7,7 @@ on:
       - develop/media-dashboard-v2-1-centered-modals
       - develop/media-dashboard-v3-reference-refresh
       - develop/media-dashboard-v3-responsive-audit
+      - develop/media-dashboard-v3-1-motion
   pull_request:
     branches: [main]
 permissions:
@@ -33,6 +34,8 @@ jobs:
         run: node tests/v3-design.cjs
       - name: Audit all seven screens for narrow-width overflow
         run: node tests/v3-all-sections.cjs
+      - name: Verify creative motion effects and reduced-motion preference
+        run: node tests/v31-motion.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
