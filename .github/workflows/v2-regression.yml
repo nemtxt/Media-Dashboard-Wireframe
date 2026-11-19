@@ -1,10 +1,11 @@
-name: Media Dashboard V2 regression
+name: Media Dashboard design and interaction regressions
 on:
   push:
     branches:
       - main
       - develop/media-dashboard-v2
       - develop/media-dashboard-v2-1-centered-modals
+      - develop/media-dashboard-v3-editorial
   pull_request:
     branches: [main]
 permissions:
@@ -27,6 +28,8 @@ jobs:
         run: node tests/v2-browser.cjs
       - name: Verify centered modals at all breakpoints
         run: node tests/v2-1-modals.cjs
+      - name: Verify V3 reference palette and all dashboard screens
+        run: node tests/v3-visual.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
