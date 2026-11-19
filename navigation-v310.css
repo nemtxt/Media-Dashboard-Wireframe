@@ -1,0 +1,30 @@
+/* V3.10 — navigation accessibility fixes only. The V3.9 visual identity is unchanged. */
+.v310-skip {
+ position:fixed;top:10px;left:12px;z-index:160;
+ padding:11px 16px;border-radius:9px;border:2px solid #1F6FEB;
+ background:#fff;color:#0B1F3B;font-weight:800;
+ transform:translateY(-160%);transition:transform .14s ease;
+}
+.v310-skip:focus,.v310-skip:focus-visible {
+ transform:translateY(0);outline:3px solid #FFD23F;outline-offset:2px;
+}
+.v310-sr-only {
+ position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+ overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+#page-title:focus {outline:0}
+html[data-studio-theme="dark"] .v310-skip {
+ background:#000;color:#fff;border-color:#8DBBFF;
+}
+/* Search exists in the page heading below 700px. Keep it truly black in dark mode. */
+html[data-studio-theme="dark"] .mobile-search input {
+ background:#000!important;color:#fff!important;
+ border-color:#565656!important;
+}
+html[data-studio-theme="dark"] .mobile-search input::placeholder {color:#BFBFBF}
+html[data-studio-theme="light"] .mobile-search input {
+ background:#fff!important;color:#0B1F3B!important;border-color:#DCE2EB!important;
+}
+@media(prefers-reduced-motion:reduce) {
+ .v310-skip{transition:none!important}
+}
