@@ -275,7 +275,7 @@
     };
     const previewObserver=new MutationObserver(records=>{
       if(records.some(record=>record.type==='childList'||
-        (record.type==='attributes'&&record.attributeName==='class'))schedulePreview();
+        (record.type==='attributes'&&record.attributeName==='class'))) schedulePreview();
     });
     previewObserver.observe(modalBody,{childList:true});
     previewObserver.observe(modalOverlay,{attributes:true,attributeFilter:['class']});
