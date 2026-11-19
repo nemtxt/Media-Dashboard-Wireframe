@@ -1,0 +1,22 @@
+name: Media Dashboard V2 regression
+on:
+  push:
+    branches:
+      - main
+      - develop/media-dashboard-v2
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install DOM regression dependency
+        run: npm install --no-save --package-lock=false jsdom@26
+      - name: Run interactive UI smoke tests
+        run: node tests/v2-smoke.cjs
