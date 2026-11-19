@@ -48,7 +48,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.v35-quickfind').count(),0,'duplicate Quick Find must stay removed');
   const count=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().tasks.length);
   assert.equal(Number((await page.locator('#overview .stat strong').first().textContent()).trim()),count);
-  assert(await page.locator('#overview').textContent().then(x=>x.includes('Work status distribution')));
+  assert(await page.locator('#overview').textContent().then(x=>x.includes('Production goals')),'filtered status breakdown remains visible under simplified heading');
   assert.equal(await page.locator('#overview').textContent().then(x=>x.includes('Performance at a glance')),false,'old made-up trend removed');
   await page.screenshot({path:'test-results/v37-'+name+'-overview.png'});
   await page.locator('[data-v36-account="MIH"]').click();
