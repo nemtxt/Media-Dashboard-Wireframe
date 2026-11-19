@@ -1,10 +1,10 @@
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 const path=require('node:path');
-const {mkdirSync}=require('node:fs');
+const {mkdirSync,existsSync}=require('node:fs');
 (async()=>{
 mkdirSync('test-results',{recursive:true});
-const browser=await chromium.launch({headless:true});
+const executable=['/usr/bin/google-chrome','/opt/google/chrome/chrome','/usr/bin/chromium'].find(existsSync);if(!executable)throw Error('Chrome/Chromium not available on runner');const browser=await chromium.launch({headless:true,executablePath:executable,args:['--no-sandbox']});
 const errors=[];
 for(const [name,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['smallmobile',320,720]]){
  const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
