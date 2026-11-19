@@ -173,7 +173,11 @@ function render(){
  tabs.map(([key,label,hint])=>'<button type="button" role="tab" data-md-tab="'+key+'" aria-selected="'+(tab===key)+'" aria-controls="md-settings-panel" id="md-settings-tab-'+key+'"><span>'+label+'</span><span class="md-settings-tab-count">'+hint+'</span></button>').join('')+
  '</nav><section class="md-settings-section" id="md-settings-panel" role="tabpanel" aria-labelledby="md-settings-tab-'+tab+'">'+
  (tab==='appearance'?appearance():tab==='accessibility'?accessibility():tab==='architecture'?arch():health())+
- '</section></div></div>';
+ '</section></div>'+
+ '<div class="md-settings-credit" aria-label="Development credit">'+
+ '<span class="md-settings-dev-mark" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M7 35V13h7l18 21V13h8v22h-7L15 14v21Z" fill="currentColor"/><path d="M7 41h33" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>'+
+ '<span class="md-settings-dev-text"><small>DEVELOPED BY</small><strong>NemDev</strong></span>'+
+ '</div></div>';
  if(catalogOpen&&tab==='architecture')fillCatalog();
 }
 root.addEventListener('click',e=>{
