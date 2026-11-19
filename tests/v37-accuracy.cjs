@@ -25,13 +25,28 @@ const server=http.createServer((req,res)=>{
   await page.locator('#reportPeriod').waitFor({state:'visible'});
   const logo=page.locator('.brandmark img');
   assert.equal(await logo.getAttribute('src'),'./assets/madhouse-mark.svg');
+  const tokens=await page.evaluate(()=>{
+    const root=getComputedStyle(document.documentElement),body=getComputedStyle(document.body);
+    return {
+      blue:root.getPropertyValue('--palette-blue').trim(),
+      yellow:root.getPropertyValue('--palette-yellow').trim(),
+      orange:root.getPropertyValue('--palette-orange').trim(),
+      navy:root.getPropertyValue('--palette-navy').trim(),
+      neutral:root.getPropertyValue('--palette-neutral').trim(),
+      body:body.backgroundColor,
+      sidebar:getComputedStyle(document.querySelector('.sidebar')).backgroundColor
+    };
+  });
+  assert.deepEqual([tokens.yellow,tokens.orange,tokens.blue,tokens.navy,tokens.neutral],
+    ['#FFD23F','#FF8A2A','#1F6FEB','#0B1F3B','#F2F4F7'],name+' palette tokens must match reference');
+  assert.equal(tokens.body,'rgb(242, 244, 247)','neutral background');
+  assert.equal(tokens.sidebar,'rgb(11, 31, 59)','navy sidebar');
   assert(await logo.evaluate(el=>el.complete && el.naturalWidth>0),name+' logo asset did not load');
   assert.equal((await page.locator('.v37-brand-title').textContent()).trim(),'Media Dashboard');
   assert((await page.locator('.topdate').textContent()).includes('DEMO AS OF'));
   assert.equal(await page.evaluate(()=>window.MediaDashboardV37?.version),'3.7.0');
   assert.equal(await page.locator('.v35-quickfind').count(),0,'duplicate Quick Find must stay removed');
   const count=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().tasks.length);
-  console.log('DEBUG overview',await page.evaluate(()=>({stats:[...document.querySelectorAll('#overview .stat')].map(e=>({label:e.querySelector('.stat-head span')?.textContent,value:e.querySelector('strong')?.textContent})),filters:window.MediaDashboardV35Bridge.snapshot().filters,period:document.querySelector('#reportPeriod')?.value})));
   assert.equal(Number((await page.locator('#overview .stat strong').first().textContent()).trim()),count);
   assert(await page.locator('#overview').textContent().then(x=>x.includes('Work status distribution')));
   assert.equal(await page.locator('#overview').textContent().then(x=>x.includes('Performance at a glance')),false,'old made-up trend removed');
