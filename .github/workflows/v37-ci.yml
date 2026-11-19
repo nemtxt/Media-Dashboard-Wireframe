@@ -1,0 +1,35 @@
+name: Media Dashboard V3.7 accuracy regression
+on:
+  push:
+    branches:
+      - main
+      - develop/media-dashboard-v3-7-accuracy
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  accuracy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify scripts are syntactically valid
+        run: |
+          node --check accuracy-v37.js
+          node --check refinement-v35.js
+          node --check clarity-v36.js
+          node --check tests/v37-accuracy.cjs
+      - name: Install browser runner
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Test accuracy, logo, responsive dashboard and filter semantics
+        run: node tests/v37-accuracy.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-dashboard-v37-screen-captures
+          path: test-results/v37-*.png
+          if-no-files-found: ignore
