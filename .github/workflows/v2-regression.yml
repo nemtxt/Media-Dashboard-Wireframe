@@ -9,6 +9,7 @@ on:
       - develop/media-dashboard-v3-responsive-audit
       - develop/media-dashboard-v3-1-motion
       - develop/media-dashboard-v3-2-cinematic-intro
+      - develop/media-dashboard-v3-3-interaction-lab
   pull_request:
     branches: [main]
 permissions:
@@ -39,6 +40,8 @@ jobs:
         run: node tests/v31-motion.cjs
       - name: Verify cinematic splash and transition accessibility
         run: node tests/v32-splash.cjs
+      - name: Verify V3.3 creative interactions across viewports
+        run: node tests/v33-interactions.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

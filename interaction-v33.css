@@ -1,0 +1,158 @@
+/* MEDIA DASHBOARD V3.3 · CREATIVE INTERACTION LAB
+   Hover/focus for all data surfaces. Decorative, not data-altering.
+   Progressive enhancement over V3.2; all workspaces remain usable without libraries. */
+:root{--v33-blue:#1F6FEB;--v33-yellow:#FFD23F;--v33-orange:#FF8A2A;--v33-navy:#0B1F3B;--v33-motion:cubic-bezier(.2,.75,.25,1)}
+/* Unified hover rhythm and cognitive feedback throughout all workstreams */
+.page.active :is(.stat,.panel,.personcard,.ticket,.monthcard,.source-card,.event-item) {
+  position:relative;
+  transition:transform .28s var(--v33-motion),box-shadow .28s var(--v33-motion),border-color .22s ease,background-color .22s ease;
+}
+@media(hover:hover) and (pointer:fine){
+ .page.active :is(.stat,.panel,.personcard,.monthcard,.source-card):hover{
+   border-color:#ADCDFC;
+   box-shadow:0 17px 32px rgba(15,47,100,.085),0 0 0 1px rgba(31,111,235,.045);
+   transform:translateY(-2px);
+ }
+ .page.active .stat:hover{background-image:radial-gradient(ellipse 115% 145% at var(--v33-x,76%) var(--v33-y,20%),rgba(31,111,235,.08),transparent 67%)}
+ .page.active .panel:hover{background-image:radial-gradient(ellipse 110% 110% at var(--v33-x,74%) var(--v33-y,0%),rgba(31,111,235,.036),transparent 69%)}
+ .page.active :is(.personcard,.ticket,.event-item):hover{border-color:#98C1F6;box-shadow:0 12px 26px rgba(12,49,108,.085);transform:translateY(-2px)}
+ .page.active .ticket:hover{transform:translateY(-3px)}
+ .page.active .day:hover{box-shadow:inset 0 0 0 1px #9CBFF9,0 3px 8px rgba(31,111,235,.1)}
+ .page.active .source-card:hover{background:#F7FAFF}
+}
+.page.active :is(.stat,.panel,.personcard,.ticket,.monthcard,.source-card,.event-item):focus-within{border-color:#A5C6F9}
+.page.active :is(.personcard,.ticket,.event-item,.day,.navbtn,.tab,.iconbtn,.small-link,.outlinebtn):focus-visible{
+ outline:3px solid #81B4FF;outline-offset:3px;
+}
+.page.active .stat strong{transition:color .2s ease,letter-spacing .25s ease}
+@media(hover:hover){
+ .page.active .stat:hover strong{color:var(--v33-blue);letter-spacing:-.06em}
+ .page.active .stat:hover .stat-head svg{filter:drop-shadow(0 3px 4px rgba(31,111,235,.16))}
+}
+.page.active .stat:after{transition:transform .4s var(--v33-motion),opacity .3s ease}
+.page.active .stat:hover:after{transform:scale(1.2) translate(-3px,3px);opacity:.92}
+.page.active .panel-header h3{transition:color .2s ease}
+.page.active .panel:hover .panel-header h3{color:#155EBF}
+.page.active .progress-mini > i,.page.active .track .fill{transition:filter .22s ease}
+.page.active :is(.personcard,.ticket,.panel):hover :is(.progress-mini>i,.track .fill){filter:brightness(1.12)}
+.page.active .clickrow{
+ transition:background-color .17s ease,box-shadow .17s ease;
+}
+.page.active .clickrow:hover{
+ background:#F0F7FF;box-shadow:inset 3px 0 0 #1F6FEB;
+}
+.page.active tr.clickrow:focus-visible{
+ outline:2px solid #8DB8FA;outline-offset:-2px;background:#F0F7FF
+}
+.page.active th{white-space:nowrap}
+.page.active table tbody tr:not(.clickrow){transition:background-color .18s ease}
+.page.active table tbody tr:not(.clickrow):hover{background:#F7FAFF}
+.page.active tbody td{transition:color .18s ease}
+.page.active tbody tr:hover td strong{color:#1A62C4}
+.page.active .ranknum{transition:background-color .2s ease,transform .25s var(--v33-motion)}
+.page.active tr:hover .ranknum{transform:scale(1.1);background:#EAF2FF}
+.page.active .pill{transition:box-shadow .2s ease,filter .2s ease}
+.page.active .pill:hover{filter:brightness(.975);box-shadow:0 2px 8px rgba(21,85,167,.08)}
+.page.active .chartbars .barcol{
+ position:relative;border-radius:8px;transition:background-color .2s ease;
+}
+.page.active .chartbars .barcol:hover{background:#F5F9FF}
+.page.active .chartbars .barcol:hover .bar{filter:saturate(1.3) brightness(1.09);transform:scaleX(1.08)}
+.page.active .linechart :is(path,circle){transition:filter .2s ease,opacity .2s ease,stroke-width .2s ease}
+.page.active .linechart:hover path[stroke]{filter:drop-shadow(0 1px 3px rgba(31,111,235,.22))}
+.page.active .day{transition:background .18s ease,border-color .18s ease,box-shadow .2s ease}
+.page.active .day:focus-visible{outline-offset:0}
+.page.active .calendargrid .monthhead{transition:color .2s ease}
+.page.active .monthcard:hover .monthhead{color:var(--v33-blue)}
+.page.active .day.selected{box-shadow:inset 0 0 0 1px #1F6FEB}
+.page.active .personcard:hover .face{box-shadow:0 8px 18px rgba(31,111,235,.12)}
+.page.active .tab:hover:not(.active){color:#1557AF;background:#DDEBFF}
+.page.active .tab[aria-pressed="true"]{box-shadow:0 5px 14px rgba(31,111,235,.1)}
+.page.active .event-item:hover small{color:#1557AF}
+.page.active .ticket-thumb{outline:1px solid rgba(255,255,255,.12)}
+.page.active .ticket:hover .ticket-thumb:before{transform:rotate(45deg) scale(1.16)}
+.page.active .ticket:hover .studio-preview-mark{transform:rotate(6deg) scale(1.12)}
+.page.active .ticket:hover .studio-preview-lines{opacity:1}
+.page.active .studio-preview-lines{opacity:.55;transition:opacity .3s ease}
+.navbtn{transition:background-color .2s ease,color .2s ease,transform .2s var(--v33-motion)}
+.sidebar .navbtn:hover:not(.active){transform:translateX(2px)}
+.sidebar .navbtn:focus-visible{outline:2px solid #FFD23F;outline-offset:-2px}
+.filters .select{transition:border-color .22s ease,box-shadow .22s ease,background-color .22s ease}
+.filters .select:hover{box-shadow:0 3px 11px rgba(19,71,143,.05);background:#F8FBFF}
+.filters .select:focus-visible{outline:3px solid #A6C9FF}
+.iconbtn:hover{box-shadow:0 4px 14px rgba(31,111,235,.1)}
+.detail-overlay .drawer .kv{transition:background-color .18s ease}
+.detail-overlay .drawer .kv:hover{background:#F6F9FF}
+.detail-overlay .drawer .source-card:hover{border-color:#BAD3F5;background:#F7FAFF}
+.detail-overlay .drawer .event-item:hover{box-shadow:0 5px 14px rgba(31,111,235,.07)}
+/* Content pulse: editorial visual storytelling; all actions route to existing Content page. */
+.v33-studio-pulse{display:block;position:relative;isolation:isolate;overflow:hidden;
+ margin:0 0 19px;border:1px solid #DCE7F5;border-radius:19px;
+ background:linear-gradient(115deg,#FFFFFF 0%,#F5F9FF 56%,#FFF8E4 100%);
+ box-shadow:0 7px 24px rgba(15,49,95,.03);
+ padding:20px 22px 19px;
+}
+.v33-studio-pulse:before{content:"";position:absolute;pointer-events:none;right:-70px;top:-125px;width:220px;height:220px;
+ background:radial-gradient(circle,rgba(255,210,63,.17),transparent 67%);z-index:-1}
+.v33-pulse-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:15px}
+.v33-pulse-eyebrow{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;letter-spacing:.14em;color:#24548D}
+.v33-pulse-eyebrow i{width:8px;height:8px;border-radius:50%;background:#1F6FEB;
+ box-shadow:0 0 0 4px rgba(31,111,235,.1)}
+.v33-pulse-tag{font-size:10px;color:#697B97;font-weight:700}
+.v33-pulse-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+.v33-pulse-item{position:relative;display:flex;flex-direction:column;gap:9px;min-height:99px;
+ padding:13px 15px;border:1px solid #E3EAF4;border-radius:13px;background:#FFF;
+ text-align:left;cursor:pointer;color:#203753;
+ transition:background .2s ease,border-color .2s ease,box-shadow .25s ease,transform .25s ease;
+}
+.v33-pulse-item:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+ background:var(--stage-color,#1F6FEB);border-radius:13px 13px 0 0}
+.v33-pulse-item:hover{border-color:#9FC3F5;box-shadow:0 12px 22px rgba(19,67,128,.09);
+ transform:translateY(-2px);background:#FAFCFF}
+.v33-pulse-item:focus-visible{outline:3px solid #91BFFF;outline-offset:3px}
+.v33-pulse-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.v33-pulse-index{font-size:10px;letter-spacing:.07em;font-weight:850;color:#90A0B5}
+.v33-pulse-sigil{width:29px;height:29px;border-radius:9px;display:grid;place-items:center;
+ background:var(--stage-bg,#EDF4FF);color:var(--stage-color,#1F6FEB);font-size:13px;font-weight:850}
+.v33-pulse-title{font-size:12px;letter-spacing:-.025em;font-weight:850}
+.v33-pulse-desc{font-size:10px;color:#8290A5;line-height:1.4}
+.v33-pulse-trace{height:3px;background:#E9EFF8;border-radius:9px;overflow:hidden;margin-top:auto}
+.v33-pulse-trace>i{display:block;height:100%;width:100%;background:var(--stage-color,#1F6FEB);
+ transform:scaleX(.52);transform-origin:left;transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.v33-pulse-item:hover .v33-pulse-trace>i,.v33-pulse-item:focus-visible .v33-pulse-trace>i{transform:scaleX(1)}
+.v33-pulse-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;
+ margin-top:14px;padding-top:12px;border-top:1px solid #E9EFF7}
+.v33-pulse-footer>span{font-size:10px;color:#8A99AD}
+.v33-pulse-link{border:none;cursor:pointer;background:transparent;color:#155ABD;
+ font-size:10px;font-weight:900;letter-spacing:.015em;display:flex;align-items:center;gap:8px;padding:6px 0}
+.v33-pulse-link:hover{text-decoration:underline;text-underline-offset:3px}
+.v33-pulse-link svg{height:15px;width:15px;stroke:currentColor;fill:none;stroke-linecap:round;stroke-width:2}
+.v33-float-hint{position:absolute;pointer-events:none;z-index:2;top:0;left:0;opacity:0;
+ transform:translate(-50%,-115%);border-radius:9px;padding:5px 8px;background:#0B1F3B;color:#fff;
+ box-shadow:0 8px 18px rgba(0,0,0,.15);font-size:10px;font-weight:750;white-space:nowrap;
+ transition:opacity .12s ease}
+.v33-pulse-item:hover .v33-float-hint{opacity:1}
+@media(max-width:1070px){.v33-pulse-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+ .v33-studio-pulse{padding:15px;border-radius:15px;margin-bottom:15px}
+ .v33-pulse-grid{gap:9px}
+ .v33-pulse-item{min-height:94px;padding:11px;gap:7px}
+ .v33-pulse-title{font-size:11px}
+ .v33-pulse-desc{font-size:9px}
+ .v33-pulse-header{align-items:start;flex-direction:column;gap:4px}
+ .v33-pulse-footer{gap:8px}
+ .v33-pulse-footer>span{font-size:9px}
+}
+@media(max-width:360px){.v33-pulse-grid{gap:7px}.v33-pulse-item{padding:9px}}
+/* Integration states & safety: never hide information on unavailable JS libraries. */
+html.motion-paused .page.active :is(.stat,.panel,.personcard,.ticket,.monthcard,.source-card,.event-item){
+ transition:none!important;animation:none!important;transform:none!important
+}
+html.motion-paused .v33-pulse-item{transition:none!important;transform:none!important}
+html.motion-paused .v33-pulse-trace>i{transition:none!important}
+html.motion-paused .animate__animated{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ .page.active :is(.stat,.panel,.personcard,.ticket,.monthcard,.source-card,.event-item),
+ .v33-pulse-item,.v33-pulse-trace>i{transition:none!important;animation:none!important;transform:none!important}
+ .animate__animated{animation:none!important}
+}
