@@ -8,9 +8,11 @@
 (() => {
  try {
   const seen = sessionStorage.getItem('media-dashboard-intro-v32') === 'seen';
-  const forced = new URLSearchParams(location.search).has('intro');
+  const request = new URLSearchParams(location.search).get('intro');
+  const forced = request === '1';
+  const suppressed = request === '0';
   const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  if ((seen && !forced) || reduced) document.documentElement.classList.add('intro-skip');
+  if ((seen && !forced) || reduced || suppressed) document.documentElement.classList.add('intro-skip');
  } catch (_) {}
 })();
 </script>
