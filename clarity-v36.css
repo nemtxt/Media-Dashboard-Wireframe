@@ -1,0 +1,195 @@
+/* Media Dashboard V3.6 — Focused workspace navigation and calmer overview.
+   Retains established palette, all data routes, and optional animated splash. */
+:root{--v36-text:#0B1F3B;--v36-blue:#1F6FEB;--v36-soft:#F2F4F7;--v36-muted:#72829A;--v36-outline:#E2E9F2}
+body.v36-ready .pageheading .filters{display:none!important}
+.v36-scopebar{
+  display:flex;align-items:center;gap:13px 19px;min-height:62px;
+  margin:0 0 15px;padding:10px 15px;
+  border:1px solid #E3EAF3;border-radius:14px;background:#fff;
+  box-shadow:0 3px 13px rgba(11,31,59,.022);
+}
+.v36-scopegroup{display:flex;align-items:center;gap:10px;min-width:0}
+.v36-scope-label{
+  color:#74859C;font-size:10px;font-weight:850;letter-spacing:.055em;
+  white-space:nowrap;
+}
+.v36-scope-options{display:flex;align-items:center;flex-wrap:nowrap;gap:3px;border-radius:10px;padding:3px;background:#F3F6FA;min-width:0}
+.v36-scope-option{
+  border:1px solid transparent;background:transparent;color:#6B7C92;
+  border-radius:8px;min-height:34px;padding:0 12px;white-space:nowrap;
+  font-size:11px;font-weight:800;letter-spacing:-.01em;cursor:pointer;
+  transition:background-color .16s ease,color .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.v36-scope-option:hover:not([aria-pressed="true"]){background:#E8EFF9;color:#2B5794}
+.v36-scope-option[aria-pressed="true"]{background:#fff;border-color:#DCE6F2;color:#175DBE;box-shadow:0 2px 7px rgba(16,63,132,.07)}
+.v36-scope-option:focus-visible,.v36-clear:focus-visible{
+  outline:3px solid #8DB9FA;outline-offset:3px;
+}
+.v36-scope-separator{align-self:stretch;width:1px;flex:none;background:#EDF1F6}
+.v36-scope-suffix{display:flex;align-items:center;justify-content:flex-end;margin-left:auto;gap:8px;min-width:0}
+.v36-scope-status{font-size:10px;color:#8594A8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:215px}
+.v36-clear{
+  border:1px solid #D8E5F6;background:#FAFCFF;color:#24599D;border-radius:9px;
+  min-height:34px;padding:0 10px;cursor:pointer;font-size:10px;font-weight:850;
+}
+.v36-clear:hover{background:#EAF2FF}
+.v36-clear[hidden]{display:none!important}
+body.md-settings-active .v36-scopebar{display:none!important}
+/* Avoid repeated labels above the same work summary. */
+.v36-ready .v35-ribbon{
+  min-height:38px;gap:10px;margin:0 0 12px;padding:4px 0;
+  border:0;background:transparent;box-shadow:none;border-radius:0;
+}
+.v36-ready .v35-ribbon-copy{gap:8px}
+.v36-ready .v35-ribbon-label{font-size:9px;color:#8192A8;letter-spacing:.12em}
+.v36-ready .v35-ribbon-desc,.v36-ready .v35-ribbon-flag{display:none}
+.v36-ready .v35-ribbon-tools{gap:6px}
+.v36-ready .v35-quickfind,.v36-ready .v35-ribbon-help{
+ min-height:34px;padding:0 10px;border-color:#DCE6F2;background:#fff;font-size:10px;
+}
+.v36-ready .v35-quickfind kbd{font-size:9px}
+.v36-ready .pageheading{margin-bottom:16px}
+.v36-ready .pageheading h1{font-size:clamp(24px,2.5vw,32px);letter-spacing:-.056em}
+.v36-ready .pageheading p{font-size:11px}
+/* Overview: one restrained hero rather than a pile of announcement cards. */
+.v36-ready #overview > .v2-banner{display:none!important}
+.v36-ready #overview .hero{
+ min-height:137px;padding:23px 27px;border-radius:18px;margin-bottom:13px;
+ background:linear-gradient(114deg,#185DC8,#1F6FEB 69%,#347DE8);
+ box-shadow:0 9px 26px rgba(31,111,235,.105);
+}
+.v36-ready #overview .hero h2{
+  font-size:clamp(24px,2.7vw,32px);letter-spacing:-.055em;line-height:1.13;
+  max-width:600px;
+}
+.v36-ready #overview .hero p{font-size:11px;max-width:530px;line-height:1.65;margin-top:9px}
+.v36-ready #overview .hero-kicker{font-size:9px;letter-spacing:.12em;margin-bottom:9px}
+.v36-ready #overview .hero-right{display:none!important}
+.v36-ready #overview .hero:before{right:-90px;top:-135px;opacity:.5}
+.v36-ready #overview .hero:after{right:-210px;bottom:-245px;opacity:.47}
+.v36-ready #overview .studio-motion-art{display:none!important}
+.v36-ready #overview .hero .studio-light{display:none!important}
+.v36-ready #overview .stats{margin-bottom:13px}
+.v36-ready #overview .stat{min-height:114px;padding:15px 18px;border-radius:14px;box-shadow:none}
+.v36-ready #overview .stat-head{font-size:10px}
+.v36-ready #overview .stat strong{font-size:27px}
+.v36-ready #overview .stat-foot{font-size:10px}
+/* Creative flow is a compact row of navigable stages, not another 4-card hero. */
+.v36-ready #overview .v33-studio-pulse{
+  margin:0 0 13px;padding:10px 14px 12px;border-radius:13px;
+  box-shadow:none;background:#fff;border-color:#E6ECF4;
+}
+.v36-ready #overview .v33-pulse-header{margin-bottom:8px}
+.v36-ready #overview .v33-pulse-eyebrow{font-size:9px;letter-spacing:.065em}
+.v36-ready #overview .v33-pulse-tag{display:none}
+.v36-ready #overview .v33-pulse-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.v36-ready #overview .v33-pulse-item{
+  min-height:42px;padding:8px 10px;display:flex;flex-direction:row;
+  align-items:center;gap:6px;border-radius:9px;border-color:#E6EDF5;box-shadow:none;
+}
+.v36-ready #overview .v33-pulse-item:before{display:none}
+.v36-ready #overview .v33-pulse-top{display:none}
+.v36-ready #overview .v33-pulse-title{font-size:10.5px;white-space:nowrap}
+.v36-ready #overview .v33-pulse-desc{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v36-ready #overview .v33-pulse-trace{display:none}
+.v36-ready #overview .v33-pulse-footer{margin-top:8px;padding-top:7px}
+.v36-ready #overview .v33-pulse-footer>span{font-size:9px}
+.v36-ready #overview .v33-pulse-link{font-size:9.5px;padding:2px 0}
+.v36-ready #overview .v33-pulse-item:hover{transform:none;background:#F5F9FF}
+.v36-ready #overview .v35-insight{
+ padding:11px 14px;border-radius:13px;gap:10px;margin:0 0 14px;
+ background:#F9FBFF;box-shadow:none;
+}
+.v36-ready #overview .v35-insight-icon{width:32px;height:32px;border-radius:9px}
+.v36-ready #overview .v35-insight-icon svg{width:16px;height:16px}
+.v36-ready #overview .v35-insight-eyebrow{font-size:8.5px}
+.v36-ready #overview .v35-insight-main strong{font-size:11px}
+.v36-ready #overview .v35-insight-main p{font-size:9.5px;margin:2px 0 0}
+.v36-ready #overview .v35-insight-spark{display:none}
+.v36-ready #overview .v35-insight-action{min-height:33px;font-size:10px}
+.v36-ready #overview .dashboardgrid{margin-top:1px}
+.v36-ready #overview .panel{box-shadow:none}
+/* Motion should only reinforce the selected action, not distract while reading. */
+.v36-ready .page.active{animation:v36-page-reveal .2s ease-out both}
+@keyframes v36-page-reveal{from{opacity:.9}to{opacity:1}}
+.v36-ready .page.active :is(.stat,.panel,.personcard,.monthcard){animation:none!important}
+.v36-ready .page.active .panel.is-inview .linechart path[stroke]:not([stroke="none"]){animation:none!important}
+.v36-ready .page.active .panel.is-inview .chartbars .bar{animation:none!important}
+.v36-ready .page.active .panel.is-inview .track .fill{animation:none!important}
+.v36-ready .page.active .panel.is-inview .progress-mini>i{animation:none!important}
+.v36-ready .motion-toggle[aria-pressed="true"] .motion-toggle-icon i{animation:none!important}
+.v36-ready .navbtn .ico{transform:none!important}
+.v36-ready .page.active .panel:hover{transform:none;box-shadow:0 4px 18px rgba(15,54,107,.04)}
+.v36-ready .page.active .stat:hover{transform:translateY(-1px)}
+.v36-ready .v35-insight{animation:none!important}
+.v36-ready .studio-motion-art .studio-halo,.v36-ready .studio-motion-art .studio-core,
+.v36-ready .studio-motion-art .studio-note,.v36-ready .studio-motion-art .studio-equalizer i{
+ animation:none!important;
+}
+/* Top controls remain functional but compact. */
+@media(min-width:1021px){
+ .v36-ready #introReplay{width:39px;min-width:39px;padding:0}
+ .v36-ready #introReplay span{display:none}
+ .v36-ready #motionToggle{width:39px;min-width:39px;padding:0}
+ .v36-ready #motionToggle .motion-toggle-label{display:none}
+}
+@media(max-width:1400px){
+ .v36-scopebar{flex-wrap:wrap}
+ .v36-scope-suffix{flex:1}
+}
+@media(max-width:1100px){
+ .v36-scopebar{gap:8px 12px}
+ .v36-scope-label{font-size:9px}
+ .v36-scope-option{padding:0 9px;font-size:10px}
+ .v36-scope-status{max-width:130px}
+}
+@media(max-width:800px){
+ .v36-scopebar{display:grid;grid-template-columns:1fr;gap:9px;padding:11px 12px}
+ .v36-scopegroup{min-width:0;display:grid;grid-template-columns:62px minmax(0,1fr);gap:8px}
+ .v36-scope-options{width:max-content;max-width:100%}
+ .v36-scope-separator{display:none}
+ .v36-scope-suffix{margin:0;min-height:22px;justify-content:space-between}
+ .v36-scope-status{max-width:none}
+ .v36-ready #overview .v33-pulse-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .v36-ready #overview .v33-pulse-desc{font-size:9px}
+ .v36-ready #overview .hero{padding:21px}
+}
+@media(max-width:480px){
+ .v36-scopebar{padding:10px}
+ .v36-scopegroup{display:block}
+ .v36-scope-label{display:block;margin:0 0 6px}
+ .v36-scope-options{width:100%;overflow:auto;scrollbar-width:none}
+ .v36-scope-options::-webkit-scrollbar{display:none}
+ .v36-scope-option{flex:1;padding:0 9px;min-height:36px}
+ .v36-ready .pageheading{margin-bottom:11px}
+ .v36-ready #overview .hero{min-height:128px;padding:18px 17px}
+ .v36-ready #overview .hero h2{font-size:24px}
+ .v36-ready #overview .stat{min-height:113px;padding:12px}
+ .v36-ready #overview .stat strong{font-size:25px}
+ .v36-ready #overview .v33-pulse-footer>span{display:none}
+ .v36-ready #overview .v35-insight-action{min-height:31px}
+ .v36-ready .v35-ribbon{flex-direction:row;justify-content:space-between;gap:5px}
+ .v36-ready .v35-ribbon-copy{max-width:90px}
+ .v36-ready .v35-quickfind{padding:0 9px}
+ .v36-ready .v35-ribbon-tools{gap:4px}
+}
+@media(max-width:340px){
+ .v36-scope-option{padding:0 6px;font-size:9px}
+ .v36-ready #overview .v33-pulse-grid{grid-template-columns:1fr 1fr}
+ .v36-ready #overview .v33-pulse-desc{display:none}
+}
+/* Settings-only credit, with no icon, badge, panel or logo. */
+.v36-ready .md-settings-credit{
+ display:flex;align-items:center;justify-content:center;gap:4px;
+ padding:5px 0 1px;margin:2px 0 0;min-height:0;
+ border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.v36-ready .md-settings-dev-mark{display:none!important}
+.v36-ready .md-settings-dev-text{display:inline;line-height:1.5;text-align:center}
+.v36-ready .md-settings-dev-text small{font-size:10px;color:#98A5B7;letter-spacing:0;font-weight:500;text-transform:none}
+.v36-ready .md-settings-dev-text strong{font-size:10px;color:#64758F;font-weight:750;letter-spacing:0;margin-left:4px}
+.v36-ready .md-settings-credit:hover{border:0}
+@media(prefers-reduced-motion:reduce){
+ .v36-ready .page.active{animation:none!important}
+ .v36-scope-option,.v36-clear{transition:none!important}
+}
