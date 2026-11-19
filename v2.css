@@ -192,3 +192,251 @@ td strong{font-weight:720}
  .topbar .avatar{display:none}
  .topbar .demo{padding:5px 7px}
 }
+
+
+/* v2.1 — centered, consistently spaced, unobtrusive detail modals.
+   All record/person/post/campaign views share the same dialog component. */
+:root{
+  --ui-space-1:8px;--ui-space-2:12px;--ui-space-3:16px;
+  --ui-space-4:20px;--ui-space-5:24px;--ui-space-6:28px;
+  --ui-focus:#155eef;--ui-soft-border:#E6ECF4;
+}
+.detail-overlay{
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  place-items:center;
+  padding:clamp(12px,3vw,32px);
+  background:rgba(14,27,53,.52);
+  -webkit-backdrop-filter:blur(5px);
+  backdrop-filter:blur(5px);
+  overscroll-behavior:contain;
+}
+.detail-overlay.open{
+  display:grid;
+  animation:v21-backdrop-in .18s ease-out both;
+}
+.detail-overlay .drawer{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  inset:auto;
+  margin:auto;
+  width:min(588px,100%);
+  max-width:100%;
+  height:auto;
+  max-height:min(820px,calc(100dvh - 48px));
+  min-height:0;
+  overflow:hidden;
+  border-radius:20px;
+  border:1px solid rgba(215,225,241,.94);
+  background:#fff;
+  box-shadow:0 24px 75px rgba(13,31,65,.21),0 3px 12px rgba(13,31,65,.08);
+  transform:none;
+  animation:v21-modal-enter .21s cubic-bezier(.2,.85,.25,1) both;
+}
+.detail-overlay .drawer-header{
+  flex:0 0 auto;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:var(--ui-space-3);
+  padding:var(--ui-space-5) var(--ui-space-6) var(--ui-space-4);
+  border-bottom:1px solid var(--ui-soft-border);
+  background:#fff;
+}
+.detail-overlay .drawer-header>div{min-width:0;flex:1}
+.detail-overlay .drawer-header .eyebrow{
+  display:block;
+  margin-bottom:var(--ui-space-1);
+  font-size:10px;
+  letter-spacing:.12em;
+}
+.detail-overlay .drawer-header h2{
+  margin:0 0 7px;
+  font-size:clamp(20px,2vw,24px);
+  line-height:1.23;
+  letter-spacing:-.04em;
+  overflow-wrap:anywhere;
+  color:#17233F;
+}
+.detail-overlay .drawer-header .muted{
+  font-size:12px;
+  line-height:1.5;
+  color:#77859D;
+  overflow-wrap:anywhere;
+}
+.detail-overlay #closedrawer{
+  display:grid;
+  place-items:center;
+  flex:0 0 40px;
+  width:40px;
+  height:40px;
+  min-height:40px;
+  border:1px solid var(--ui-soft-border);
+  background:#F8FAFE;
+  color:#405272;
+  border-radius:11px;
+}
+.detail-overlay #closedrawer:hover{background:#EAF1FF;color:#155eef;border-color:#C9D9F7}
+.detail-overlay #closedrawer:active{transform:scale(.97)}
+.detail-overlay .drawer-body{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  padding:var(--ui-space-5) var(--ui-space-6) var(--ui-space-6);
+  scrollbar-width:thin;
+  scrollbar-color:#C9D4E9 transparent;
+  color:#263651;
+}
+.detail-overlay .drawer-hero{
+  height:88px;
+  margin:0 0 var(--ui-space-3);
+  border-radius:12px;
+}
+.detail-overlay .modal-focus{
+  margin:0 0 var(--ui-space-3);
+  padding:var(--ui-space-3);
+  border:1px solid #E4ECFD;
+  background:#F5F8FF;
+  border-radius:12px;
+  line-height:1.55;
+  font-size:12px;
+}
+.detail-overlay .modal-focus strong{color:#233656}
+.detail-overlay .modal-focus p{margin:6px 0 0}
+.detail-overlay .kv{
+  display:grid;
+  grid-template-columns:minmax(0,45%) minmax(0,55%);
+  align-items:center;
+  gap:var(--ui-space-3);
+  padding:13px 0;
+  border-bottom:1px solid #EEF1F6;
+  font-size:12px;
+}
+.detail-overlay .kv span:first-child{color:#71819A;min-width:0;line-height:1.45}
+.detail-overlay .kv strong{
+  color:#253451;
+  font-size:12px;
+  font-weight:700;
+  text-align:right;
+  min-width:0;
+  overflow-wrap:anywhere;
+  line-height:1.5;
+}
+.detail-overlay .source-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--ui-space-2);
+  margin:0 0 var(--ui-space-3);
+}
+.detail-overlay .source-card{
+  min-width:0;
+  padding:15px;
+  border:1px solid #E8EDF6;
+  background:#FAFBFE;
+  border-radius:12px;
+}
+.detail-overlay .source-card span{font-size:11px;line-height:1.4}
+.detail-overlay .source-card b{font-size:22px}
+.detail-overlay .drawer-tasks{display:grid;gap:var(--ui-space-2);margin-top:var(--ui-space-3)}
+.detail-overlay .event-item{
+  margin:0;
+  padding:var(--ui-space-3);
+  border:1px solid #E5EBF4;
+  border-radius:12px;
+  box-shadow:none;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease;
+}
+.detail-overlay .event-item:hover{
+  transform:translateY(-1px);
+  border-color:#BFD3FF;
+  background:#F7FAFF;
+}
+.detail-overlay .event-item strong{line-height:1.45;overflow-wrap:anywhere}
+.detail-overlay .footnote{font-size:11px;line-height:1.6}
+@keyframes v21-modal-enter{from{opacity:0;transform:translateY(9px) scale(.987)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes v21-backdrop-in{from{opacity:0}to{opacity:1}}
+
+/* Reusable rhythm and alignment for every workspace screen. */
+.content{padding-block:clamp(22px,2.25vw,33px) 42px}
+.pageheading{gap:20px;margin-bottom:22px}
+.pageheading>div:first-child{min-width:0}
+.pageheading h1{letter-spacing:-.048em}
+.stats{gap:14px;margin-bottom:18px}
+.stat{min-width:0;padding:18px 20px}
+.stat:after{opacity:.45}
+.dashboardgrid,.two-col,.calendar-bottom{gap:16px}
+.panel{border:1px solid #E6EBF3;border-radius:16px;box-shadow:0 5px 21px rgba(25,48,91,.025)}
+.panel-header{padding:18px 20px 8px;align-items:flex-start}
+.panel-body{padding:12px 20px 20px}
+.panel-header h3{font-size:14px;line-height:1.4}
+.panel-header p{line-height:1.5}
+.stat-foot{line-height:1.5}
+.section-intro{gap:12px}
+.tabs{max-width:100%;min-width:0}
+.tab{white-space:nowrap}
+.navbtn:hover:not(.active){background:#F5F8FE;color:#244F9B}
+.ticket:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(18,49,104,.07)}
+.ticket,.personcard,.panel,.monthcard{transition:border-color .17s ease,box-shadow .17s ease,transform .17s ease}
+.outlinebtn:hover{border-color:#BED0F6;background:#F7FAFF}
+.page .table-scroller{scrollbar-width:thin;scrollbar-color:#C9D4E9 transparent}
+button:focus-visible,.clickrow:focus-visible,.personcard:focus-visible{
+  outline:3px solid #94B7FF;outline-offset:2px;
+}
+@media(max-width:1020px){
+  .detail-overlay{display:none;align-items:center;justify-content:center;padding:20px}
+  .detail-overlay.open{display:grid}
+  .detail-overlay .drawer{width:min(588px,100%);height:auto;max-height:calc(100dvh - 40px);border-radius:18px}
+}
+@media(max-width:700px){
+  .content{padding:20px 15px 32px}
+  .pageheading{gap:14px;margin-bottom:19px}
+  .stats{gap:10px}
+  .stat{padding:15px}
+  .dashboardgrid,.two-col,.calendar-bottom{gap:12px}
+  .panel-header{padding:17px 16px 7px}
+  .panel-body{padding:10px 16px 17px}
+  .detail-overlay{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px));
+  }
+  .detail-overlay.open{display:grid}
+  .detail-overlay .drawer{
+    width:100%;
+    height:auto;
+    max-height:calc(100dvh - 24px);
+    border-radius:17px;
+    margin:auto;
+  }
+  .detail-overlay .drawer-header{padding:18px 18px 15px;gap:12px}
+  .detail-overlay .drawer-header h2{font-size:20px}
+  .detail-overlay .drawer-body{padding:16px 18px 20px}
+  .detail-overlay .drawer-hero{height:70px}
+  .detail-overlay .kv{gap:10px;padding:12px 0}
+  .detail-overlay .source-card{padding:11px}
+  .detail-overlay .source-card b{font-size:19px}
+  .detail-overlay .event-item{padding:12px}
+  .tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto}
+}
+@media(max-width:360px){
+  .detail-overlay{padding:9px}
+  .detail-overlay .drawer{max-height:calc(100dvh - 18px);border-radius:15px}
+  .detail-overlay .drawer-header{padding:16px 15px 13px}
+  .detail-overlay .drawer-body{padding:14px 15px 18px}
+  .detail-overlay .source-grid{gap:8px}
+  .detail-overlay .kv{font-size:11px}
+  .detail-overlay .kv strong{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .detail-overlay.open,.detail-overlay .drawer{animation:none!important}
+  .detail-overlay .event-item,.ticket,.personcard,.panel,.monthcard{transition:none!important}
+}
