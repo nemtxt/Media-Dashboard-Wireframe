@@ -168,7 +168,7 @@
   const target = document.querySelector('.content') || document.querySelector('.main');
   if (target && 'MutationObserver' in window) {
     const changes = new MutationObserver(records => {
-      if (records.some(r => r.type === 'childList' && (r.addedNodes.length || r.removedNodes.length)))
+      if (records.some(r => r.type === 'childList' && [...r.addedNodes, ...r.removedNodes].some(n => n.nodeType === 1)))
         schedule();
     });
     changes.observe(target, {subtree:true,childList:true});
