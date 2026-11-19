@@ -31,6 +31,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.evaluate(()=>window.MediaDashboardV37?.version),'3.7.0');
   assert.equal(await page.locator('.v35-quickfind').count(),0,'duplicate Quick Find must stay removed');
   const count=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().tasks.length);
+  console.log('DEBUG overview',JSON.stringify(await page.evaluate(()=>({stats:[...document.querySelectorAll('#overview .stat')].map(e=>({label:e.querySelector('.stat-head span')?.textContent,value:e.querySelector('strong')?.textContent})),filters:window.MediaDashboardV35Bridge.snapshot().filters,period:document.querySelector('#reportPeriod')?.value})))));
   assert.equal(Number((await page.locator('#overview .stat strong').first().textContent()).trim()),count);
   assert(await page.locator('#overview').textContent().then(x=>x.includes('Work status distribution')));
   assert.equal(await page.locator('#overview').textContent().then(x=>x.includes('Performance at a glance')),false,'old made-up trend removed');
