@@ -127,3 +127,17 @@ body.md-high-contrast .v35-ribbon,body.md-high-contrast .v35-insight,body.md-hig
 .v35-dashboard .v35-insight{animation:none!important}
 .v35-gallery-card,.v35-stat .v35-stat-affordance,.v35-chart-tip{transition:none!important}
 }
+
+/* Development credit lives exclusively inside Settings & Data. */
+.md-settings-credit{display:flex;align-items:center;justify-content:center;gap:11px;min-height:68px;margin:4px 0 0;padding:10px 15px;border:1px solid #E6ECF4;border-radius:13px;background:linear-gradient(110deg,#fff,#F9FBFE)}
+.md-settings-dev-mark{width:38px;height:38px;flex:none;display:grid;place-items:center;color:#FFD23F;background:#0B1F3B;border-radius:11px}
+.md-settings-dev-mark svg{width:24px;height:24px}
+.md-settings-dev-text{display:flex;flex-direction:column;gap:3px}
+.md-settings-dev-text small{color:#8191A7;letter-spacing:.12em;font-size:8px;font-weight:900}
+.md-settings-dev-text strong{color:#172F4F;font-size:12px;font-weight:850;letter-spacing:-.02em}
+.md-settings-credit:hover{border-color:#D6E3F4}
+body.md-settings-active .v35-ribbon{display:none}
+.page .kanban[hidden]{display:none!important}
+.page .v35-gallery-wrap{margin-bottom:18px}
+body.md-high-contrast .md-settings-credit{border-color:#788AA3}
+@media(max-width:700px){.md-settings-credit{min-height:62px}}
