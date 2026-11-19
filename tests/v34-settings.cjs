@@ -51,7 +51,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('[data-md-catalog]').click();
   assert.equal(await page.locator('#md-catalog-rows tr').count(),25,'All 25 reported tables visible');
   assert(await page.locator('#md-catalog-count').textContent().then(s=>s.includes('25 of 25')));
-  await page.locator('#md-catalog-search').fill('SEO');
+  await page.locator('#md-catalog-search').fill('SEO Keywords Monitoring');
   assert.equal(await page.locator('#md-catalog-rows tr').count(),1,'Search filters table directory');
   assert(await page.locator('#md-catalog-rows').textContent().then(s=>s.includes('SEO Keywords Monitoring')));
   await page.locator('#md-catalog-search').fill('');
