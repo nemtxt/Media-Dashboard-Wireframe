@@ -41,6 +41,7 @@ const assert = require('node:assert/strict');
     await page.locator('[data-cal-tab="workload"]').click();
     await page.locator('.personcard').first().click();
     const dlg = page.locator('#overlay.open [role="dialog"]');
+    await dlg.evaluate(el=>Promise.all(el.getAnimations({subtree:false}).map(a=>a.finished.catch(()=>{}))));
     const r = await dlg.boundingBox();
     assert(r && Math.abs(r.x+r.width/2-width/2)<4 && Math.abs(r.y+r.height/2-height/2)<4,name+' centered modal position regression');
     await page.locator('#closedrawer').click();
