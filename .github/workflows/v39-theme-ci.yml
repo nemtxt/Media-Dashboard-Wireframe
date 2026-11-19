@@ -1,0 +1,33 @@
+name: V3.9 Pure Black / White Theme
+on:
+  push:
+    branches:
+      - main
+      - develop/v3-9-pure-black-white-theme
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  theme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source and test syntax
+        run: |
+          node --check settings-v34.js
+          node --check tests/v39-themes.cjs
+      - name: Install browser runner
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Test true white/light and black/dark across all screens and Settings
+        run: node tests/v39-themes.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v39-black-white-theme-previews
+          path: test-results/v39-*.png
+          if-no-files-found: ignore
