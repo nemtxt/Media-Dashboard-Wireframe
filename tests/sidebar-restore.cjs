@@ -11,7 +11,7 @@ const path=require('node:path');
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('file://'+path.resolve('index.html')+'?intro=0');
-  await page.locator('#overview .v38-overview').waitFor({timeout:10000}).catch(async()=>await page.locator('#overview .stat').waitFor());
+  await page.locator('#overview .stat').first().waitFor({state:'visible',timeout:10000});
   await page.waitForFunction(()=>document.body.classList.contains('v38-workspace'));
   const nav=page.locator('#sidebar');
   const layout=await nav.evaluate(el=>{
