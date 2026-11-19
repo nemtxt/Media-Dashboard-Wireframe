@@ -49,6 +49,7 @@ const server=http.createServer((req,res)=>{
   // Keep account/platform filter active to validate post sample calculations.
   if(width<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="performance"]').click();
+  await page.locator('body.v37-undated').waitFor({state:'attached'});
   assert.equal(await page.locator('#reportPeriod').isVisible(),false,'undated performance source must hide period');
   await page.locator('#performance .stats .stat').first().waitFor();
   const organic=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().organic.length);
@@ -77,6 +78,7 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:'test-results/v37-'+name+'-ads.png'});
   if(width<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="website"]').click();
+  await page.locator('body.v37-unscoped').waitFor({state:'attached'});
   assert.equal(await page.locator('#v36Scope').isVisible(),false,'unscoped website must hide irrelevant filters');
   assert((await page.locator('#page-desc').textContent()).includes('Unscoped fictional website'));
   if(width<=1020)await page.locator('#menubtn').click();
@@ -84,6 +86,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#v36Scope').isVisible(),false,'unscoped strategy must hide irrelevant filters');
   if(width<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="calendar"]').click();
+  await page.locator('body:not(.v37-undated)').waitFor({state:'attached'});
   assert(await page.locator('#reportPeriod').isVisible(),'dated planner enables period filter');
   assert.equal(await page.locator('.monthcard').count(),3,'three-month calendar preserved');
   await page.locator('[data-cal-tab="workload"]').click();
