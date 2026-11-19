@@ -303,3 +303,16 @@ body.md-settings-active .v36-scopebar{display:none!important}
 @media(prefers-reduced-motion:reduce){
  .detail-overlay .drawer.centered-modal{animation:none!important}
 }
+
+/* Keep the reused task status cell compact inside the landscape summary. */
+.detail-overlay .v36-detail-summary .drawer-hero.v36-detail-thumb{
+ width:65px;height:62px;min-height:62px;max-height:62px;flex:0 0 65px;margin:0;
+ border-radius:10px;
+}
+.detail-overlay .v36-detail-summary .modal-focus.v36-detail-status{
+ display:block;flex:1;min-width:0;margin:0!important;padding:0;
+ border:0;border-radius:0;background:transparent;
+ font-size:11px;line-height:1.7;color:#6D809B;
+}
+.detail-overlay .v36-detail-summary .modal-focus strong{font-size:13px;color:#1D3553}
+.detail-overlay .v36-detail-summary .modal-focus span{font-size:10.5px}
