@@ -19,12 +19,12 @@ const server=http.createServer((req,res)=>{
  mkdirSync('test-results',{recursive:true});
  for(const [name,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['narrow',320,720]]){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'no-preference'});
-  const page=await context.newPage();
+  const page=await context.newPage();page.setDefaultTimeout(10000);console.log('START '+name+' settings checks');
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url,{waitUntil:'domcontentloaded'});
   if(width<=1020)await page.locator('#menubtn').click();
   await page.locator('.md-settings-entry').click();
-  await page.locator('.md-settings').waitFor({timeout:6000});
+  await page.locator('.md-settings').waitFor({timeout:6000});console.log('SETTINGS VISIBLE '+name);
   assert.equal(await page.locator('#settings').evaluate(el=>el.classList.contains('active')),true,'Settings page active');
   assert.equal(await page.locator('#nav .navbtn').count(),7,'Core navigation unchanged');
   assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('md-settings-active')),true,'Settings context should hide global filters');
@@ -46,7 +46,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('[data-md-toggle="links"]').click();
   assert(await page.locator('body').evaluate(el=>el.classList.contains('md-text-large')&&el.classList.contains('md-high-contrast')));
   await page.screenshot({path:'test-results/v34-'+name+'-accessibility.png',fullPage:true});
-  await page.locator('[data-md-tab="architecture"]').click();
+  console.log('ACCESSIBILITY DONE '+name);await page.locator('[data-md-tab="architecture"]').click();
   assert.equal(await page.locator('.md-settings-area').count(),7);
   await page.locator('[data-md-catalog]').click();
   assert.equal(await page.locator('#md-catalog-rows tr').count(),25,'All 25 reported tables visible');
@@ -58,7 +58,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('#md-catalog-area').selectOption('Strategy & Operations');
   assert.equal(await page.locator('#md-catalog-rows tr').count(),7,'Strategy & Operations includes seven tables');
   await page.screenshot({path:'test-results/v34-'+name+'-architecture.png',fullPage:true});
-  await page.locator('[data-md-tab="health"]').click();
+  console.log('CATALOG DONE '+name);await page.locator('[data-md-tab="health"]').click();
   assert.equal(await page.locator('.md-settings-issue').count(),6,'Data quality issues documented');
   assert(await page.locator('#settings').textContent().then(s=>s.includes('No refresh, polling or write-back configured')));
   await page.screenshot({path:'test-results/v34-'+name+'-health.png',fullPage:true});
@@ -81,4 +81,4 @@ const server=http.createServer((req,res)=>{
  }
  await browser.close();
  console.log('PASS all settings and architecture verification checks');
-})().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>server.close());
+})().catch(e=>{console.error(e);process.exit(1)}).finally(()=>server.close());
