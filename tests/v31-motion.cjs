@@ -19,7 +19,7 @@ const assert = require('node:assert/strict');
     assert.equal(await page.locator('#motionToggle').getAttribute('aria-pressed'),'true');
     assert.equal(await page.locator('html').evaluate(x=>x.classList.contains('motion-paused')),false);
     const art = await page.locator('.studio-motion-art').evaluate(el=>getComputedStyle(el).display);
-    if(width >= 1190) assert.notEqual(art,'none','hero motion art should appear on wide desktop');
+    assert.equal(art,'none','decorative orbit artwork stays hidden in the simplified V3.6 overview');
     const overflow = await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
     assert(overflow <= 3,name+' has horizontal overflow: '+overflow);
     await page.screenshot({path:'test-results/v31-'+name+'-overview.png'});
