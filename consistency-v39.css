@@ -464,3 +464,29 @@ html.motion-paused body.v39-consistency #calendar.active .personcard{
  body.v39-consistency .detail-overlay.open .drawer-header{padding:15px 17px 12px}
  body.v39-consistency .detail-overlay.open .drawer-body{padding:13px 17px 16px}
 }
+
+/* Respect existing Settings preferences after the new visual layer. */
+body.md-high-contrast.v39-consistency .page.active :is(.stat,.panel,.monthcard,.personcard,.kanbancol){
+ border-color:#59728F!important;
+}
+body.md-high-contrast.v39-consistency .page.active .stats .stat-head,
+body.md-high-contrast.v39-consistency .page.active .stat-foot{
+ color:#263D58!important;
+}
+body.md-high-contrast.v39-consistency .page.active .panel-header p{color:#304760!important}
+body.md-high-contrast.v39-consistency .page.active .tabs .tab.active{
+ border-bottom-color:#0B1F3B!important;color:#0B1F3B!important;
+}
+body.md-density-compact.v39-consistency .page.active .stats .stat{
+ min-height:98px;padding:12px!important;
+}
+body.md-density-compact.v39-consistency .page.active .panel-header{padding:12px 14px 9px!important}
+body.md-density-compact.v39-consistency .page.active .panel-body{padding:7px 14px 13px!important}
+body.md-text-large.v39-consistency .page.active .stats .stat-head{font-size:12px}
+body.md-text-large.v39-consistency .page.active .stats .stat-foot{font-size:12px}
+body.md-text-large.v39-consistency .page.active .panel-header p{font-size:12px}
+body.md-calm.v39-consistency .page.active .stats .stat,
+body.md-calm.v39-consistency #content.active .ticket,
+body.md-calm.v39-consistency #calendar.active .personcard{
+ transition:none!important;transform:none!important;
+}
