@@ -43,7 +43,7 @@ function grouping(tasks){
  const body=groups.map(([label,arr])=>{
   if(!arr.length)return '';
   const sorted=[...arr].sort((a,b)=>a.date.localeCompare(b.date));
-  const max=label==='In progress'?3:label==='Upcoming'?2:label==='Completed'?1:2;
+  const max=label==='In progress'?2:label==='Completed'?0:1; // compact executive preview; full detail stays in Content
   n+=Math.min(sorted.length,max);
   return '<div class="v38-task-group"><div class="v38-task-group-heading">'+
     '<span class="v38-task-group-label '+(label==='Overdue'?'overdue':label==='In progress'?'in-progress':label==='For review'?'review':label==='Upcoming'?'upcoming':'complete')+'">'+esc(label)+'</span>'+
