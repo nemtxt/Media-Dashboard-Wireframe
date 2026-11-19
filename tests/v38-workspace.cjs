@@ -43,6 +43,18 @@ const server=http.createServer((req,res)=>{
   assert.equal(bg,'rgb(255, 255, 255)','white workspace sidebar');
   assert(await page.evaluate(()=>document.body.classList.contains('v38-workspace')));
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+  if(overflow>3){
+   const culprits=await page.evaluate(()=>{
+    const width=document.documentElement.clientWidth;
+    return [...document.querySelectorAll('body *')].filter(el=>{
+      const c=getComputedStyle(el);if(c.display==='none'||c.visibility==='hidden')return false;
+      const r=el.getBoundingClientRect();return r.right>width+3&&r.width>0;
+    }).slice(0,16).map(el=>({tag:el.tagName,cls:el.className?.baseVal||el.className,
+      x:Math.round(el.getBoundingClientRect().x),right:Math.round(el.getBoundingClientRect().right),
+      w:Math.round(el.getBoundingClientRect().width)}));
+   });
+   console.log('HORIZONTAL OVERFLOW '+name,overflow,JSON.stringify(culprits));
+  }
   assert(overflow<=3,name+' horizontal scroll '+overflow);
   const board=await page.locator('#overview').evaluate(el=>getComputedStyle(el).gridTemplateColumns);
   if(width>=1250)assert(board.split(' ').length>=2,'desktop overview two columns');
