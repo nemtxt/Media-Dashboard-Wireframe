@@ -1,0 +1,190 @@
+/* Media Dashboard V3.1 — Creative Motion Studio
+   Quiet when idle, tactile on interaction. Decorative only, no KPI data is changed. */
+:root {
+  --studio-sun:#FFD23F;
+  --studio-coral:#FF8A2A;
+  --studio-blue:#1F6FEB;
+  --studio-navy:#0B1F3B;
+  --studio-ease:cubic-bezier(.2,.78,.24,1);
+}
+.motion-toggle{
+  height:39px;display:inline-flex;align-items:center;justify-content:center;
+  gap:8px;padding:0 12px;border-radius:12px;border:1px solid #DDE8F6;
+  background:#F4F8FF;color:#1C4F9C;white-space:nowrap;font-size:11px;
+  font-weight:800;letter-spacing:0;box-shadow:none;
+}
+.motion-toggle:hover{background:#EAF2FF;border-color:#B8CEEF}
+.motion-toggle:active{transform:scale(.975)}
+.motion-toggle[aria-pressed="false"]{background:#F5F6F8;color:#68768C;border-color:#E3E7EC}
+.motion-toggle-icon{width:19px;height:19px;display:inline-flex;align-items:center;justify-content:space-around;gap:2px;transform:rotate(-13deg)}
+.motion-toggle-icon i{display:block;width:4px;height:7px;background:currentColor;border-radius:6px;transform-origin:50% 100%}
+.motion-toggle-icon i:nth-child(2){height:15px;background:var(--studio-coral)}
+.motion-toggle-icon i:nth-child(3){height:10px}
+.motion-toggle[aria-pressed="true"] .motion-toggle-icon i{animation:studio-eq 1.55s ease-in-out infinite alternate}
+.motion-toggle[aria-pressed="true"] .motion-toggle-icon i:nth-child(2){animation-delay:-.7s}
+.motion-toggle[aria-pressed="true"] .motion-toggle-icon i:nth-child(3){animation-delay:-1.2s}
+@keyframes studio-eq{from{transform:scaleY(.55)}to{transform:scaleY(1.06)}}
+
+/* The bright-blue hero is the ONE continuously animated focal point. */
+.hero{isolation:isolate;overflow:hidden}
+.hero > div:not(.studio-motion-art):not(.studio-light){position:relative;z-index:3}
+.hero > .hero-right{z-index:4}
+.hero .studio-light{
+  pointer-events:none;position:absolute;inset:0;z-index:0;
+  background:radial-gradient(circle 205px at var(--studio-x,65%) var(--studio-y,42%),
+    rgba(255,255,255,.14),transparent 75%);
+  transition:opacity .25s ease;opacity:.9;
+}
+.studio-motion-art{
+  pointer-events:none;position:absolute;width:206px;height:206px;right:216px;
+  top:50%;translate:0 -50%;z-index:1;opacity:.96;
+}
+.studio-motion-art:before{
+  content:"";position:absolute;inset:28px;border:1px dashed rgba(255,255,255,.3);border-radius:50%;
+}
+.studio-motion-art .studio-halo{
+  position:absolute;inset:17px;border-radius:50%;border:1px solid rgba(255,255,255,.35);
+  background:conic-gradient(from 90deg,transparent 0deg,rgba(255,255,255,.11) 84deg,transparent 158deg,rgba(255,210,63,.2) 225deg,transparent 300deg);
+  animation:studio-spin 26s linear infinite;
+}
+.studio-motion-art .studio-halo:after{
+  content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%;
+  background:var(--studio-sun);box-shadow:0 0 0 7px rgba(255,210,63,.15);
+}
+.studio-motion-art .studio-core{
+  position:absolute;inset:55px;border-radius:24px;transform:rotate(-15deg);
+  background:linear-gradient(150deg,rgba(255,255,255,.96),rgba(235,245,255,.83));
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:0 12px 28px rgba(5,44,103,.18);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;
+  animation:studio-core-float 6.5s ease-in-out infinite;
+}
+.studio-motion-art .studio-core > span{
+  color:#103B78;letter-spacing:.2em;font-size:9px;font-weight:900;transform:rotate(15deg);
+}
+.studio-motion-art .studio-equalizer{display:flex;gap:4px;align-items:center;justify-content:center;transform:rotate(15deg);height:28px}
+.studio-motion-art .studio-equalizer i{height:11px;width:5px;border-radius:8px;background:var(--studio-blue);animation:studio-eq 1.25s ease-in-out alternate infinite}
+.studio-motion-art .studio-equalizer i:nth-child(2){height:25px;background:var(--studio-coral);animation-delay:-.3s}
+.studio-motion-art .studio-equalizer i:nth-child(3){height:18px;background:var(--studio-sun);animation-delay:-.7s}
+.studio-motion-art .studio-equalizer i:nth-child(4){height:23px;background:var(--studio-blue);animation-delay:-.5s}
+.studio-motion-art .studio-note{
+  position:absolute;padding:5px 9px;border:1px solid rgba(255,255,255,.4);border-radius:6px;
+  background:rgba(255,255,255,.16);color:#FFF;font-weight:850;font-size:8px;letter-spacing:.13em;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.studio-motion-art .studio-note--top{top:10px;right:-5px;transform:rotate(5deg);animation:studio-tag-float 7.5s ease-in-out infinite}
+.studio-motion-art .studio-note--bottom{bottom:11px;left:-7px;transform:rotate(-8deg);animation:studio-tag-float 8s ease-in-out -3s infinite}
+.studio-motion-art .studio-star{position:absolute;width:9px;height:9px;background:#FFD23F;transform:rotate(45deg);border-radius:2px;right:14px;bottom:34px}
+.studio-motion-art .studio-star:after{content:"";position:absolute;background:inherit;inset:-4px 3px;border-radius:2px}
+@keyframes studio-spin{to{transform:rotate(360deg)}}
+@keyframes studio-core-float{0%,100%{transform:rotate(-15deg) translateY(0)}50%{transform:rotate(-12deg) translateY(-7px)}}
+@keyframes studio-tag-float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+
+/* Reveals are short and finite, not endlessly moving data. */
+.page.active .stat,.page.active .panel,.page.active .personcard,.page.active .monthcard{
+  animation:studio-card-enter .55s var(--studio-ease) both;
+}
+.page.active .stat:nth-child(2),.page.active .monthcard:nth-child(2){animation-delay:60ms}
+.page.active .stat:nth-child(3),.page.active .monthcard:nth-child(3){animation-delay:120ms}
+.page.active .stat:nth-child(4){animation-delay:180ms}
+.page.active .panel:nth-child(2){animation-delay:70ms}
+@keyframes studio-card-enter{0%{opacity:0;transform:translate3d(0,11px,0)}100%{opacity:1;transform:translate3d(0,0,0)}}
+
+/* Read-only sample charts receive motion only as they enter viewport. */
+.linechart path[stroke]:not([stroke="none"]){stroke-dasharray:1000;stroke-dashoffset:0}
+.page.active .panel.is-inview .linechart path[stroke]:not([stroke="none"]){
+  animation:studio-line-draw 1.55s var(--studio-ease) backwards;
+}
+.page.active .panel.is-inview .linechart path[stroke="#f4c93a"]{animation-delay:160ms}
+@keyframes studio-line-draw{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+.chartbars .bar{
+ transform-origin:center bottom;transition:filter .18s ease,transform .2s var(--studio-ease);
+}
+.page.active .panel.is-inview .chartbars .bar{animation:studio-bar-grow .7s var(--studio-ease) backwards}
+.page.active .panel.is-inview .barcol:nth-child(2) .bar{animation-delay:90ms}
+.page.active .panel.is-inview .barcol:nth-child(3) .bar{animation-delay:180ms}
+.page.active .panel.is-inview .barcol:nth-child(4) .bar{animation-delay:270ms}
+@keyframes studio-bar-grow{from{transform:scaleY(.08);opacity:.5}to{transform:scaleY(1);opacity:1}}
+.chartbars .barcol:hover .bar{filter:brightness(1.1)}
+.track .fill,.progress-mini>i{transform-origin:left center}
+.page.active .panel.is-inview .track .fill,.page.active .panel.is-inview .progress-mini>i{animation:studio-progress .7s var(--studio-ease) both}
+@keyframes studio-progress{from{transform:scaleX(.18)}to{transform:scaleX(1)}}
+
+/* Kinetic creative previews respond on hover/focus; no cluttered autoplay thumbnails. */
+.ticket{position:relative;overflow:hidden}
+.ticket-thumb{isolation:isolate;position:relative;overflow:hidden;transition:filter .35s ease,transform .45s var(--studio-ease)}
+.ticket-thumb:before{transition:transform .65s var(--studio-ease),opacity .4s ease}
+.ticket-thumb:after{transition:transform .6s var(--studio-ease),background .4s ease}
+.ticket-thumb .thumb-type{letter-spacing:.09em}
+.ticket-thumb .studio-preview-lines{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(135deg,transparent,transparent 20px,rgba(255,255,255,.075) 21px,transparent 22px);
+  mix-blend-mode:screen;
+}
+.ticket-thumb .studio-preview-mark{
+  position:absolute;right:14px;top:10px;z-index:1;
+  color:rgba(255,255,255,.9);font-weight:900;font-size:27px;letter-spacing:-.1em;
+  transform:rotate(-12deg);transition:transform .5s var(--studio-ease);
+}
+.ticket:hover .ticket-thumb,.ticket:focus-visible .ticket-thumb{filter:saturate(1.13)}
+.ticket:hover .ticket-thumb:before,.ticket:focus-visible .ticket-thumb:before{transform:rotate(44deg) scale(1.1)}
+.ticket:hover .ticket-thumb:after,.ticket:focus-visible .ticket-thumb:after{transform:translate(12px,-8px)}
+.ticket:hover .studio-preview-mark,.ticket:focus-visible .studio-preview-mark{transform:rotate(0deg) scale(1.12)}
+.ticket:focus-visible{outline:3px solid #9BC0FF;outline-offset:2px}
+.personcard .face{transition:transform .3s var(--studio-ease),box-shadow .3s ease}
+.personcard:hover .face,.personcard:focus-visible .face{transform:translateY(-2px) rotate(-5deg);box-shadow:0 6px 10px rgba(31,111,235,.09)}
+.day .day-event{transition:background-color .18s ease,transform .2s var(--studio-ease)}
+.day:hover .day-event,.day:focus-visible .day-event{transform:translateY(-1px)}
+.topbar .breadcrumb b{transition:color .2s ease}
+.navbtn .ico{transition:transform .25s var(--studio-ease),color .2s ease}
+.navbtn:hover .ico{transform:translateX(2px)}
+.sidebar .navbtn.active{position:relative}
+.sidebar .navbtn.active:before{
+ content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 4px 4px 0;
+ background:#FFD23F;box-shadow:0 0 13px rgba(255,210,63,.36);
+}
+.tab.active{transition:background-color .15s ease,box-shadow .15s ease}
+.detail-overlay .drawer{animation:studio-dialog-in .26s var(--studio-ease) both}
+@keyframes studio-dialog-in{from{opacity:0;transform:translateY(12px) scale(.984)}to{opacity:1;transform:translateY(0) scale(1)}}
+.detail-overlay .drawer:focus{outline:none}
+.detail-overlay .drawer-body{scrollbar-width:thin}
+@media(max-width:1380px){.studio-motion-art{opacity:.7;right:196px;scale:.82}}
+@media(max-width:1190px){.studio-motion-art{display:none}.hero .studio-light{opacity:.45}}
+@media(max-width:1020px){.motion-toggle{height:39px}}
+@media(max-width:700px){
+ .motion-toggle{height:36px;width:36px;min-width:36px;padding:0;flex:none}
+ .motion-toggle-label{display:none}
+ .studio-motion-art{display:none}
+ .hero .studio-light{opacity:.25}
+ .page.active .stat,.page.active .panel,.page.active .personcard,.page.active .monthcard{animation-duration:.35s}
+}
+@media(max-width:390px){.motion-toggle{width:33px;min-width:33px}}
+/* Explicit control and OS reduced-motion settings stop every optional effect. */
+html.motion-paused .studio-motion-art *,
+html.motion-paused .motion-toggle-icon i,
+html.motion-paused .page.active .stat,
+html.motion-paused .page.active .panel,
+html.motion-paused .page.active .personcard,
+html.motion-paused .page.active .monthcard,
+html.motion-paused .page.active .panel.is-inview .linechart path[stroke],
+html.motion-paused .page.active .panel.is-inview .chartbars .bar,
+html.motion-paused .page.active .panel.is-inview .track .fill,
+html.motion-paused .page.active .panel.is-inview .progress-mini>i,
+html.motion-paused .detail-overlay .drawer{
+ animation:none!important;transition:none!important;
+}
+html.motion-paused .hero .studio-light{display:none}
+html.motion-paused .ticket-thumb *,html.motion-paused .ticket-thumb:before,html.motion-paused .ticket-thumb:after{
+ transition:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+ .studio-motion-art *, .motion-toggle-icon i,
+ .page.active .stat,.page.active .panel,.page.active .personcard,.page.active .monthcard,
+ .page.active .panel.is-inview .linechart path[stroke],
+ .page.active .panel.is-inview .chartbars .bar,
+ .page.active .panel.is-inview .track .fill,
+ .page.active .panel.is-inview .progress-mini>i,
+ .detail-overlay .drawer{animation:none!important;transition:none!important}
+ .hero .studio-light{display:none}
+ .ticket-thumb,.ticket-thumb *,.ticket-thumb:before,.ticket-thumb:after{transition:none!important}
+}
