@@ -104,6 +104,7 @@ function arch(){
  const total=TABLES.reduce((a,t)=>a+t.records,0);
  return sectionHead('Airtable source architecture','Reported Media base inventory, organized by function. This is a read-only reference from the supplied architecture summary, not a live Airtable connection.')+
  '<div class="md-settings-mini-grid">'+mini('Reported tables','25')+mini('Reported interfaces','11')+mini('Interface pages / dashboards','31 / 13')+mini('Approximate total records','~1,900')+'</div>'+
+ note('Reported dimensions: <b>Madhouse, MIH, BTB</b> accounts; primarily Facebook, Instagram and TikTok, with some LinkedIn and YouTube; weekly, monthly and yearly periods.')+
  '<div class="md-settings-area-grid">'+AREAS.map(([name,description])=>{
   const items=TABLES.filter(t=>t.area===name);
   return '<div class="md-settings-area"><h4>'+escapeText(name)+' <small>'+items.length+' tables</small></h4><p>'+escapeText(description)+'</p></div>';
@@ -214,6 +215,16 @@ root.addEventListener('click',e=>{
   }).catch(()=>{btn.textContent='Copy unavailable'});
   else btn.textContent='Copy unavailable';
  }
+});
+root.addEventListener('keydown',e=>{
+ const current=e.target.closest('[data-md-tab]');
+ if(!current || !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key))return;
+ e.preventDefault();
+ const all=tabs.map(x=>x[0]),at=all.indexOf(current.dataset.mdTab);
+ const next=e.key==='Home'?0:e.key==='End'?all.length-1:
+  (at+((e.key==='ArrowRight'||e.key==='ArrowDown')?1:-1)+all.length)%all.length;
+ tab=all[next];render();
+ document.getElementById('md-settings-tab-'+tab)?.focus();
 });
 root.addEventListener('change',e=>{
  const inp=e.target.closest('[data-md-pref]');if(inp){
