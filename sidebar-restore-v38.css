@@ -1,0 +1,162 @@
+/* V3.8 navigation restoration — screenshot-matched dark sidebar only.
+   The seven workspaces and all dashboard layouts remain unchanged.
+   Brand palette: #0B1F3B / #1F6FEB / #FFD23F.
+*/
+body.v38-workspace .sidebar{
+  background:#0B1F3B!important;
+  color:#F7FAFF!important;
+  border-right:1px solid #1C3858!important;
+  box-shadow:none!important;
+}
+body.v38-workspace .sidebar .brand{
+  min-height:86px;
+  padding:20px 12px 17px;
+  gap:9px;
+  border-bottom:0!important;
+  color:#fff;
+  flex-wrap:nowrap;
+}
+body.v38-workspace .sidebar .brandmark{
+  width:42px;height:42px;flex:0 0 42px;
+  padding:5px;border-radius:11px;
+  background:#193557;
+  border:1px solid #426384;
+  box-shadow:none;
+}
+body.v38-workspace .sidebar .brandmark img{
+  width:100%;height:100%;object-fit:contain;
+  filter:brightness(0) invert(1);
+}
+body.v38-workspace .sidebar .brand .v37-brand-title{
+  color:#FFF!important;
+  font-size:13px;
+  font-weight:850;
+  letter-spacing:-.047em;
+  white-space:nowrap;
+  line-height:1.2;
+}
+body.v38-workspace .sidebar .brand:after{display:none!important}
+body.v38-workspace .sidebar .brand .v38-version{
+  flex:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  height:22px;padding:0 6px;border-radius:6px;
+  border:1px solid #345A83;
+  background:#1C3B61;
+  color:#C3D6EC;
+  font-size:9px;font-weight:850;letter-spacing:.015em;
+}
+body.v38-workspace .sidebar .side-label{
+  font-size:9px;
+  letter-spacing:.11em;
+  color:#7996B9;
+  font-weight:850;
+  margin:21px 16px 10px;
+}
+body.v38-workspace .sidebar .nav{padding:0 9px;gap:4px}
+body.v38-workspace .sidebar .navbtn{
+  position:relative;
+  display:flex;align-items:center;gap:11px;
+  min-height:43px;
+  padding:10px 13px;
+  background:transparent;
+  color:#B7C9DD;
+  border:1px solid transparent;
+  border-radius:10px;
+  box-shadow:none;
+  font-size:11.5px;font-weight:720;
+  line-height:1.4;
+  transition:background-color .16s ease,color .16s ease,border-color .16s ease;
+}
+body.v38-workspace .sidebar .navbtn .ico{
+  width:17px;height:17px;
+  color:#8DA8C9;
+  stroke-width:1.85;
+}
+body.v38-workspace .sidebar .navbtn:hover:not(.active){
+  background:#162F50;
+  color:#FFFFFF;
+  border-color:#233F61;
+}
+body.v38-workspace .sidebar .navbtn:hover:not(.active) .ico{color:#DAEAFF}
+body.v38-workspace .sidebar .navbtn.active,
+body.v38-workspace .sidebar .navbtn.md-settings-entry.active{
+  background:#1F6FEB!important;
+  color:#FFFFFF!important;
+  border-color:#1F6FEB!important;
+  box-shadow:0 4px 14px rgba(31,111,235,.15)!important;
+  font-weight:850;
+}
+body.v38-workspace .sidebar .navbtn.active .ico{color:#FFFFFF!important}
+body.v38-workspace .sidebar .navbtn.active:before{
+  content:"";
+  position:absolute;left:-10px;top:10px;bottom:10px;
+  width:3px;
+  background:#FFD23F;
+  border-radius:0 3px 3px 0;
+}
+body.v38-workspace .sidebar .navbtn.active:after{
+  content:"";
+  position:static;
+  display:block!important;
+  flex:none;
+  width:6px;height:6px;
+  margin-left:auto;
+  border-radius:50%;
+  background:#FFD23F;
+  box-shadow:0 0 0 2px rgba(255,210,63,.12);
+}
+body.v38-workspace .sidebar .navbtn:focus-visible{
+  outline:3px solid #FFD23F;
+  outline-offset:2px;
+}
+body.v38-workspace .v38-nav-group{display:none!important}
+body.v38-workspace .sidebar .side-bottom{
+  padding:15px 12px 17px;
+}
+body.v38-workspace .sidebar .sourcebox{
+  background:#142E4F;
+  color:#F7FAFF;
+  border:1px solid #2A4A6E;
+  border-radius:12px;
+  padding:13px;
+  box-shadow:none;
+}
+body.v38-workspace .sidebar .sourcebox strong{
+  color:#FFFFFF;
+  font-size:11px;
+}
+body.v38-workspace .sidebar .sourcebox p{
+  color:#AFBED2;
+  font-size:10px;
+  line-height:1.57;
+}
+body.v38-workspace .sidebar .readtag{
+  color:#D3E5F7;
+  background:#1B3A5B;
+  border:1px solid #34567B;
+  border-radius:6px;
+  font-size:9px;
+  padding:5px 7px;
+}
+body.v38-workspace .sidebar .readtag .dot{
+  background:#FFD23F;
+}
+body.v38-workspace.nav-collapsed .sidebar .brand{padding:20px 13px}
+body.v38-workspace.nav-collapsed .sidebar .brand .v38-version{display:none}
+body.v38-workspace.nav-collapsed .sidebar .brand .v37-brand-title{display:none}
+body.v38-workspace.nav-collapsed .sidebar .navbtn{justify-content:center;padding:12px 0}
+body.v38-workspace.nav-collapsed .sidebar .navbtn.active:after{display:none!important}
+body.md-high-contrast.v38-workspace .sidebar .navbtn.active{
+  background:#1F6FEB!important;
+  border-color:#B1D0FF!important;
+  color:#FFFFFF!important;
+}
+@media(max-width:1020px){
+  body.v38-workspace .sidebar{box-shadow:12px 0 38px rgba(11,31,59,.18)!important}
+}
+@media(max-width:390px){
+  body.v38-workspace .sidebar .brand .v37-brand-title{font-size:12.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.v38-workspace .sidebar .navbtn{transition:none!important}
+}

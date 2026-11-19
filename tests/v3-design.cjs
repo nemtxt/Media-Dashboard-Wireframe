@@ -25,7 +25,7 @@ const assert=require('node:assert/strict');
   assert.equal(theme.blue,'#1F6FEB');assert.equal(theme.yellow,'#FFD23F');
   assert.equal(theme.orange,'#FF8A2A');assert.equal(theme.navy,'#0B1F3B');
   assert.equal(theme.bg,'#F2F4F7');assert.match(theme.font,/Manrope/);
-  assert.match(theme.sidebar,/255,\s*255,\s*255/,'V3.8 clean workspace uses the reference-style light navigation');
+  assert.match(theme.sidebar,/11,\s*31,\s*59/,'restored screenshot navigation uses navy sidebar');
   assert(theme.overflow<=3,label+' main layout horizontal overflow '+theme.overflow);
   await page.screenshot({path:'test-results/v3-'+label+'-overview.png'});
   if(w<=1020)await page.locator('#menubtn').click();

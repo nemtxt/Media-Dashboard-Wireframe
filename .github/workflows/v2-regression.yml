@@ -15,6 +15,7 @@ on:
       - develop/media-dashboard-v3-6-clean-overview
       - develop/media-dashboard-v3-7-accuracy
       - develop/media-dashboard-v3-8-workspace-layout
+      - develop/restore-dark-sidebar-v38
   pull_request:
     branches: [main]
 permissions:
@@ -57,6 +58,8 @@ jobs:
         run: node tests/v37-accuracy.cjs
       - name: Verify V3.8 workspace layout, navigation and responsive behavior
         run: node tests/v38-workspace.cjs
+      - name: Verify restored navy sidebar and navigation layout
+        run: node tests/sidebar-restore.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

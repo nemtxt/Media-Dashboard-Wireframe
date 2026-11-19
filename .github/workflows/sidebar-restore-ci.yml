@@ -1,0 +1,33 @@
+name: Restore original Media Dashboard sidebar
+on:
+  push:
+    branches:
+      - main
+      - develop/restore-dark-sidebar-v38
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check navigation script syntax
+        run: |
+          node --check workspace-v38.js
+          node --check tests/sidebar-restore.cjs
+      - name: Install browser dependency
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Test restored sidebar at desktop, tablet, mobile
+        run: node tests/sidebar-restore.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: restored-sidebar-screenshots
+          path: test-results/restored-sidebar-*.png
+          if-no-files-found: ignore

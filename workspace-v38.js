@@ -13,13 +13,10 @@ const tDate=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short'
 const statusColors={'Overdue':'overdue','Blocked':'overdue','For review':'review','Completed':'done','Posted':'done','In progress':'progress','Scheduled':'scheduled','Not started':'neutral'};
 let pending=false;
 function buildNavigation(){
- if(nav.querySelector('.v38-nav-group'))return;
- const reports=nav.querySelector('[data-open="performance"]');
- if(!reports)return;
- const label=document.createElement('div');
- label.className='v38-nav-group';label.textContent='REPORTING';label.setAttribute('aria-hidden','true');
- nav.insertBefore(label,reports);
- const brand= document.querySelector('.sidebar .brand');
+ // Restore the original seven-item navigation order without extra subdivisions.
+ // The visual treatment is isolated in sidebar-restore-v38.css.
+ nav.querySelectorAll('.v38-nav-group').forEach(el=>el.remove());
+ const brand=document.querySelector('.sidebar .brand');
  brand?.setAttribute('title','Madhouse Design Studio · Media Dashboard');
 }
 function taskMarkup(t){
