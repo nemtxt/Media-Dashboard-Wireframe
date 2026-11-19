@@ -19,7 +19,7 @@ const server=http.createServer((req,res)=>{
  const browser=await chromium.launch({headless:true,executablePath:exe,args:['--no-sandbox']});
  fs.mkdirSync('test-results',{recursive:true});
  for(const [name,w,h] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['narrow',320,720]]){
-  const context=await browser.newContext({viewport:{width:w,height:h},reducedMotion:'no-preference'});
+  console.log('START v35 '+name); const context=await browser.newContext({viewport:{width:w,height:h},reducedMotion:'no-preference'});
   const page=await context.newPage();page.setDefaultTimeout(9500);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base,{waitUntil:'domcontentloaded'});
@@ -35,7 +35,7 @@ const server=http.createServer((req,res)=>{
   assert((await page.locator('#drawertitle').textContent()).length>1);
   assert(await page.locator('#drawerbody').textContent().then(x=>x.includes('source')));
   await page.locator('#closedrawer').click();
-  await page.locator('.v35-quickfind').click();
+  console.log('KPI PASS '+name); await page.locator('.v35-quickfind').click();
   await page.locator('#v35Search').fill('Holiday video teaser');
   assert.equal(await page.locator('#v35SearchResults [data-v35-task]').count(),1,'quick-find work match');
   await page.locator('#v35SearchResults [data-v35-task]').first().click();
@@ -44,7 +44,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('#closedrawer').click();
   console.log('PASS '+name+' KPI and search drilldowns');
   // 7 operational sections, no access or data changes
-  const sections=['content','performance','ads','website','strategy','calendar','overview'];
+  console.log('SEARCH PASS '+name); const sections=['content','performance','ads','website','strategy','calendar','overview'];
   for(const id of sections){
    if(w<=1020)await page.locator('#menubtn').click();
    await page.locator('#nav [data-open="'+id+'"]').click();
@@ -54,7 +54,7 @@ const server=http.createServer((req,res)=>{
   }
   if(w<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="content"]').click();
-  await page.locator('[data-v35-gallery]').click();
+  console.log('NAV PASS '+name); await page.locator('[data-v35-gallery]').click();
   assert(await page.locator('.v35-gallery-card').count()>0,'gallery shows fictional work');
   await page.screenshot({path:'test-results/v35-'+name+'-gallery.png'});
   await page.locator('.v35-gallery-card').first().click();
@@ -64,13 +64,13 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.v35-gallery').count(),0,'table view removes gallery');
   if(w<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="ads"]').click();
-  const bars=page.locator('#ads [data-v35-campaign]');
+  console.log('GALLERY PASS '+name); const bars=page.locator('#ads [data-v35-campaign]');
   assert(await bars.count()>0,'ads chart annotated');
   await bars.first().click();
   assert(await page.locator('#overlay').evaluate(el=>el.classList.contains('open')),'campaign chart opens detail');
   await page.locator('#closedrawer').click();
   if(w<=1020)await page.locator('#menubtn').click();
-  await page.locator('.md-settings-entry').click();
+  console.log('ADS PASS '+name); await page.locator('.md-settings-entry').click();
   assert(await page.locator('#settings').evaluate(el=>el.classList.contains('active')),'Settings route');
   assert.equal(await page.locator('.md-settings-credit').count(),1,'Developer credit in settings');
   assert(await page.locator('.md-settings-dev-text').textContent().then(x=>x.includes('NemDev')));
@@ -91,4 +91,4 @@ const server=http.createServer((req,res)=>{
  await reduced.close();
  await browser.close();
  console.log('PASS V3.5 all responsive checks, reduced motion and developer credit placement');
-})().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>server.close());
+})().catch(e=>{console.error(e);server.close();process.exit(1)}).finally(()=>server.close());
