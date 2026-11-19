@@ -189,7 +189,19 @@ const table=(columns,rows)=>`<div class="table-scroller"><table><thead><tr>${col
 function renderNav(){ $('nav').innerHTML=navitems.map(([id,label])=>`<button class="navbtn ${active===id?'active':''}" data-open="${id}">${icon(icons[id])}<span>${label}</span></button>`).join(''); }
 function rowTasks(ts,limit=100){return ts.slice(0,limit).map(t=>`<tr class="clickrow" data-task="${t.id}"><td><strong>${t.title}</strong><div class="subtle" style="font-size:10px;margin-top:4px">${t.kind} · ${t.account}</div></td><td>${person(t.owner).name}</td><td>${shortDate(t.date)}</td><td>${badge(status(t))}</td><td>${t.progress}%</td></tr>`).join('')}
 function miniLine(){return `<svg viewBox="0 0 550 178" class="linechart" aria-label="Illustrative six month performance trend"><defs><linearGradient id="shade" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2668ef" stop-opacity=".15"/><stop offset="1" stop-color="#2668ef" stop-opacity="0"/></linearGradient></defs>${[30,75,120,160].map(y=>`<line x1="5" y1="${y}" x2="547" y2="${y}" stroke="#eef2f8"/>`).join('')}<path d="M10 138 C55 120 70 133 106 101 S174 112 213 80 S285 99 325 67 S396 80 440 42 S513 57 540 23 V178 H10Z" fill="url(#shade)"/><path d="M10 138 C55 120 70 133 106 101 S174 112 213 80 S285 99 325 67 S396 80 440 42 S513 57 540 23" stroke="#1761f5" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M10 153 C55 147 70 130 106 145 S174 134 213 114 S285 136 325 101 S396 125 440 89 S513 104 540 80" stroke="#f4c93a" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="540" cy="23" r="5" fill="#1761f5" stroke="white" stroke-width="3"/></svg><div class="axis-labels"><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span><span>OCT</span><span>NOV</span></div>`}
-function accRows(){return [['Madhouse',86, 'blue'],['MIH',74,'yellow'],['BTB',65,'navy']].map(([n,v,c])=>`<div class="account-row"><span class="accname">${n}</span><div class="track"><div class="fill ${c==='blue'?'':c}" style="width:${v}%"></div></div><b>${v}%</b></div>`).join('')}
+function accRows(){
+ const scoped=visible(tasks);
+ const names=['Madhouse','MIH','BTB'].filter(name=>filters().account==='All'||filters().account===name);
+ return names.map(name=>{
+  const mine=scoped.filter(t=>t.account===name);
+  const mean=mine.length?Math.round(mine.reduce((sum,t)=>sum+t.progress,0)/mine.length):0;
+  const shown=mine.length?mean+'%':'—';
+  return `<div class="account-row">
+    <span class="accname">${name}</span>
+    <div class="track" role="meter" aria-label="${name} average task progress" aria-valuenow="${mean}" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:${mean}%"></div></div>
+    <b>${shown}</b></div>`;
+ }).join('');
+}
 function renderOverview(){let t=visible(tasks),activeTasks=t.filter(x=>!allDone(x)),ov=t.filter(overdue),coming=t.filter(x=>x.date>=today&&!allDone(x)).sort((a,b)=>a.date.localeCompare(b.date)); const f=filters(),key='Overview';
 $('overview').innerHTML=`<div class="hero"><div><div class="hero-kicker">YOUR MEDIA WORKSPACE / NOVEMBER 2026</div><h2>See the whole picture.<br>Focus on what matters.</h2><p>Performance, team progress and next deadlines—organized into one clear monitoring experience.</p></div><div class="hero-right"><div class="score">8.4<span style="font-size:18px;font-weight:600">/10</span></div><div class="scorelabel">SAMPLE MONTHLY SCORE</div><div class="trendtag">↑ 0.6 vs last month · Demo</div></div></div>
 <div class="stats">${stat('Assigned work',t.length,'<b>Matching fictional records</b>','content')}${stat('In the pipeline',activeTasks.length,'<b>Across all work types</b>','clock')}${stat('Overdue deadlines',ov.length,ov.length?'<b class="danger">Needs attention</b>':'No overdue tasks','alert',true)}${stat('Upcoming work',coming.length,'<b>From selected filters</b>','calendar')}</div>
