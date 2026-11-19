@@ -166,11 +166,11 @@ const tabs=[
  ['appearance','Appearance','Visual'],
  ['accessibility','Accessibility','Reading'],
  ['architecture','Airtable Architecture','25 tables'],
- ['health','Data & System Health','Read-only']
+ ['health','Source Quality','Read-only']
 ];
 function render(){
  root.innerHTML='<div class="md-settings">'+
- '<div class="md-settings-intro"><div><div class="md-settings-kicker">WORKSPACE / PREFERENCES</div><h2>Make the dashboard work for you.</h2><p>Control your viewing experience and inspect the Media base architecture without crowding the operational dashboards.</p></div>'+
+ '<div class="md-settings-intro"><div><div class="md-settings-kicker">WORKSPACE / PREFERENCES</div><h2>Make the dashboard work for you.</h2><p>Adjust appearance and accessibility, and inspect the reported Airtable source architecture and data-quality notes. No record editing, account permissions or operational controls.</p></div>'+
  '<div class="md-settings-status"><b><i class="md-settings-dot"></i> Demonstration mode</b><small>No Airtable sync or edits</small></div></div>'+
  '<div class="md-settings-shell"><nav class="md-settings-nav" role="tablist" aria-label="Settings categories">'+
  tabs.map(([key,label,hint])=>'<button type="button" role="tab" data-md-tab="'+key+'" aria-selected="'+(tab===key)+'" aria-controls="md-settings-panel" id="md-settings-tab-'+key+'"><span>'+label+'</span><span class="md-settings-tab-count">'+hint+'</span></button>').join('')+
