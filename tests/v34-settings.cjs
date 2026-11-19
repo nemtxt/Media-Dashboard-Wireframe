@@ -1,0 +1,84 @@
+const {chromium}=require('playwright');
+const {existsSync,readFileSync,mkdirSync}=require('node:fs');
+const assert=require('node:assert/strict');
+const path=require('node:path'),http=require('node:http');
+const root=path.resolve('.');
+const server=http.createServer((req,res)=>{
+ const target=path.resolve(root,'.'+(new URL(req.url,'http://localhost').pathname==='/'?'/index.html':decodeURIComponent(new URL(req.url,'http://localhost').pathname)));
+ if(!target.startsWith(root+path.sep)){res.writeHead(403);res.end();return}
+ const ext=path.extname(target);
+ try{res.writeHead(200,{'Content-Type':ext==='.js'?'text/javascript':ext==='.css'?'text/css':'text/html'});res.end(readFileSync(target))}
+ catch(_){res.writeHead(404);res.end()}
+});
+(async()=>{
+ const executable=['/usr/bin/google-chrome','/opt/google/chrome/chrome','/usr/bin/chromium'].find(existsSync);
+ assert(executable,'Chrome/Chromium must be available');
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const url='http://127.0.0.1:'+server.address().port+'/?intro=0';
+ const browser=await chromium.launch({headless:true,executablePath:executable,args:['--no-sandbox']});
+ mkdirSync('test-results',{recursive:true});
+ for(const [name,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['narrow',320,720]]){
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:'no-preference'});
+  const page=await context.newPage();
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(url,{waitUntil:'domcontentloaded'});
+  if(width<=1020)await page.locator('#menubtn').click();
+  await page.locator('.md-settings-entry').click();
+  await page.locator('.md-settings').waitFor({timeout:6000});
+  assert.equal(await page.locator('#settings').evaluate(el=>el.classList.contains('active')),true,'Settings page active');
+  assert.equal(await page.locator('#nav .navbtn').count(),7,'Core navigation unchanged');
+  assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('md-settings-active')),true,'Settings context should hide global filters');
+  assert.equal(await page.locator('.md-settings-nav [role="tab"]').count(),4);
+  assert.equal(await page.locator('.md-settings-entry').getAttribute('aria-current'),'page');
+  await page.screenshot({path:'test-results/v34-'+name+'-appearance.png',fullPage:true});
+  await page.locator('[data-md-pref="density"]').selectOption('compact');
+  assert(await page.locator('body').evaluate(el=>el.classList.contains('md-density-compact')));
+  await page.locator('[data-md-toggle="calm"]').click();
+  assert(await page.locator('body').evaluate(el=>el.classList.contains('md-calm')));
+  await page.locator('[data-md-toggle="motion"]').click();
+  assert(await page.locator('html').evaluate(el=>el.classList.contains('motion-paused')));
+  await page.locator('[data-md-toggle="motion"]').click();
+  assert.equal(await page.locator('html').evaluate(el=>el.classList.contains('motion-paused')),false);
+  await page.locator('[data-md-tab="accessibility"]').click();
+  await page.locator('[data-md-pref="text"]').selectOption('large');
+  await page.locator('[data-md-toggle="contrast"]').click();
+  await page.locator('[data-md-toggle="largeTargets"]').click();
+  await page.locator('[data-md-toggle="links"]').click();
+  assert(await page.locator('body').evaluate(el=>el.classList.contains('md-text-large')&&el.classList.contains('md-high-contrast')));
+  await page.screenshot({path:'test-results/v34-'+name+'-accessibility.png',fullPage:true});
+  await page.locator('[data-md-tab="architecture"]').click();
+  assert.equal(await page.locator('.md-settings-area').count(),7);
+  await page.locator('[data-md-catalog]').click();
+  assert.equal(await page.locator('#md-catalog-rows tr').count(),25,'All 25 reported tables visible');
+  assert(await page.locator('#md-catalog-count').textContent().then(s=>s.includes('25 of 25')));
+  await page.locator('#md-catalog-search').fill('SEO');
+  assert.equal(await page.locator('#md-catalog-rows tr').count(),1,'Search filters table directory');
+  assert(await page.locator('#md-catalog-rows').textContent().then(s=>s.includes('SEO Keywords Monitoring')));
+  await page.locator('#md-catalog-search').fill('');
+  await page.locator('#md-catalog-area').selectOption('Strategy & Operations');
+  assert.equal(await page.locator('#md-catalog-rows tr').count(),7,'Strategy & Operations includes seven tables');
+  await page.screenshot({path:'test-results/v34-'+name+'-architecture.png',fullPage:true});
+  await page.locator('[data-md-tab="health"]').click();
+  assert.equal(await page.locator('.md-settings-issue').count(),6,'Data quality issues documented');
+  assert(await page.locator('#settings').textContent().then(s=>s.includes('No refresh, polling or write-back configured')));
+  await page.screenshot({path:'test-results/v34-'+name+'-health.png',fullPage:true});
+  let overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+  assert(overflow<=3,name+' Settings horizontal overflow '+overflow);
+  await page.reload({waitUntil:'domcontentloaded'});
+  if(width<=1020)await page.locator('#menubtn').click();
+  await page.locator('.md-settings-entry').click();
+  await page.locator('.md-settings').waitFor();
+  assert(await page.locator('body').evaluate(el=>el.classList.contains('md-density-compact')&&el.classList.contains('md-calm')&&el.classList.contains('md-text-large')&&el.classList.contains('md-high-contrast')),'Saved preferences persisted');
+  await page.locator('[data-md-reset]').click();
+  assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('md-density-compact')),false,'Reset restores comfortable density');
+  assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('md-calm')),false);
+  await page.locator('[data-md-tab="architecture"]').click();
+  await page.locator('[data-open="sources"]').click();
+  assert(await page.locator('#sources').evaluate(el=>el.classList.contains('active')),'Legacy source map accessible from Settings');
+  assert.deepEqual(errors,[],name+' runtime errors');
+  await context.close();
+  console.log('PASS '+name+' settings, persistence, catalog, diagnostics, source route');
+ }
+ await browser.close();
+ console.log('PASS all settings and architecture verification checks');
+})().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>server.close());
