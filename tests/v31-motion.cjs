@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
   const executable = ['/usr/bin/google-chrome','/opt/google/chrome/chrome','/usr/bin/chromium'].find(existsSync);
   assert(executable, 'Chrome/Chromium must be available on the CI runner');
   const browser = await chromium.launch({headless:true,executablePath:executable,args:['--no-sandbox']});
-  const source = 'file://' + path.resolve('index.html');
+  const source = 'file://' + path.resolve('index.html') + '?intro=0';
   mkdirSync('test-results', {recursive:true});
   for (const [name,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['narrow',320,720]]) {
     const page = await browser.newPage({viewport:{width,height},reducedMotion:'no-preference'});

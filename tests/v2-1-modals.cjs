@@ -10,7 +10,7 @@ const {existsSync,mkdirSync}=require('node:fs');
  for(const [label,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['smallmobile',320,720]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('file://'+path.resolve('index.html'));
+  await page.goto('file://'+path.resolve('index.html')+'?intro=0');
   async function go(section){
     if(width<=1020)await page.locator('#menubtn').click();
     await page.locator('#nav [data-open="'+section+'"]').click();
