@@ -1,0 +1,30 @@
+const {readFileSync}=require('node:fs');
+const {JSDOM,VirtualConsole}=require('jsdom');
+const assert=require('node:assert/strict');
+const html=readFileSync('index.html','utf8');
+const css=readFileSync('v2.css','utf8');
+assert.match(html,/\.\/v2\.css/,'V2 stylesheet linked');
+assert.match(css,/@media\(max-width:700px\)/,'Responsive mobile styling');
+assert.match(html,/Airtable is not connected/,'Demo disclaimer preserved');
+let errors=[];
+const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
+const dom=new JSDOM(html,{runScripts:'dangerously',url:'https://test.local/',virtualConsole:vc,beforeParse(win){win.scrollTo=()=>{};win.innerWidth=1440;}});
+const {document:doc,Event,MouseEvent}=dom.window;
+const test=(label,fn)=>{try{fn();console.log('PASS '+label);}catch(e){console.error('FAIL '+label);throw e;}};
+function click(selector){const el=doc.querySelector(selector);assert(el,selector+' must exist');el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}));return el}
+function active(id){assert(doc.getElementById(id)?.classList.contains('active'),id+' should be active')}
+test('Initial dashboard renders seven workstreams',()=>{active('overview');assert.equal(doc.querySelectorAll('#nav .navbtn').length,7);assert(doc.querySelectorAll('#overview .stat').length>=4);});
+test('Content Kanban has thumbnails and split stages',()=>{click('[data-open="content"]');active('content');assert.equal(doc.querySelectorAll('#content .kanbancol').length,5);assert(doc.querySelectorAll('#content .ticket-thumb').length>=1);});
+test('Content table view works',()=>{click('[data-content-view="table"]');assert(doc.querySelector('#content tbody tr'));});
+test('Calendar shows three months and labeled events',()=>{click('[data-open="calendar"]');active('calendar');assert.equal(doc.querySelectorAll('#calendar .monthcard').length,3);assert(doc.querySelectorAll('#calendar .day-event').length>0);});
+test('Calendar date selection shows details',()=>{click('#calendar [data-day="2026-11-21"]');assert.match(doc.querySelector('.calendar-bottom').textContent,/Nov 21/);});
+test('Workload cards show person drilldown',()=>{click('[data-cal-tab="workload"]');assert.equal(doc.querySelectorAll('.personcard').length,6);click('.personcard');assert(doc.querySelector('#overlay').classList.contains('open'));assert.match(doc.querySelector('#drawer-kicker').textContent,/TEAM WORKLOAD/);click('#closedrawer');});
+test('Deadline tracker provides read-only task details',()=>{click('[data-cal-tab="deadlines"]');click('#calendar tbody tr[data-task]');assert.match(doc.querySelector('#drawer-kicker').textContent,/WORK DETAIL/);assert.match(doc.querySelector('#drawerbody').textContent,/read-only/i);click('#closedrawer');});
+test('Organic ranking opens post detail',()=>{click('[data-open="performance"]');click('tr[data-post]');assert.match(doc.querySelector('#drawer-kicker').textContent,/ORGANIC POST/);click('#closedrawer');});
+test('Paid ads ranking opens campaign detail',()=>{click('[data-open="ads"]');click('tr[data-campaign]');assert.match(doc.querySelector('#drawer-kicker').textContent,/PAID CAMPAIGN/);click('#closedrawer');});
+test('Mobile month controls advance one month',()=>{Object.defineProperty(dom.window,'innerWidth',{value:390,configurable:true});click('[data-open="calendar"]');click('[data-cal-tab="months"]');const before=doc.querySelector('.monthhead').textContent;click('#nextMonths');const after=doc.querySelector('.monthhead').textContent;assert.notEqual(before,after);assert.match(after,/December 2026/);});
+test('Mobile search filters assignments',()=>{const input=doc.querySelector('#mobileSearch');input.value='holiday';input.dispatchEvent(new Event('input',{bubbles:true}));assert.equal(doc.querySelector('#search').value,'holiday');});
+test('Navigation collapse toggles',()=>{click('#collapseNav');assert(doc.body.classList.contains('nav-collapsed'));click('#collapseNav');assert(!doc.body.classList.contains('nav-collapsed'));});
+test('No runtime errors',()=>{assert.deepEqual(errors,[]);});
+dom.window.close();
+console.log('Media Dashboard V2 interactive smoke tests passed');
