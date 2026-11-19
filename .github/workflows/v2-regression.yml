@@ -11,6 +11,7 @@ on:
       - develop/media-dashboard-v3-2-cinematic-intro
       - develop/media-dashboard-v3-3-interaction-lab
       - develop/media-dashboard-v3-4-settings-architecture
+      - develop/media-dashboard-v3-5-refinement
   pull_request:
     branches: [main]
 permissions:
@@ -45,6 +46,8 @@ jobs:
         run: node tests/v33-interactions.cjs
       - name: Verify V3.4 settings preferences and Airtable reference catalog
         run: node tests/v34-settings.cjs
+      - name: Verify V3.5 refined data interactions and developer credit
+        run: node tests/v35-refinement.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
