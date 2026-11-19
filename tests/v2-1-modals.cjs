@@ -45,6 +45,7 @@ const {existsSync,mkdirSync}=require('node:fs');
     assert.match(await page.locator('#drawer-kicker').innerText(),/WORK DETAIL/);
   }
   await closeByEsc();
+  await page.waitForFunction(()=>document.activeElement?.classList.contains('personcard'),{timeout:1500});
   const focused=await page.evaluate(()=>document.activeElement?.classList.contains('personcard'));
   assert(focused,label+' must restore focus to opener');
   await page.locator('[data-cal-tab="deadlines"]').click();
