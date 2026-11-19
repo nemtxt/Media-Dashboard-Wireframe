@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - develop/media-dashboard-v2
+      - develop/media-dashboard-v2-1-centered-modals
   pull_request:
     branches: [main]
 permissions:
