@@ -213,8 +213,63 @@ function renderContent(){const t=visible(tasks).filter(x=>['Content','Production
 $('content').innerHTML=`<div class="stats">${stat('Content items',t.length,'Filtered demo assignments','content')}${stat('In progress',t.filter(x=>x.status==='In progress').length,'Creative production queue','clock')}${stat('For review',t.filter(x=>x.status==='For review').length,'Pending review','alert',true)}${stat('Scheduled / done',t.filter(x=>['Scheduled','Completed'].includes(x.status)).length,'Ready or already published','calendar')}</div><div class="section-intro"><h2>Creative production flow</h2><div class="tabs"><button class="tab ${contentView==='kanban'?'active':''}" data-content-view="kanban">Kanban board</button><button class="tab ${contentView==='table'?'active':''}" data-content-view="table">Data table</button></div></div>
 ${contentView==='kanban'?`<div class="kanban">${groups.map(([name,arr])=>`<div class="kanbancol"><div class="kanbanhead">${name}<span>${arr.length}</span></div>${arr.length?arr.map(t=>`<div class="ticket" data-task="${t.id}"><b>${t.title}</b><p>${t.account} · ${t.platform}</p><div class="ticket-footer"><span class="personmini">${person(t.owner).name}</span>${badge(status(t))}</div></div>`).join(''):'<div class="empty">No items</div>'}</div>`).join('')}</div>`:panel('All content assignments','Select a row for the complete demo record',table(['Work item','Assigned to','Deadline','Status','Progress'],rowTasks(t))) }
 <div class="two-col" style="margin-top:18px">${panel('Content mix','Creative formats based on fictional work types',`<div class="progresslist">${[['Social creatives',72],['Video production',55],['Creative requests',36],['Campaign assets',63]].map(([l,v])=>`<div><div class="progressrow"><b>${l}</b><span class="muted">${v}%</span></div><div class="track"><div class="fill" style="width:${v}%"></div></div></div>`).join('')}</div>`)}${panel('Next content deadlines','Filtered content queue',table(['Work item','Due date','Owner'],t.filter(x=>x.date>=today&&!allDone(x)).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5).map(x=>`<tr class="clickrow" data-task="${x.id}"><td><strong>${x.title}</strong></td><td>${shortDate(x.date)}</td><td>${person(x.owner).name}</td></tr>`).join('')))}</div>`;}
-function organicView(){let d=visible(organic);return `<div class="stats">${stat('Tracked organic posts',413,'Source table count · Airtable summary','content')}${stat('24H submissions',246,'Source table count','clock')}${stat('7D submissions',69,'Source table count','chart')}${stat('Illustrative avg. grade','8.1 / 10','Sample interface value','target',true)}</div><div class="dashboardgrid">${panel('Top performing posts','Fictional ranking by views',table(['Rank','Post','Platform','Views','7D grade'],d.sort((a,b)=>b.views-a.views).map((x,i)=>`<tr><td><span class="ranknum ${i===0?'first':''}">${i+1}</span></td><td><strong>${x.title}</strong><div class="subtle">${x.account}</div></td><td>${x.platform}</td><td>${x.views.toLocaleString()}</td><td>${badge(x.grade7+'/10')}</td></tr>`).join('')))}${panel('24H → 7D tracking','How post scores evolve',`<div class="progresslist">${d.slice(0,4).map(x=>`<div><div class="progressrow"><b>${x.title}</b><span class="muted">${x.grade24} → ${x.grade7} / 10</span></div><div class="track"><div class="fill" style="width:${x.grade7*10}%"></div></div></div>`).join('')}</div>`)} </div><div class="warning-note">Data-quality consideration: Some Airtable grade formulas reportedly check thresholds in the wrong order. The eventual artifact should show the original source score alongside any separately validated recalculation—not silently replace the value.</div>`}
-function socialView(){return `<div class="stats">${stat('Social page reports',263,'Source table count','content')}${stat('Monthly metrics',24,'Jan 2025–Dec 2026 rows','calendar')}${stat('Total page views','1.28M','Fictional preview','chart')}${stat('Follower growth','+5.2%','Fictional preview','people',true)}</div><div class="dashboardgrid">${panel('Weekly page performance','Illustrative account trend',miniLine())}${panel('Platform mix','Fictional share of page engagement',`<div class="progresslist">${[['Facebook',77],['Instagram',61],['TikTok',84]].map(([l,v])=>`<div><div class="progressrow"><b>${l}</b><span>${v}%</span></div><div class="track"><div class="fill ${l==='Instagram'?'yellow':''}" style="width:${v}%"></div></div></div>`).join('')}</div>`)}</div>${panel('Account comparison','Fictional performance score by platform',table(['Account','Facebook','Instagram','TikTok','Monthly score'],[['Madhouse','8.7','8.2','9.0','8.7'],['MIH','7.8','8.0','7.5','7.8'],['BTB','7.1','7.7','8.3','7.7']].map(r=>`<tr>${r.map((c,i)=>`<td>${i===0?`<strong>${c}</strong>`:c}</td>`).join('')}</tr>`).join('')))} `}
+function organicView(){
+ const d=visible(organic);
+ const average=key=>d.length?(d.reduce((sum,x)=>sum+x[key],0)/d.length).toFixed(1)+' / 10':'—';
+ const rows=[...d].sort((a,b)=>b.views-a.views);
+ return `<div class="stats">
+  ${stat('Demo posts in scope',d.length,'Filtered fictional post examples','content')}
+  ${stat('Average 24H grade',average('grade24'),'Computed from filtered demo posts','clock')}
+  ${stat('Average 7D grade',average('grade7'),'Computed from filtered demo posts','chart')}
+  ${stat('Reported source posts',413,'Unfiltered source-table count · reported','target',true)}
+ </div>
+ <div class="dashboardgrid">
+  ${panel('Top performing demo posts','Filtered fictional ranking by views',table(['Rank','Post','Platform','Views','7D grade'],rows.map((x,i)=>`<tr class="clickrow" data-post="${organic.indexOf(x)}">
+   <td><span class="ranknum ${i===0?'first':''}">${i+1}</span></td><td><strong>${x.title}</strong><div class="subtle">${x.account}</div></td>
+   <td>${x.platform}</td><td>${x.views.toLocaleString()}</td><td>${badge(x.grade7+'/10')}</td></tr>`).join('')))}
+  ${panel('24H → 7D comparison','Grades shown only for filtered fictional posts',`<div class="progresslist">
+    ${rows.slice(0,5).map(x=>`<div><div class="progressrow"><b>${x.title}</b><span class="muted">${x.grade24} → ${x.grade7} / 10</span></div>
+    <div class="track"><div class="fill" style="width:${x.grade7*10}%"></div></div></div>`).join('')||'<div class="empty">No demo posts match the selected filters.</div>'}
+   </div>`)}
+ </div>
+ <div class="warning-note">Reported Airtable totals (not filter-responsive): Organic Performance Tracker 413, 24H Performance Tracker 246, 7Days Performance Tracker 69. The provided architecture notes grading formula problems. Demo averages above do not validate or replace Airtable grades.</div>`;
+}
+function socialView(){
+ const sample=[
+ ['Madhouse','Facebook',8.7],['Madhouse','Instagram',8.2],['Madhouse','TikTok',9.0],
+ ['MIH','Facebook',7.8],['MIH','Instagram',8.0],['MIH','TikTok',7.5],
+ ['BTB','Facebook',7.1],['BTB','Instagram',7.7],['BTB','TikTok',8.3]
+ ].map(([account,platform,score])=>({account,platform,score}));
+ const f=filters(),d=sample.filter(x=>(f.account==='All'||x.account===f.account)&&(f.platform==='All'||x.platform===f.platform));
+ const mean=d.length?(d.reduce((sum,x)=>sum+x.score,0)/d.length).toFixed(1)+' / 10':'—';
+ const platforms=['Facebook','Instagram','TikTok'].filter(p=>f.platform==='All'||p===f.platform);
+ const scores=platforms.map(p=>{const subset=d.filter(x=>x.platform===p);return {
+  label:p,mean:subset.length?subset.reduce((a,x)=>a+x.score,0)/subset.length:null,count:subset.length
+ }});
+ return `<div class="stats">
+  ${stat('Demo score combinations',d.length,'Account / platform sample points','content')}
+  ${stat('Average demo score',mean,'Calculated from selected sample points','chart')}
+  ${stat('Reported social reports',263,'Unfiltered source table total','people')}
+  ${stat('Reported monthly rows',24,'Unfiltered Jan 2025–Dec 2026 rows','calendar',true)}
+ </div>
+ <div class="dashboardgrid">
+  ${panel('Sample platform scores','Scores are illustrative and filtered; scale is 0–10',`<div class="progresslist">
+   ${scores.map(x=>`<div><div class="progressrow"><b>${x.label}</b><span class="muted">${x.count?x.mean.toFixed(1)+' / 10':'No matching sample'}</span></div>
+    <div class="track"><div class="fill" style="width:${x.count?x.mean*10:0}%"></div></div></div>`).join('')||'<div class="empty">No platforms match.</div>'}
+   </div>`)}
+  ${panel('Available source dimensions','The connected source is not available in this wireframe',`
+   <div class="source-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <div class="source-card"><span>Accounts</span><b>3</b></div>
+    <div class="source-card"><span>Main platforms</span><b>3</b></div>
+    <div class="source-card"><span>Reported weeks</span><b>Not available</b></div>
+    <div class="source-card"><span>Live metrics</span><b>Not connected</b></div>
+   </div>`)}
+ </div>
+ ${panel('Account and platform score examples','Only the selected fictional scores are shown',table(['Account','Platform','Sample score'],d.map(x=>`<tr>
+  <td><strong>${x.account}</strong></td><td>${x.platform}</td><td><strong>${x.score.toFixed(1)} / 10</strong></td>
+ </tr>`).join('')))}
+ <div class="warning-note">Reported source counts are not filtered. Verified weekly growth, followers, page views and month-on-month comparisons require actual read-only Airtable data; they are not inferred from these sample scores.</div>`;
+}
 function renderPerformance(){$('performance').innerHTML=`<div class="section-intro"><h2>Measure the full impact</h2><div class="tabs"><button class="tab ${performanceTab==='organic'?'active':''}" data-performance-tab="organic">Organic posts</button><button class="tab ${performanceTab==='social'?'active':''}" data-performance-tab="social">Social pages</button></div></div>${performanceTab==='organic'?organicView():socialView()}`}
 function renderAds(){let d=visible(campaigns),sp=d.reduce((a,x)=>a+x.spend,0),sales=d.reduce((a,x)=>a+x.sales,0);$('ads').innerHTML=`<div class="stats">${stat('Ad spend',money(sp),'Illustrative campaigns','ads')}${stat('Attributed sales',money(sales),'Illustrative attributed revenue','chart')}${stat('Aggregate ROAS',sp?(sales/sp).toFixed(2)+'×':'—','Revenue / spend, demo only','target',true)}${stat('Campaigns shown',d.length,'Based on selected filters','content')}</div><div class="dashboardgrid">${panel('Spend vs. sales','Fictional campaign comparison',`<div class="chartbars">${d.map(x=>`<div class="barcol"><div style="display:flex;align-items:flex-end;gap:4px;height:135px;width:80%;justify-content:center"><div class="bar" style="height:${x.spend/60000*100}%"></div><div class="bar yellow" style="height:${x.sales/200000*100}%"></div></div><span style="text-align:center">${x.name.split(' ')[0]}</span></div>`).join('')}</div><div class="callegend" style="margin-top:13px"><span><i></i>Spend</span><span><i class="y"></i>Sales</span></div>`)}${panel('Efficiency signals','Fictional cost metric examples',`<div class="source-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">${[['CPM','₱112'],['CPC','₱8.20'],['CPR','₱46'],['ROAS',sp?(sales/sp).toFixed(2)+'×':'—']].map(x=>`<div class="source-card"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>`)}</div>${panel('All campaigns','Illustrative campaign data — legacy template data excluded',table(['Campaign','Account','Platform','Spend','Sales','ROAS','State'],d.map(x=>`<tr><td><strong>${x.name}</strong></td><td>${x.account}</td><td>${x.platform}</td><td>${money(x.spend)}</td><td>${money(x.sales)}</td><td><strong>${x.roas.toFixed(2)}×</strong></td><td>${badge(x.status)}</td></tr>`).join('')))}`}
 function renderWebsite(){let k=keywords; $('website').innerHTML=`<div class="stats">${stat('Website sessions','38,420','Fictional demo month','globe')}${stat('Engaged visitors','26,570','Fictional demo month','people')}${stat('Bounce rate','38.6%','Fictional demo rate','chart')}${stat('Tracked SEO keywords',69,'Source table count','search',true)}</div><div class="dashboardgrid">${panel('Traffic acquisition','Illustrative channel mix',`<div class="progresslist">${[['Organic search',79],['Direct',55],['Social',44],['Referral',26],['Paid',19]].map(([n,v])=>`<div><div class="progressrow"><b>${n}</b><span class="muted">${v}% index</span></div><div class="track"><div class="fill" style="width:${v}%"></div></div></div>`).join('')}</div>`)}${panel('Top pages','Fictional monthly pageviews',table(['Page','Views'],[['Homepage','16,510'],['Campaigns','8,720'],['About Us','4,140'],['Contact','2,480']].map(a=>`<tr><td><strong>${a[0]}</strong></td><td>${a[1]}</td></tr>`).join('')))}</div>${panel('SEO keyword monitoring','Fictional values; source data types need cleaning',table(['Keyword','Clicks','CTR','Avg. position'],k.map(x=>`<tr><td><strong>${x.name}</strong></td><td>${x.clicks}</td><td>${x.ctr}%</td><td>${x.position}</td></tr>`).join('')))}<div class="warning-note" style="margin-top:15px">Source caveat: SEO Keywords Monitoring reportedly stores numerical fields as single-select dropdowns. Values should be parsed and marked invalid where parsing fails before calculating statistics.</div>`}
