@@ -53,7 +53,13 @@ const server=http.createServer((req,res)=>{
   for(const id of sections){
    if(w<=1020)await page.locator('#menubtn').click();
    await page.locator('#nav [data-open="'+id+'"]').click();
-   await page.locator('#'+id+'.active .v35-insight').waitFor();
+   if(id==='overview'){
+    await page.locator('#overview .v35-insight').waitFor({state:'attached'});
+    assert.equal(await page.locator('#overview .v35-insight').isVisible(),false,'obsolete duplicate summary remains hidden on compact landing');
+    await page.locator('#overview .v38-panel-tasks').waitFor({state:'visible'});
+   }else{
+    await page.locator('#'+id+'.active .v35-insight').waitFor({state:'visible'});
+   }
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
    assert(overflow<=3,name+' horizontal overflow in '+id+': '+overflow);
   }
@@ -92,7 +98,7 @@ const server=http.createServer((req,res)=>{
  }
  const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await reduced.goto(base,{waitUntil:'domcontentloaded'});
- await reduced.locator('.v35-insight').first().waitFor();
+ await reduced.locator('.v35-insight').first().waitFor({state:'attached'}); // Overview's redundant summary is intentionally hidden.
  assert.equal(await reduced.locator('.v35-insight').first().evaluate(el=>getComputedStyle(el).animationName),'none');
  assert(await reduced.locator('html').evaluate(el=>el.classList.contains('motion-paused')));
  await reduced.close();

@@ -1,0 +1,35 @@
+name: Media Dashboard V3.8 workspace regression
+on:
+  push:
+    branches:
+      - main
+      - develop/media-dashboard-v3-8-workspace-layout
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify workspace scripts
+        run: |
+          node --check workspace-v38.js
+          node --check tests/v38-workspace.cjs
+      - name: Install browser regression dependency
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Verify reference-inspired desktop and mobile workspaces
+        run: node tests/v38-workspace.cjs
+      - name: Verify legacy creative interactions continue through new dashboard widgets
+        run: node tests/v33-interactions.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-dashboard-v38-layout-previews
+          path: test-results/v38-*.png
+          if-no-files-found: ignore

@@ -40,7 +40,7 @@ const server=http.createServer((req,res)=>{
   assert.deepEqual([tokens.yellow,tokens.orange,tokens.blue,tokens.navy,tokens.neutral],
     ['#FFD23F','#FF8A2A','#1F6FEB','#0B1F3B','#F2F4F7'],name+' palette tokens must match reference');
   assert.equal(tokens.body,'rgb(242, 244, 247)','neutral background');
-  assert.equal(tokens.sidebar,'rgb(11, 31, 59)','navy sidebar');
+  assert.equal(tokens.sidebar,'rgb(255, 255, 255)','V3.8 reference-style white sidebar');
   assert(await logo.evaluate(el=>el.complete && el.naturalWidth>0),name+' logo asset did not load');
   assert.equal((await page.locator('.v37-brand-title').textContent()).trim(),'Media Dashboard');
   assert((await page.locator('.topdate').textContent()).includes('DEMO AS OF'));
@@ -48,7 +48,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.v35-quickfind').count(),0,'duplicate Quick Find must stay removed');
   const count=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().tasks.length);
   assert.equal(Number((await page.locator('#overview .stat strong').first().textContent()).trim()),count);
-  assert(await page.locator('#overview').textContent().then(x=>x.includes('Work status distribution')));
+  assert(await page.locator('#overview').textContent().then(x=>x.includes('Production goals')),'filtered status breakdown remains visible under simplified heading');
   assert.equal(await page.locator('#overview').textContent().then(x=>x.includes('Performance at a glance')),false,'old made-up trend removed');
   await page.screenshot({path:'test-results/v37-'+name+'-overview.png'});
   await page.locator('[data-v36-account="MIH"]').click();

@@ -18,7 +18,7 @@ const {existsSync,mkdirSync}=require('node:fs');
    return {blue:root.getPropertyValue('--blue').trim(),orange:root.getPropertyValue('--orange').trim(),yellow:root.getPropertyValue('--yellow').trim(),navy:root.getPropertyValue('--navy').trim(),bg:root.getPropertyValue('--bg').trim(),sidebar:style('.sidebar','background-color'),hero:style('.hero','background-image'),cards:document.querySelectorAll('#overview .stat').length,scriptErrors:[]};
   });
   assert.equal(design.blue,'#1F6FEB');assert.equal(design.orange,'#FF8A2A');assert.equal(design.yellow,'#FFD23F');assert.equal(design.navy,'#0B1F3B');assert.equal(design.bg,'#F2F4F7');
-  assert.equal(design.sidebar,'rgb(11, 31, 59)');assert(design.cards>=4);
+  assert.equal(design.sidebar,'rgb(255, 255, 255)','V3.8 project workspace uses clean white navigation');assert(design.cards>=4);
   assert.match(design.hero,/linear-gradient/,'Reference-inspired hero requires a deliberate geometric treatment');
   async function noOverflow(section){
     const dims=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,overflowing:[...document.querySelectorAll('*')].filter(el=>{const r=el.getBoundingClientRect();return r.right>innerWidth+4 && getComputedStyle(el).display!=='none'}).slice(0,8).map(el=>({tag:el.tagName,cls:el.className?.baseVal||el.className,id:el.id,right:Math.round(el.getBoundingClientRect().right)}))}));
