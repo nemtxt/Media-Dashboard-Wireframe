@@ -33,7 +33,8 @@ const server=http.createServer((req,res)=>{
   const deps=await page.evaluate(()=>window.MediaStudioInteractions);
   assert.equal(deps.version,'3.3.0');
   assert(deps.decorated>0,name+' lacked decorated elements');
-  const metric=page.locator('#overview .stat').first();
+  const metric=page.locator('#overview .stat.v35-stat').first();
+  await metric.waitFor({state:'visible'});
   await metric.focus();
   assert.equal(await metric.getAttribute('role'),'button','KPI must remain keyboard-accessible');
   await metric.press('Enter');
