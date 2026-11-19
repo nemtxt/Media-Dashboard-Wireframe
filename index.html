@@ -445,7 +445,7 @@ $('resetfilters').addEventListener('click',()=>{$('account').value='All';$('plat
 /* V3.5 readonly UI bridge: exposes existing fictional records and verified navigation without duplicating state. */
 window.MediaDashboardV35Bridge=Object.freeze({
  snapshot:()=>({
-  active, today,
+  active, today, performanceTab, strategyTab,
   tasks:visible(tasks).map(t=>({...t,ownerName:person(t.owner)?.name||'Unassigned',displayStatus:status(t),done:allDone(t),late:overdue(t)})),
   organic:visible(organic).map(t=>({...t,index:organic.indexOf(t)})),
   campaigns:visible(campaigns).map(t=>({...t,index:campaigns.indexOf(t)})),
