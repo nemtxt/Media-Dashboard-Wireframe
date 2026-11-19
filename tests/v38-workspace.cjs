@@ -39,7 +39,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#search').count(),1,'only one header search');
   assert.equal(await page.locator('.v35-quickfind').count(),0,'no extra quick find');
   assert.equal(await page.locator('#nav .navbtn').count(),7,'seven core screens');
-  assert.equal(await page.locator('.v38-nav-group').count(),1,'reporting grouping only once');
+  assert.equal(await page.locator('.v38-nav-group').count(),0,'restore original navigation without reporting divider');
   const titlePosition=await page.evaluate(()=>{
     const a=document.getElementById('page-eyebrow'),b=document.getElementById('page-title');
     const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect(),style=getComputedStyle(b);
@@ -51,7 +51,7 @@ const server=http.createServer((req,res)=>{
     name+' page title must not slide through section label');
   assert(titlePosition.opacity>.95,name+' heading must be readable on first paint');
   const bg=await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor);
-  assert.equal(bg,'rgb(255, 255, 255)','white workspace sidebar');
+  assert.equal(bg,'rgb(11, 31, 59)','navy sidebar restored');
   assert(await page.evaluate(()=>document.body.classList.contains('v38-workspace')));
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
   if(overflow>3){
