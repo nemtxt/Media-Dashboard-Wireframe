@@ -16,6 +16,7 @@ on:
       - develop/media-dashboard-v3-7-accuracy
       - develop/media-dashboard-v3-8-workspace-layout
       - develop/restore-dark-sidebar-v38
+      - develop/v3-9-pure-black-white-theme
   pull_request:
     branches: [main]
 permissions:
@@ -60,6 +61,8 @@ jobs:
         run: node tests/v38-workspace.cjs
       - name: Verify restored navy sidebar and navigation layout
         run: node tests/sidebar-restore.cjs
+      - name: Verify literal black/white appearance and all responsive dashboard surfaces
+        run: node tests/v39-themes.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
