@@ -188,3 +188,16 @@ html.motion-paused .ticket-thumb *,html.motion-paused .ticket-thumb:before,html.
  .hero .studio-light{display:none}
  .ticket-thumb,.ticket-thumb *,.ticket-thumb:before,.ticket-thumb:after{transition:none!important}
 }
+
+/* Keep the extra motion control from expanding the tablet workspace header. */
+@media(max-width:1020px){
+ .topbar .topdate{display:none}
+ .topbar .top-actions{min-width:0;gap:7px}
+ .topbar .searchwrap{width:clamp(140px,21vw,190px);min-width:0}
+ .motion-toggle{width:38px;min-width:38px;padding:0;gap:0}
+ .motion-toggle-label{display:none}
+}
+@media(max-width:700px){
+ .topbar .searchwrap{display:none}
+ .topbar .top-actions{gap:5px}
+}
