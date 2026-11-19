@@ -21,6 +21,9 @@ body.v38-workspace{background:#F2F4F7}
  min-height:83px;padding:19px 17px 18px;border-bottom:1px solid #F0F2F6;
  gap:12px;
 }
+/* Remove legacy V2 version tag and redundant demo pill; provenance remains in date and source notes. */
+.v38-workspace .sidebar .brand:after{display:none!important}
+.v38-workspace .topbar .demo{display:none!important}
 .v38-workspace .sidebar .brandmark{
  width:44px;height:44px;flex:0 0 44px;border:1px solid #DCE9FA;
  background:#F0F6FE;box-shadow:none;border-radius:12px;padding:6px;
