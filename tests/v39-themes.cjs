@@ -10,6 +10,31 @@ const server=http.createServer((req,res)=>{
 });
 const screens=['overview','content','performance','ads','website','strategy','calendar'];
 const hex=(css)=>css.trim().replaceAll(' ','');
+async function navSignature(page){
+ return page.evaluate(()=>{
+  const style=(el,pseudo)=>el?getComputedStyle(el,pseudo):null;
+  const sidebar=document.querySelector('.sidebar');
+  const active=sidebar?.querySelector('.navbtn.active, .md-settings-entry.active');
+  const inactive=sidebar?.querySelector('.navbtn:not(.active)');
+  const brand=sidebar?.querySelector('.brandmark');
+  const label=sidebar?.querySelector('.v37-brand-title');
+  const source=sidebar?.querySelector('.sourcebox');
+  return {
+   bg:style(sidebar)?.backgroundColor,
+   activeBg:style(active)?.backgroundColor,
+   activeText:style(active)?.color,
+   activeIcon:style(active?.querySelector('.ico'))?.color,
+   activeDot:style(active,'::after')?.backgroundColor,
+   activeMarker:style(active,'::before')?.backgroundColor,
+   inactiveBg:style(inactive)?.backgroundColor,
+   inactiveText:style(inactive)?.color,
+   logoBg:style(brand)?.backgroundColor,
+   brandText:style(label)?.color,
+   sourceBg:style(source)?.backgroundColor,
+   sourceBorder:style(source)?.borderColor
+  };
+ });
+}
 async function assertTheme(page,theme,screen,viewport){
  const expected=theme==='dark'?'rgb(0, 0, 0)':'rgb(255, 255, 255)';
  const result=await page.evaluate(()=>{
@@ -44,8 +69,6 @@ async function assertTheme(page,theme,screen,viewport){
  const navColors={
   sidebar:'rgb(11, 31, 59)',
   navActive:'rgb(31, 111, 235)',
-  navInactive:'rgba(0, 0, 0, 0)',
-  navHoverText:'rgb(190, 206, 226)',
   navActiveDot:'rgb(255, 210, 63)',
   navActiveMarker:'rgb(255, 210, 63)',
   navBrandmark:'rgb(25, 53, 87)',
@@ -78,7 +101,10 @@ async function assertTheme(page,theme,screen,viewport){
   await page.locator('.md-settings-entry').click();
   await page.locator('#settings.active .md-settings').waitFor();
   assert.equal(await page.locator('[data-md-pref="theme"]').inputValue(),'light');
+  await page.waitForTimeout(250); // settle pre-existing nav hover transitions before comparing.
+  const originalNav=await navSignature(page);
   await page.locator('[data-md-pref="theme"]').selectOption('dark');
+  assert.deepEqual(await navSignature(page),originalNav,name+' nav appearance must stay identical after switching to Dark');
   assert.equal(await page.locator('html').getAttribute('data-studio-theme'),'dark');
   assert.equal(await page.locator('#settings.active').evaluate(el=>getComputedStyle(el.querySelector('.md-settings-intro')).backgroundColor),'rgb(0, 0, 0)','Settings intro is black');
   assert.equal(await page.locator('#settings.active .md-settings-section').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(0, 0, 0)','Settings panel is black');
