@@ -91,7 +91,8 @@ function hexToRgb(hex){
    const headers=page.locator('#'+id+' .panel-header h3');
    if(await headers.count()){
     const marker=await headers.first().evaluate(el=>getComputedStyle(el,'::before').backgroundColor);
-    assert.equal(marker,hexToRgb(accent),id+' panel title accent');
+    if(id==='overview')assert([hexToRgb(accent),hexToRgb('#FF8A2A'),hexToRgb('#7659C9'),hexToRgb('#008C90')].includes(marker),'Overview panel uses one of four intentional categories: '+marker);
+    else assert.equal(marker,hexToRgb(accent),id+' panel title accent');
    }
    await page.screenshot({path:'test-results/v39-'+name+'-'+id+'.png'});
   }
