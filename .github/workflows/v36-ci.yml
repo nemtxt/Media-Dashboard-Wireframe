@@ -1,0 +1,35 @@
+name: Media Dashboard V3.6 focused regression
+on:
+  push:
+    branches:
+      - main
+      - develop/media-dashboard-v3-6-clean-overview
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  clarity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate entrypoint scripts
+        run: |
+          node --check clarity-v36.js
+          node --check refinement-v35.js
+      - name: Install browser testing dependency
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Test simplified workspace and wide previews
+        run: node tests/v36-clarity.cjs
+      - name: Confirm no redundant Quick Find and preserve KPI/gallery
+        run: node tests/v35-refinement.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v36-clarity-previews
+          path: test-results/v36-*.png
+          if-no-files-found: ignore
