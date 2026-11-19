@@ -1,0 +1,102 @@
+const { chromium } = require('playwright');
+const fs=require('node:fs'),http=require('node:http'),path=require('node:path');
+const assert=require('node:assert/strict');
+const root=path.resolve('.');
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
+const server=http.createServer((req,res)=>{
+ const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+ const file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));
+ if(!file.startsWith(root+path.sep)){res.writeHead(403);res.end();return}
+ fs.readFile(file,(err,body)=>{if(err){res.writeHead(404);res.end();return}
+  res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'});res.end(body);
+ });
+});
+(async()=>{
+ const executable=['/usr/bin/google-chrome','/opt/google/chrome/chrome','/usr/bin/chromium'].find(fs.existsSync);
+ assert(executable,'Chrome is required');
+ await new Promise(done=>server.listen(0,'127.0.0.1',done));
+ const base='http://127.0.0.1:'+server.address().port+'/?intro=0';
+ const browser=await chromium.launch({headless:true,executablePath:executable,args:['--no-sandbox']});
+ fs.mkdirSync('test-results',{recursive:true});
+ for(const [name,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['narrow',320,720]]){
+  console.log('BEGIN '+name);
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:'no-preference'});
+  const page=await context.newPage();page.setDefaultTimeout(9000);
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(base,{waitUntil:'domcontentloaded'});
+  const bar=page.locator('#v36Scope');
+  await bar.waitFor({state:'visible'});
+  assert(await page.locator('body').evaluate(el=>el.classList.contains('v36-ready')));
+  assert.equal(await page.locator('#account').evaluate(el=>el.value),'All');
+  assert.equal(await page.locator('#platform').evaluate(el=>el.value),'All');
+  assert.equal(await page.locator('#overview .v2-banner').isVisible(),false);
+  assert.equal(await page.locator('#overview .hero-right').isVisible(),false);
+  assert.equal(await page.locator('#overview .studio-motion-art').isVisible(),false);
+  await page.locator('.v36-scope-option[data-v36-account="MIH"]').click();
+  assert.equal(await page.locator('#account').evaluate(el=>el.value),'MIH');
+  assert.equal(await page.locator('[data-v36-account="MIH"]').getAttribute('aria-pressed'),'true');
+  await page.locator('[data-v36-platform="TikTok"]').click();
+  assert.equal(await page.locator('#platform').evaluate(el=>el.value),'TikTok');
+  assert.equal(await page.locator('[data-v36-platform="TikTok"]').getAttribute('aria-pressed'),'true');
+  assert(new URL(page.url()).searchParams.get('account')==='MIH');
+  assert(new URL(page.url()).searchParams.get('platform')==='TikTok');
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+  assert(overflow<=3,name+' overview overflow '+overflow);
+  await page.screenshot({path:'test-results/v36-'+name+'-overview.png'});
+  console.log('PASS '+name+' scope and overview');
+  await page.locator('#v36Clear').click();
+  assert.equal(await page.locator('#account').evaluate(el=>el.value),'All');
+  assert.equal(await page.locator('#platform').evaluate(el=>el.value),'All');
+  if(width<=1020)await page.locator('#menubtn').click();
+  await page.locator('#nav [data-open="content"]').click();
+  const first=page.locator('#content .ticket[data-task]').first();
+  if(!await first.count())throw new Error(name+' content has no task card');
+  await first.click();
+  const modal=page.locator('#overlay.open [role="dialog"]');
+  await modal.waitFor({state:'visible'});
+  await page.locator('#drawerbody .v36-detail-layout').waitFor();
+  await modal.evaluate(el=>Promise.all(el.getAnimations({subtree:false}).map(a=>a.finished.catch(()=>{}))));
+  const b=await modal.boundingBox();
+  assert(b && Math.abs(b.x+b.width/2-width/2)<4 && Math.abs(b.y+b.height/2-height/2)<4,name+' modal center');
+  if(width>=1100){
+   assert(b.width>=830,name+' desktop rectangular modal width '+b.width);
+   const fit=await page.locator('#drawerbody').evaluate(el=>({scroll:el.scrollHeight,client:el.clientHeight}));
+   assert(fit.scroll<=fit.client+4,name+' modal required unnecessary scroll '+JSON.stringify(fit));
+  }else{
+   assert(b.width<=width-15,name+' responsive modal width '+b.width);
+  }
+  assert.equal(await page.locator('#drawerbody .v36-detail-meta .kv').count(),7);
+  await page.screenshot({path:'test-results/v36-'+name+'-task-modal.png'});
+  await page.locator('#closedrawer').click();
+  console.log('PASS '+name+' landscape work preview');
+  if(width<=1020)await page.locator('#menubtn').click();
+  await page.locator('#nav [data-open="calendar"]').click();
+  await page.locator('[data-cal-tab="workload"]').click();
+  await page.locator('.personcard').first().click();
+  await modal.waitFor({state:'visible'});
+  await modal.evaluate(el=>Promise.all(el.getAnimations({subtree:false}).map(a=>a.finished.catch(()=>{}))));
+  const personBounds=await modal.boundingBox();
+  assert(personBounds && Math.abs(personBounds.x+personBounds.width/2-width/2)<4,name+' person center');
+  await page.locator('#closedrawer').click();
+  if(width<=1020)await page.locator('#menubtn').click();
+  await page.locator('.md-settings-entry').click();
+  await page.locator('.md-settings-credit').waitFor({state:'visible'});
+  assert.equal(await page.locator('.md-settings-dev-mark').isVisible(),false,'Settings logo removed');
+  assert(await page.locator('.md-settings-dev-text').textContent().then(x=>x.includes('NemDev')));
+  assert.equal(await bar.isVisible(),false,'filter strip hidden in Settings');
+  await page.screenshot({path:'test-results/v36-'+name+'-settings.png'});
+  const overflow2=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+  assert(overflow2<=3,name+' settings overflow '+overflow2);
+  assert.deepEqual(errors,[],name+' Javascript errors');
+  await context.close();
+  console.log('PASS '+name+' settings and responsive verification');
+ }
+ const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+ await reduced.goto(base,{waitUntil:'domcontentloaded'});
+ await reduced.locator('#v36Scope').waitFor();
+ assert.equal(await reduced.locator('#overview').evaluate(el=>getComputedStyle(el).animationName),'none');
+ assert(await reduced.locator('html').evaluate(el=>el.classList.contains('motion-paused')));
+ await reduced.close();
+ await browser.close();
+ console.log('PASS V3.6 motion accessibility and landscape preview regressions');
+})().catch(e=>{console.error(e);process.exit(1)}).finally(()=>server.close());
