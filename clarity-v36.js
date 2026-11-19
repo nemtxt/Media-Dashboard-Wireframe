@@ -207,4 +207,77 @@
   readURL();
   queue();
   window.addEventListener('popstate',readURL);
+
+  // Reshape the original vertical task preview into a landscape arrangement.
+  // Move existing DOM elements rather than generating new record values:
+  // the same buttons, source fields and read-only data remain intact.
+  const modalBody = document.getElementById('drawerbody');
+  const modalOverlay = document.getElementById('overlay');
+  function compactWorkPreview() {
+    if(!modalBody || !modalOverlay?.classList.contains('open'))return;
+    if(document.getElementById('drawer-kicker')?.textContent.trim()!=='WORK DETAIL')return;
+    if(modalBody.querySelector('.v36-detail-layout'))return;
+    const hero=modalBody.querySelector(':scope > .drawer-hero');
+    const focus=modalBody.querySelector(':scope > .modal-focus');
+    const fields=[...modalBody.querySelectorAll(':scope > .kv')];
+    const progress=[...modalBody.children].find(el=>el.querySelector?.('.progressrow'));
+    const relatedTitle=[...modalBody.children].find(el=>el.tagName==='H3');
+    const related=modalBody.querySelector(':scope > .drawer-tasks');
+    if(!hero||!focus||!fields.length||!progress)return;
+
+    const layout=document.createElement('div');
+    layout.className='v36-detail-layout';
+    const main=document.createElement('section');
+    main.className='v36-detail-main';
+    main.setAttribute('aria-label','Assignment details');
+    const summary=document.createElement('div');
+    summary.className='v36-detail-summary';
+    hero.classList.add('v36-detail-thumb');
+    focus.classList.add('v36-detail-status');
+    focus.style.margin='0';
+    summary.append(hero,focus);
+    const fieldGrid=document.createElement('div');
+    fieldGrid.className='v36-detail-meta';
+    fields.forEach(field=>fieldGrid.append(field));
+    main.append(summary,fieldGrid);
+
+    const side=document.createElement('aside');
+    side.className='v36-detail-side';
+    side.setAttribute('aria-label','Work progress and related assignments');
+    progress.classList.add('v36-detail-progress');
+    progress.style.marginTop='0';
+    side.append(progress);
+    if(relatedTitle||related){
+      const relatedPanel=document.createElement('section');
+      relatedPanel.className='v36-detail-related';
+      if(relatedTitle){
+        relatedTitle.style.margin='0 0 10px';
+        relatedPanel.append(relatedTitle);
+      }
+      if(related)relatedPanel.append(related);
+      side.append(relatedPanel);
+    }
+    layout.append(main,side);
+    modalBody.prepend(layout);
+    const footer=modalBody.querySelector(':scope > .footnote');
+    if(footer)footer.classList.add('v36-detail-footer');
+  }
+
+  if(modalBody&&modalOverlay){
+    let previewPending=false;
+    const schedulePreview=()=>{
+      if(previewPending)return;
+      previewPending=true;
+      queueMicrotask(()=>{
+        previewPending=false;
+        compactWorkPreview();
+      });
+    };
+    const previewObserver=new MutationObserver(records=>{
+      if(records.some(record=>record.type==='childList'||
+        (record.type==='attributes'&&record.attributeName==='class'))schedulePreview();
+    });
+    previewObserver.observe(modalBody,{childList:true});
+    previewObserver.observe(modalOverlay,{attributes:true,attributeFilter:['class']});
+  }
 })();
