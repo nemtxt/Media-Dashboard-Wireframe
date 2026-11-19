@@ -45,7 +45,7 @@ async function assertTheme(page,theme,screen,viewport){
   sidebar:'rgb(11, 31, 59)',
   navActive:'rgb(31, 111, 235)',
   navInactive:'rgba(0, 0, 0, 0)',
-  navHoverText:'rgb(183, 201, 221)',
+  navHoverText:'rgb(190, 206, 226)',
   navActiveDot:'rgb(255, 210, 63)',
   navActiveMarker:'rgb(255, 210, 63)',
   navBrandmark:'rgb(25, 53, 87)',
