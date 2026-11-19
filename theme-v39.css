@@ -1,0 +1,276 @@
+/* Media Dashboard V3.9 — literal white / black appearance modes.
+ * User request: REMOVE the proposed per-dashboard colorful surface redesign.
+ * Light: #FFFFFF workspace and cards. Dark: #000000 workspace and cards.
+ * Existing status colors and established sidebar active indicators remain accents,
+ * never surface themes. No gradients, frosted effects or charcoal canvas.
+ */
+
+/* Set a definite base before other containers paint. */
+html[data-studio-theme="light"]{color-scheme:light;background:#FFFFFF}
+html[data-studio-theme="dark"]{color-scheme:dark;background:#000000}
+html[data-studio-theme="light"]{
+ --bg:#FFFFFF;--surface:#FFFFFF;--ink:#0B1F3B;--muted:#62738A;
+ --line:#E5E8EF;--v38-neutral:#FFFFFF;--v38-surface:#FFFFFF;
+}
+html[data-studio-theme="dark"]{
+ --bg:#000000;--surface:#000000;--ink:#FFFFFF;--muted:#C5C5C5;
+ --line:#343434;--soft:#000000;--v38-neutral:#000000;--v38-surface:#000000;
+ --settings-stroke:#343434;--settings-ink:#FFFFFF;--settings-muted:#CACACA;
+}
+
+/* Light — WHITE surface hierarchy. The previously requested navy sidebar
+   remains the navigation identity in light mode. */
+html[data-studio-theme="light"] :is(body,.app,.main,.content,.topbar){
+ background-color:#FFFFFF!important;background-image:none!important;
+}
+html[data-studio-theme="light"] :is(
+ .page.active .panel,.page.active .stat,.page.active .monthcard,
+ .page.active .personcard,.page.active .kanbancol,.page.active .ticket,
+ .page.active .source-card,.page.active .v38-account-card,
+ .page.active .v38-task-row,.page.active .v38-next-due,
+ #overview>.hero,#overview .hero,
+ .v36-scopebar,.v36-scope-options,.v36-scope-option,
+ .md-settings-intro,.md-settings-section,.md-settings-nav,
+ .md-settings-mini,.md-settings-area,.md-settings-issue,
+ .md-settings-tech-item,.md-settings-note,.md-settings-credit,
+ .detail-overlay.open .drawer.centered-modal,
+ .detail-overlay.open .drawer-header,.detail-overlay.open .drawer-body,
+ .v36-detail-summary,.v36-detail-progress,.v36-detail-related
+){
+ background-color:#FFFFFF!important;background-image:none!important;
+ box-shadow:none;
+}
+html[data-studio-theme="light"] #overview .hero h2,
+html[data-studio-theme="light"] #overview .hero p,
+html[data-studio-theme="light"] #overview .hero .hero-kicker{
+ color:#0B1F3B!important;
+}
+html[data-studio-theme="light"] .searchwrap,
+html[data-studio-theme="light"] :is(.select,.v37-period-select,.md-settings-select,.md-settings-field,.md-settings-btn){
+ background:#FFFFFF!important;color:#0B1F3B!important;
+}
+html[data-studio-theme="light"] .page.active .kanbancol{border-color:#E4E8F0}
+html[data-studio-theme="light"] .page.active .table-scroller th{background:#FFFFFF!important}
+html[data-studio-theme="light"] .page.active .stat::after{background:transparent!important}
+html[data-studio-theme="light"] .page.active .stat{border-color:#E3E8EF}
+html[data-studio-theme="light"] .page.active .stat-head svg{background:transparent!important}
+html[data-studio-theme="light"] .md-settings-nav [aria-selected="true"]{
+ background:#FFFFFF!important;color:#1F6FEB!important;
+ border-color:#1F6FEB;
+}
+html[data-studio-theme="light"] #calendar .monthhead{background:#FFFFFF!important}
+
+/* Dark — every structural surface is true BLACK, not navy or charcoal.
+   Boundaries use fine neutral strokes rather than elevation/gray panels. */
+html[data-studio-theme="dark"] :is(body,.app,.main,.content,.topbar,.sidebar){
+ background:#000000!important;background-image:none!important;
+ color:#FFFFFF!important;
+}
+html[data-studio-theme="dark"] :is(
+ .page.active .panel,.page.active .stat,.page.active .monthcard,
+ .page.active .personcard,.page.active .kanbancol,.page.active .ticket,
+ .page.active .source-card,.page.active .v38-account-card,
+ .page.active .v38-account-symbol,.page.active .v38-task-row,
+ .page.active .v38-task-group,.page.active .v38-task-group-heading,
+ .page.active .v38-task-group-label,.page.active .v38-next-due,
+ .page.active .v38-calendar-event,.page.active .v38-calendar-week,
+ .page.active .v38-task-legend,
+ .page.active .progresslist,.page.active .empty,
+ #overview>.hero,#overview .hero,
+ .v36-scopebar,.v36-scope-options,.v36-scope-option,
+ .md-settings-intro,.md-settings-shell,.md-settings-section,
+ .md-settings-nav,.md-settings-row,.md-settings-mini,
+ .md-settings-area,.md-settings-issue,.md-settings-tech,
+ .md-settings-tech-item,.md-settings-note,.md-settings-credit,
+ .md-settings-table-wrap,.md-settings-catalog-toolbar,
+ .md-settings-chain,.md-settings-linkgraph,.md-settings-quality,
+ .md-settings-field,.md-settings-btn,
+ .sidebar .brand,.sidebar .sourcebox,
+ .detail-overlay.open .drawer.centered-modal,
+ .detail-overlay.open .drawer-header,
+ .detail-overlay.open .drawer-body,
+ .v36-detail-summary,.v36-detail-progress,.v36-detail-related,
+ .v35-gallery-card,.v35-gallery-wrap,.v35-insight,
+ .v38-weekcard,.v38-weekitem
+){
+ background-color:#000000!important;background-image:none!important;
+ box-shadow:none!important;color:#FFFFFF!important;
+}
+html[data-studio-theme="dark"] :is(.main,.topbar,.sidebar,.sidebar .brand,.sidebar .sourcebox){
+ border-color:#343434!important;
+}
+html[data-studio-theme="dark"] :is(
+ .page.active .panel,.page.active .stat,.page.active .monthcard,
+ .page.active .personcard,.page.active .kanbancol,.page.active .ticket,
+ .page.active .source-card,.page.active .v38-account-card,
+ .v36-scopebar,.md-settings-intro,.md-settings-section,
+ .md-settings-nav,.md-settings-mini,.md-settings-area,
+ .md-settings-issue,.md-settings-tech-item,.md-settings-credit,
+ .detail-overlay.open .drawer.centered-modal,
+ .v36-detail-summary,.v36-detail-progress,.v36-detail-related
+){border-color:#343434!important}
+html[data-studio-theme="dark"] :is(
+ .pageheading h1,.pageheading h2,.pageheading h3,
+ #overview .hero h2,#overview .hero p,#overview .hero .hero-kicker,
+ .page.active .panel-header h3,
+ .page.active .stat>strong,.page.active .stat strong,
+ .page.active .ticket b,.page.active .ticket strong,
+ .page.active .personcard h4,.page.active .personcard strong,
+ .page.active .v38-task-main strong,
+ .page.active .v38-account-info strong,
+ .page.active .v38-next-due strong,
+ .page.active .v38-task-group-heading strong,
+ .page.active .monthhead,.page.active .ranknum,
+ .page.active .source-card b,.page.active .source-card strong,
+ .page.active .progressrow b,.page.active .account-row b,
+ .md-settings-intro h2,.md-settings-heading h3,
+ .md-settings-row-text b,.md-settings-mini strong,
+ .md-settings-area h4,.md-settings-issue strong,
+ .md-settings-tech-item strong,.md-settings-dev-text strong,
+ .detail-overlay.open .drawer-header h2,
+ .detail-overlay.open .kv strong,
+ .detail-overlay.open .v36-detail-status strong,
+ .sidebar .sourcebox strong,
+ .breadcrumb b
+){color:#FFFFFF!important}
+html[data-studio-theme="dark"] :is(
+ .pageheading p,.pageheading .eyebrow,.muted,.subtle,.footnote,
+ .page.active .panel-header p,.page.active .stat-head,
+ .page.active .stat-foot,.page.active .ticket p,
+ .page.active .personcard .role,.page.active .personmini,
+ .page.active .v38-account-info small,
+ .page.active .v38-task-main small,
+ .page.active .v38-task-due,.page.active .v38-next-due small,
+ .page.active .monthhead small,.page.active .weekdays,
+ .page.active .v38-task-legend,
+ .md-settings-intro p,.md-settings-heading p,
+ .md-settings-row-text p,.md-settings-status small,
+ .md-settings-mini span,.md-settings-area p,
+ .md-settings-issue p,.md-settings-tech-item p,
+ .md-settings-dev-text small,.md-settings-foot,
+ .detail-overlay.open .drawer-subtitle,
+ .detail-overlay.open .kv span,
+ .detail-overlay.open .v36-detail-status,
+ .sidebar .sourcebox p,.breadcrumb,
+ .v36-scope-label,.v36-scope-status
+){color:#C5C5C5!important}
+/* Dark navigation still uses blue active page and yellow marker, but its
+   backdrop and inactive navigation are black. */
+html[data-studio-theme="dark"] .sidebar .navbtn:not(.active),
+html[data-studio-theme="dark"] .sidebar .md-settings-entry:not(.active){
+ background:#000000!important;color:#E2E2E2!important;
+ border-color:transparent!important;
+}
+html[data-studio-theme="dark"] .sidebar .navbtn:hover:not(.active){
+ background:#111111!important;color:#FFFFFF!important;
+}
+html[data-studio-theme="dark"] .sidebar .brandmark{
+ background:#000000!important;border-color:#777777!important;
+}
+html[data-studio-theme="dark"] .sidebar .v37-brand-title{color:#FFFFFF!important}
+html[data-studio-theme="dark"] .sidebar .side-label{color:#BDBDBD!important}
+html[data-studio-theme="dark"] .sidebar .v38-version{
+ background:#000000!important;color:#ECECEC!important;border-color:#636363!important;
+}
+/* Controls must remain visible and editable while their surfaces stay black. */
+html[data-studio-theme="dark"] :is(
+ input,select,textarea,.select,.v37-period-select,
+ .searchwrap,.v36-scope-option,.v36-clear,.outlinebtn,.ghostbtn,
+ .iconbtn,.md-settings-select,.md-settings-field,.md-settings-btn,
+ .v38-widget-footer button,.v38-task-priority,.v38-task-group-label
+){
+ background:#000000!important;background-image:none!important;
+ color:#FFFFFF!important;border-color:#505050!important;
+ box-shadow:none!important;
+}
+html[data-studio-theme="dark"] input::placeholder,
+html[data-studio-theme="dark"] textarea::placeholder{color:#AAAAAA!important}
+html[data-studio-theme="dark"] :is(.v36-scope-option[aria-pressed="true"],.md-settings-nav button[aria-selected="true"]){
+ background:#000000!important;color:#8EBCFF!important;
+ border-color:#1F6FEB!important;
+}
+html[data-studio-theme="dark"] :is(
+ .v36-scope-option:hover,.v36-clear:hover,.outlinebtn:hover,
+ .md-settings-nav button:hover,.md-settings-btn:hover,.v38-account-card:hover
+){background:#101010!important}
+html[data-studio-theme="dark"] .md-settings-nav button{
+ background:#000000!important;color:#DCDCDC!important;
+}
+html[data-studio-theme="dark"] .md-settings-switch{
+ background:#000000!important;border-color:#777777!important;
+}
+html[data-studio-theme="dark"] .md-settings-switch[aria-checked="true"]{
+ background:#1F6FEB!important;border-color:#1F6FEB!important;
+}
+html[data-studio-theme="dark"] :is(
+ .page.active table,.page.active table thead,.page.active table tbody,
+ .page.active table thead th,.page.active table tbody td,
+ .md-settings-table,.md-settings-table thead th,.md-settings-table tbody td
+){
+ background:#000000!important;color:#E3E3E3!important;
+ border-color:#343434!important;
+}
+html[data-studio-theme="dark"] :is(.page.active .table-scroller tr.clickrow:hover td,
+ .md-settings-table tbody tr:hover td){background:#111111!important}
+html[data-studio-theme="dark"] :is(.page.active table strong,.md-settings-table strong){
+ color:#FFFFFF!important;
+}
+html[data-studio-theme="dark"] .page.active .stat::after,
+html[data-studio-theme="dark"] #overview .hero:before,
+html[data-studio-theme="dark"] #overview .hero:after{display:none!important}
+html[data-studio-theme="dark"] .page.active .stat::before{
+ background:#1F6FEB;
+}
+html[data-studio-theme="dark"] .page.active .stat-head svg{
+ background:#000000!important;color:#8DBBFF!important;
+}
+html[data-studio-theme="dark"] :is(.page.active .track,.page.active .v38-account-meter,
+ .page.active .progress-mini){background:#262626!important}
+html[data-studio-theme="dark"] .page.active .ranknum{
+ background:#000000!important;border:1px solid #454545;
+}
+html[data-studio-theme="dark"] .page.active .pill,
+html[data-studio-theme="dark"] .page.active .badge{
+ background:#000000!important;border:1px solid #555555;
+}
+/* Keep semantic warning color in text, not broad yellow-filled callouts. */
+html[data-studio-theme="dark"] .warning-note,
+html[data-studio-theme="dark"] .md-settings-note.warning{
+ background:#000000!important;color:#F8D879!important;
+ border-color:#9C7619!important;
+}
+html[data-studio-theme="dark"] #calendar .monthhead,
+html[data-studio-theme="dark"] #calendar .day.today,
+html[data-studio-theme="dark"] #calendar .day.selected{
+ background:#000000!important;background-image:none!important;
+}
+html[data-studio-theme="dark"] #calendar .day.selected{
+ color:#8DBBFF!important;outline-color:#8DBBFF!important;
+}
+html[data-studio-theme="dark"] #calendar .weekdays{color:#BFBFBF!important}
+html[data-studio-theme="dark"] .page.active .day:hover{background:#111111!important}
+html[data-studio-theme="dark"] .detail-overlay.open{background:rgba(0,0,0,.85)!important}
+html[data-studio-theme="dark"] .detail-overlay.open .drawer.centered-modal{
+ background:#000000!important;border:1px solid #5B5B5B!important;
+}
+html[data-studio-theme="dark"] .detail-overlay.open .kv{
+ border-bottom-color:#343434!important;
+}
+html[data-studio-theme="dark"] .v36-detail-meta .kv strong{color:#FFFFFF!important}
+html[data-studio-theme="dark"] .detail-overlay.open .drawer-header .eyebrow{color:#A5C7FF!important}
+html[data-studio-theme="dark"] :is(.detail-overlay .closebtn,.detail-overlay .iconbtn){
+ background:#000000!important;color:#FFFFFF!important;border-color:#5A5A5A!important;
+}
+/* Readable, high-visibility keyboard outlines in both modes. */
+html[data-studio-theme="light"] :is(button,select,input,textarea,[tabindex]):focus-visible{
+ outline-color:#1F6FEB!important;
+}
+html[data-studio-theme="dark"] :is(button,select,input,textarea,[tabindex]):focus-visible{
+ outline:3px solid #8DBBFF!important;outline-offset:2px;
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-studio-theme="dark"] :is(.page.active,.drawer,.stat,.panel),
+ html[data-studio-theme="light"] :is(.page.active,.drawer,.stat,.panel){
+  animation:none!important;transition:none!important;
+ }
+}
