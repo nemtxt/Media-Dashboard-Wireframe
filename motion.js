@@ -154,7 +154,7 @@
       thumb.append(lines,mark);
     });
     activateVisibleCharts();
-    active.querySelectorAll('.stat > strong').forEach(animateNumber);
+    // V3.7: keep KPI numbers stable and immediately readable; no count-up animation.
   }
 
   let pending = false;

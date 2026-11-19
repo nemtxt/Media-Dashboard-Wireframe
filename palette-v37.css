@@ -1,0 +1,107 @@
+/* V3.7 — Madhouse creative palette (user-provided swatch)
+   #FFD23F yellow | #FF8A2A orange | #1F6FEB blue | #0B1F3B navy | #F2F4F7 neutral
+   Keep semantic success/danger states distinct for accessible data reporting. */
+:root{
+ --blue:#1F6FEB;--blue2:#1F6FEB;--navy:#0B1F3B;--yellow:#FFD23F;
+ --ink:#0B1F3B;--muted:#61748E;--line:#E1E7F0;--bg:#F2F4F7;
+ --surface:#FFFFFF;--soft:#EAF2FF;
+ --v33-blue:#1F6FEB;--v35-blue:#1F6FEB;--v35-sun:#FFD23F;
+ --v35-orange:#FF8A2A;--v35-ink:#0B1F3B;
+ --settings-ink:#0B1F3B;--settings-muted:#63758E;
+ --v36-blue:#1F6FEB;--v36-text:#0B1F3B;--v36-soft:#F2F4F7;
+ --palette-yellow:#FFD23F;--palette-orange:#FF8A2A;
+ --palette-blue:#1F6FEB;--palette-navy:#0B1F3B;
+ --palette-neutral:#F2F4F7;
+}
+html,body{background:#F2F4F7;color:#0B1F3B}
+.main,.content{background:#F2F4F7}
+.sidebar{background:#0B1F3B;border-color:#183759}
+.sidebar .brandmark{background:#173657;border-color:#2F4F70}
+.sidebar .brand .v37-brand-title{color:#FFFFFF}
+.sidebar .navbtn{color:#C6D4E7}
+.sidebar .navbtn:hover{color:#FFFFFF;background:#173657}
+.sidebar .navbtn.active,.sidebar .md-settings-entry.active{
+ background:#1F6FEB;color:#FFFFFF;box-shadow:0 4px 13px rgba(31,111,235,.16)
+}
+.sidebar .navbtn.active::after{background:#FFD23F}
+.sidebar .side-label{color:#90A9C8}
+.sidebar .sourcebox{background:#142C4B;border-color:#2B496A}
+.sidebar .sourcebox p{color:#B6C9E0}
+.sidebar .sourcebox .dot{background:#FFD23F}
+.topbar{background:#FFFFFF;border-color:#E2E7EF}
+.topbar .breadcrumb b{color:#0B1F3B}
+.topbar .breadcrumb{color:#72839C}
+.topbar .avatar,.avatar{background:#0B1F3B;color:#FFD23F;border-color:#29496B}
+.topbar .demo,.demo{color:#6D5200;background:#FFF4C9;border:1px solid #FFE8A0}
+.topbar .searchwrap{background:#F2F4F7;border-color:#E0E7F0}
+.topbar .searchwrap:focus-within{border-color:#1F6FEB;box-shadow:0 0 0 3px #DCEAFE}
+.v36-ready #overview .hero,.hero{
+ background:linear-gradient(113deg,#0B1F3B 0%,#143E79 35%,#1F6FEB 100%);
+ color:#FFFFFF;
+ box-shadow:0 8px 23px rgba(11,31,59,.095);
+}
+.v36-ready #overview .hero:before,.v36-ready #overview .hero:after{opacity:.2}
+.hero .hero-kicker,.hero-kicker{color:#D6E7FF}
+.v36-scopebar{background:#FFFFFF;border-color:#E1E7F0}
+.v36-scope-options{background:#F2F4F7}
+.v36-scope-option[aria-pressed=true]{
+ background:#FFFFFF;color:#174E9B;border-color:#D3E2F5;
+ box-shadow:0 2px 7px rgba(11,31,59,.05)
+}
+.v36-scope-option:hover:not([aria-pressed=true]){background:#E7EFFC;color:#0B1F3B}
+.v36-clear,.v37-period-select{color:#174E9B;border-color:#D9E4F2;background:#FFFFFF}
+.v36-clear:hover{background:#E8F1FF}
+.v36-scope-label,.v37-period-group .v36-scope-label{color:#536C8D}
+.v36-scope-status{color:#667993}
+.pageheading h1,.section-intro h2,.panel-header h3,.monthhead,.md-settings-heading h3{color:#0B1F3B}
+.pageheading .eyebrow,.eyebrow{color:#1F6FEB}
+.panel,.stat,.monthcard,.ticket,.personcard,.md-settings-section,.md-settings-intro{
+ background:#FFFFFF;border-color:#E1E7F0
+}
+.panel .panel-header{border-bottom-color:#EDF0F5}
+.stat-head svg{color:#1F6FEB}
+.stat.yellow:after{background:#FFF3CE}
+.stat:nth-child(4):after{background:#FFF0E4}
+.stat strong,.panel strong,.md-settings-mini strong{color:#0B1F3B}
+.page.active .stat.v35-stat:hover{border-color:#8CB6FA}
+.v35-insight{background:linear-gradient(108deg,#FFFFFF,#F7F9FD 78%,#FFF8DF)!important;border-color:#DFE8F2}
+.v35-insight-icon{color:#1F6FEB;background:#E9F2FF}
+.v35-insight-eyebrow{color:#2766B8}
+.v35-insight-main strong{color:#0B1F3B}
+.v35-insight-action,.outlinebtn{background:#FFFFFF;color:#1855AA;border-color:#D7E3F3}
+.v35-insight-action:hover,.outlinebtn:hover{background:#F0F6FF;color:#0B1F3B}
+.v33-studio-pulse{border-color:#E2E7F0}
+.v33-pulse-eyebrow i{background:#FF8A2A}
+.v33-pulse-title{color:#0B1F3B}
+.v33-pulse-link{color:#1F6FEB}
+.tab.active{color:#1F6FEB}
+.tabs{background:#F2F4F7;border-color:#E1E7F0}
+.tab:hover{background:#E6EEF9}
+.kanbancol{background:#F7F9FC;border-color:#E2E7F0}
+.kanban .ticket:hover,.v35-gallery-card:hover{border-color:#9AC0F7}
+.v35-gallery-card:nth-child(3n+1) .v35-gallery-art{background:linear-gradient(135deg,#1F6FEB,#0B1F3B)}
+.v35-gallery-card:nth-child(3n+2) .v35-gallery-art{background:linear-gradient(135deg,#FF8A2A,#FFD23F)}
+.v35-gallery-card:nth-child(3n) .v35-gallery-art{background:linear-gradient(135deg,#0B1F3B,#1F6FEB)}
+.bar.blue,.chartbars .bar{background:#1F6FEB}
+.bar.yellow,.chartbars .bar.yellow{background:#FFD23F}
+.account-row .track .fill,.progresslist .track .fill{background:#1F6FEB}
+.account-row .track .fill.yellow{background:#FFD23F}
+.account-row .track .fill.navy{background:#0B1F3B}
+.progress-mini>i{background:#1F6FEB}
+.ranknum.first{background:#FFF2C2;color:#765800}
+.day.today{background:#FFF0B7;color:#4C3A00}
+.day.selected{border-color:#1F6FEB;color:#1F6FEB}
+.pill.blue{color:#1A60C0;background:#EAF2FF}
+.pill.yellow{color:#765400;background:#FFF3CA}
+.warning-note{background:#FFF8E4;border-color:#FFE3A4;color:#6A4D1C}
+.md-settings-switch[aria-checked=true]{background:#1F6FEB;border-color:#1F6FEB}
+.md-settings-nav button[aria-selected=true]{background:#E9F2FF;color:#185DB5}
+.md-settings-nav button:hover{background:#F0F6FF}
+.md-settings-btn.primary{background:#1F6FEB;border-color:#1F6FEB}
+.md-settings-mini{background:#FAFBFD;border-color:#E1E7F0}
+.md-settings-tag{background:#E9F2FF;color:#1855A4}
+/* Orange is emphasis, not a substitute for true danger/status red. */
+.v35-data-chip,.v36-scope-option:focus-visible{outline-offset:2px}
+:where(.v36-scope-option,.v37-period-select,.outlinebtn,.tab,.navbtn,.v35-insight-action,.md-settings-btn):focus-visible{
+ outline:3px solid #1F6FEB;outline-offset:3px;
+}

@@ -26,6 +26,14 @@ const definitions={
  'Creative work':'Content, production and creative-assistance assignments in the demo.',
  'In production':'Fictional content tasks currently marked In progress.',
  'For review':'Fictional tasks awaiting review.',
+ 'Demo posts in scope':'Number of fictional post examples matching the selected account/platform filters.',
+ 'Average 24H grade':'Arithmetic mean of the selected fictional 24-hour grades, out of 10.',
+ 'Average 7D grade':'Arithmetic mean of the selected fictional seven-day grades, out of 10.',
+ 'Reported source posts':'Unfiltered source-table row count from the supplied architecture summary. Not a live value.',
+ 'Demo score combinations':'Number of fictional account/platform score examples included after filtering.',
+ 'Average demo score':'Arithmetic mean of selected fictional account/platform scores, out of 10.',
+ 'Reported social reports':'Unfiltered reported social page performance table total, not a filtered KPI.',
+ 'Reported monthly rows':'Unfiltered reported monthly marketing metrics table total.',
  'Organic records':'Reported count in the source architecture, not the number of demo posts.',
  '24H reports':'Reported count of 24-hour metrics submissions; no live sync.',
  '7-day reports':'Reported count of seven-day metrics submissions; no live sync.',
@@ -72,7 +80,7 @@ function explainMetric(card){
  const note=card.querySelector('.stat-foot')?.textContent?.trim()||'';
  const definition=definitions[name]||('This summary belongs to the fictional demonstration dataset. '+note);
  const source=sourceMap[s.active]||'Reported architecture reference';
- const reported=/source table|reported|source count|provided architecture|record count/i.test(note) ||
+ const reported=/source table|reported|source count|provided architecture|record count/i.test(note) || /^Reported /i.test(name) ||
  /Airtable tables|Approx. records|Interfaces|Dashboard pages|Organic records|24H reports|7-day reports|Tracked SEO keywords|KRAs tracked|KPIs monitored|Action plans|Chief initiatives|Social page reports|Monthly metrics/i.test(name);
  dialog('METRIC CONTEXT',name,'Explanation · source and calculation',
   '<div class="v35-metric-details"><div class="v35-definition"><strong>'+html(value)+'</strong><br>'+html(definition)+'</div>'+
@@ -98,7 +106,10 @@ function summaryData(id,s){
   sub:'Open creative assignments and compare their production stages.',
   values:[creative.length,review.length,creative.filter(x=>x.status==='In progress').length,creative.filter(x=>x.done).length],
   rows:creative.slice(0,7).map(x=>[x.title,x.displayStatus+' · '+x.progress+'%'])},
- performance:{title:posts.length?posts[0].title+' leads demo views':'No posts match these filters',
+ performance:s.performanceTab==='social'?{title:'Illustrative scores by account and platform',
+  sub:'Social scores are fictional. Reported Airtable source totals are unfiltered and no weekly source records are connected.',
+  values:[],rows:[['Active account filter',s.filters.account],['Active platform filter',s.filters.platform],['Reported social rows','263 · unfiltered'],['Reported monthly rows','24 · unfiltered']]}:
+  {title:posts.length?posts[0].title+' leads demo views':'No posts match these filters',
   sub:'Post rankings use fictional values and grades, not validated source formulas.',
   values:posts.slice(0,6).map(x=>x.grade7),rows:posts.map(x=>[x.title,format(x.views)+' views · '+x.grade7+'/10'])},
  ads:{title:totalSpend?('Sample return '+(totalSales/totalSpend).toFixed(2)+'× ROAS'):'No matching campaigns',
