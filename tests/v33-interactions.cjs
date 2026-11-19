@@ -26,21 +26,23 @@ const server=http.createServer((req,res)=>{
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'no-preference'});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url,{waitUntil:'domcontentloaded'});
-  await page.locator('.v33-studio-pulse').waitFor({timeout:6000});
+  await page.locator('#overview .v38-panel-tasks').waitFor({state:'visible',timeout:6000});
+  await page.locator('.v33-studio-pulse').waitFor({state:'attached',timeout:6000});
+  assert.equal(await page.locator('.v33-studio-pulse').isVisible(),false,'obsolete animated stage strip is intentionally hidden');
   assert.equal(await page.locator('.v33-pulse-item').count(),4,name+' production stages');
   const deps=await page.evaluate(()=>window.MediaStudioInteractions);
   assert.equal(deps.version,'3.3.0');
   assert(deps.decorated>0,name+' lacked decorated elements');
-  const hoverTarget=page.locator('#overview .stat').first();
-  const before=await hoverTarget.evaluate(el=>getComputedStyle(el).boxShadow);
-  await hoverTarget.hover({force:true});
-  await page.waitForTimeout(330);
-  const after=await hoverTarget.evaluate(el=>getComputedStyle(el).boxShadow);
-  assert.notEqual(before,after,name+' stat hover must have visual feedback');
+  const metric=page.locator('#overview .stat').first();
+  await metric.focus();
+  assert.equal(await metric.getAttribute('role'),'button','KPI must remain keyboard-accessible');
+  await metric.press('Enter');
+  await page.locator('#overlay.open [role="dialog"]').waitFor({state:'visible'});
+  await page.locator('#closedrawer').click();
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
   assert(overflow<=3,name+' overview overflow '+overflow);
   await page.screenshot({path:'test-results/v33-'+name+'-overview.png'});
-  await page.locator('.v33-pulse-item').nth(1).click();
+  await page.locator('#overview .v38-panel-tasks [data-v38-route="content"]').click();
   assert(await page.locator('#content').evaluate(el=>el.classList.contains('active')),name+' flow link not routing to content');
   await page.locator('.ticket-thumb').first().waitFor({timeout:3000});
   const ticket=page.locator('.ticket[data-task]').first();
@@ -65,7 +67,7 @@ const server=http.createServer((req,res)=>{
  }
  const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await reduced.goto(url,{waitUntil:'domcontentloaded'});
- await reduced.locator('.v33-studio-pulse').waitFor();
+ await reduced.locator('.v33-studio-pulse').waitFor({state:'attached'});
  assert(await reduced.locator('html').evaluate(el=>el.classList.contains('motion-paused')));
  assert.equal(await reduced.locator('.v33-pulse-item').first().evaluate(el=>getComputedStyle(el).animationName),'none');
  await reduced.close();
@@ -77,4 +79,4 @@ const server=http.createServer((req,res)=>{
  await manual.close();
  await browser.close();
  console.log('PASS motion pause / system reduced-motion behavior');
-})().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>server.close());
+})().catch(e=>{console.error(e);server.close();process.exit(1)}).finally(()=>server.close());
