@@ -69,9 +69,9 @@ function scan(){
   if(!row.hasAttribute('aria-label'))row.setAttribute('aria-label','View '+(row.querySelector('td')?.textContent||'record').trim().slice(0,85));
  });
  const title=document.getElementById('page-title'),name=title?.textContent?.trim()||'';
- if(name&&name!==oldTitle){oldTitle=name;animateClass(title,'fadeInDown')}
+ if(name&&name!==oldTitle)oldTitle=name; // Instant readable title; no entrance movement.
  const detail=document.getElementById('drawertitle'),dname=detail?.textContent?.trim()||'';
- if(modal?.classList.contains('open')&&dname&&dname!==oldDialog){oldDialog=dname;animateClass(detail,'fadeInUp')}
+ if(modal?.classList.contains('open')&&dname&&dname!==oldDialog)oldDialog=dname; // Modal shell handles the transition.
  if(!modal?.classList.contains('open'))oldDialog='';
 }
 function schedule(){
