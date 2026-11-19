@@ -9,7 +9,7 @@ const errors=[];
 for(const [name,width,height] of [['desktop',1440,900],['tablet',834,1112],['mobile',390,844],['smallmobile',320,720]]){
  const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
  page.on('pageerror',e=>errors.push(name+': '+e.message));
- await page.goto('file://'+path.resolve('index.html'));
+ await page.goto('file://'+path.resolve('index.html')+'?intro=0');
  await page.waitForSelector('#overview .stat');
  const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
  assert(overflow.scroll-overflow.client<=3,name+' document horizontal overflow '+JSON.stringify(overflow));
