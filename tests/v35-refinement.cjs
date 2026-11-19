@@ -98,7 +98,7 @@ const server=http.createServer((req,res)=>{
  }
  const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await reduced.goto(base,{waitUntil:'domcontentloaded'});
- await reduced.locator('.v35-insight').first().waitFor();
+ await reduced.locator('.v35-insight').first().waitFor({state:'attached'}); // Overview's redundant summary is intentionally hidden.
  assert.equal(await reduced.locator('.v35-insight').first().evaluate(el=>getComputedStyle(el).animationName),'none');
  assert(await reduced.locator('html').evaluate(el=>el.classList.contains('motion-paused')));
  await reduced.close();
