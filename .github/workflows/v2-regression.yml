@@ -13,6 +13,7 @@ on:
       - develop/media-dashboard-v3-4-settings-architecture
       - develop/media-dashboard-v3-5-refinement
       - develop/media-dashboard-v3-6-clean-overview
+      - develop/media-dashboard-v3-7-accuracy
   pull_request:
     branches: [main]
 permissions:
@@ -51,6 +52,8 @@ jobs:
         run: node tests/v35-refinement.cjs
       - name: Verify V3.6 simpler navigation and centered landscape previews
         run: node tests/v36-clarity.cjs
+      - name: Verify V3.7 reporting accuracy and Madhouse branding
+        run: node tests/v37-accuracy.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
