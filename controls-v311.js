@@ -136,7 +136,11 @@
  window.addEventListener('popstate',()=>requestAnimationFrame(sync));
  // Some old renderers update the period control after a layout change.
  const pageElements=[...document.querySelectorAll('.content .page')];
- const pageObserver=new MutationObserver(()=>requestAnimationFrame(sync));
+ const pageObserver=new MutationObserver(()=>requestAnimationFrame(()=>{
+   // A filter popup must not obscure controls after navigating to a different dashboard.
+   if(!panel.hidden)openPanel(false);
+   sync();
+ }));
  pageElements.forEach(el=>pageObserver.observe(el,{attributes:true,attributeFilter:['class']}));
 
  document.addEventListener('pointerdown',event=>{
