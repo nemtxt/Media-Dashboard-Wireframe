@@ -40,7 +40,7 @@ const style=async(page,sel)=>page.locator(sel).evaluate(el=>{
    assert.equal((await style(page,'#overview .v38-panel-projects')).bg,'rgb(255, 255, 255)','white project card');
    assert.equal((await style(page,'#overview .v38-panel-projects')).image,'none','project card no gradients');
    assert.equal((await style(page,'#overview .v38-panel-tasks')).image,'none','assignment card no gradients');
-   assert(Number((await style(page,'#overview .stats>.stat strong:first-child')).weight)>=800,'bold summary numbers');
+   assert(Number((await style(page,'#overview .stats>.stat:first-child > strong')).weight)>=800,'bold summary numbers');
 
    if(viewport.width>1020){
      await page.locator('#collapseNav').click();
