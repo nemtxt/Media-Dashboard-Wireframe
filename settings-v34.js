@@ -246,5 +246,15 @@ root.addEventListener('change',e=>{
 root.addEventListener('input',e=>{
  if(e.target.id==='md-catalog-search'){query=e.target.value;fillCatalog()}
 });
-window.MediaDashboardSettings={render,tableCount:TABLES.length,readOnly:true,getPreferences:()=>({...prefs})};
+window.MediaDashboardSettings={
+ render,tableCount:TABLES.length,readOnly:true,
+ getPreferences:()=>({...prefs}),
+ setTheme(value){
+  if(!['light','dark'].includes(value))return;
+  prefs.theme=value;
+  applyPrefs();
+  const select=root.querySelector('[data-md-pref="theme"]');
+  if(select)select.value=value;
+ }
+};
 })();

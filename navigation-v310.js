@@ -1,4 +1,4 @@
-/* Media Dashboard V3.10 — navigation reliability and keyboard accessibility.
+/* Media Dashboard V3.11 — navigation reliability and keyboard accessibility.
  * A read-only enhancement over V3.9. No new data sources, page routes or records.
  */
 (() => {
@@ -94,7 +94,7 @@
     return routes.includes(key) ? key : null;
   }
   function updateDocumentTitle(id) {
-    document.title = labels[id]+' · Media Dashboard V3.10';
+    document.title = labels[id]+' · Media Dashboard V3.11';
   }
   updateDocumentTitle(lastPage);
 
