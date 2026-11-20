@@ -32,7 +32,6 @@ const read=async(page,sel)=>page.locator(sel).evaluate(el=>{
    assert.equal((await read(page,'body')).bg,'rgb(255, 255, 255)',name+' canvas stays white');
    const first=await read(page,'#overview .stats>.stat:nth-child(1)');
    const second=await read(page,'#overview .stats>.stat:nth-child(2)');
-   console.log('PASTEL DEBUG',name,JSON.stringify({first,second,workspace:await page.evaluate(()=>document.body.className),theme:await page.locator('html').getAttribute('data-studio-theme'),cssLinks:await page.locator('link[rel="stylesheet"]').evaluateAll(els=>els.slice(-4).map(x=>({href:x.getAttribute('href'),sheet:!!x.sheet})))}));
    assert(first.image.includes('linear-gradient'),'primary blue KPI should have pastel gradient');
    assert(second.image.includes('linear-gradient'),'yellow KPI should have pastel gradient');
    assert.notEqual(first.image,second.image,'KPI colors should be intentionally distinct');
