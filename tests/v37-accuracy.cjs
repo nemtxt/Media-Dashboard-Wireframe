@@ -106,6 +106,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('body:not(.v37-undated)').waitFor({state:'attached'});
   await page.locator('#v311FilterToggle').click();
   assert(await page.locator('#reportPeriod').isVisible(),'dated planner enables period filter');
+  await page.locator('#v311FilterToggle').click(); // Close disclosure before using calendar tabs underneath.
   assert.equal(await page.locator('.monthcard').count(),3,'three-month calendar preserved');
   await page.locator('[data-cal-tab="workload"]').click();
   assert(await page.locator('.personcard').count()>0);
