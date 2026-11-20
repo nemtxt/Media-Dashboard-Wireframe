@@ -80,6 +80,7 @@ const server=http.createServer((req,res)=>{
   // Verify that the single account/platform selection can be reset and propagates to Ads.
   if(width<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="ads"]').click();
+  await page.locator('#v311FilterToggle').click();
   await page.locator('[data-v36-account="All"]').click();
   await page.locator('[data-v36-platform="All"]').click();
   await page.locator('#ads .chartbars .barcol').first().waitFor();
