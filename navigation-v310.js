@@ -94,7 +94,7 @@
     return routes.includes(key) ? key : null;
   }
   function updateDocumentTitle(id) {
-    document.title = labels[id]+' · Media Dashboard V3.12';
+    document.title = labels[id]+' · Media Dashboard V3.13';
   }
   updateDocumentTitle(lastPage);
 

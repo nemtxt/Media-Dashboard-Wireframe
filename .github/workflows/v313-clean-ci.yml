@@ -1,4 +1,4 @@
-name: V3.12 Pastel Dashboard and Settings Isolation
+name: V3.13 Clean Cards and Reference Sidebar
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 jobs:
-  pastel:
+  ui:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -15,9 +15,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check browser test syntax
-        run: node --check tests/v312-pastels.cjs
+      - name: Validate JavaScript syntax
+        run: |
+          node --check sidebar-v313.js
+          node --check tests/v313-clean.cjs
       - name: Install Playwright
         run: npm install --no-save --package-lock=false playwright@1.56.1
-      - name: Verify pastel cards, settings isolation, themes and breakpoints
-        run: node tests/v312-pastels.cjs
+      - name: Check white/black cards and navigation at four viewport sizes
+        run: node tests/v313-clean.cjs

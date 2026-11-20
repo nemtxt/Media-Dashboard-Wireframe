@@ -28,7 +28,7 @@ const server=http.createServer((req,res)=>{
       const errors=[];page.on('pageerror',err=>errors.push(err.message));
       await page.goto(origin+'/?intro=0&utm_source=test#/ads');
       await page.locator('#ads.active').waitFor();
-      assert.equal(await page.title(),'Paid Ads · Media Dashboard V3.12');
+      assert.equal(await page.title(),'Paid Ads · Media Dashboard V3.13');
       assert.equal(await page.locator('#nav .navbtn').count(),7);
       assert.equal(await page.locator('.md-settings-entry').count(),1);
       assert.equal(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(11, 31, 59)');
