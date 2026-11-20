@@ -32,6 +32,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#overview .v2-banner').isVisible(),false);
   assert.equal(await page.locator('#overview .hero-right').isVisible(),false);
   assert.equal(await page.locator('#overview .studio-motion-art').isVisible(),false);
+  await page.locator("#v311FilterToggle").click();
   await page.locator('.v36-scope-option[data-v36-account="MIH"]').click();
   assert.equal(await page.locator('#account').evaluate(el=>el.value),'MIH');
   assert.equal(await page.locator('[data-v36-account="MIH"]').getAttribute('aria-pressed'),'true');

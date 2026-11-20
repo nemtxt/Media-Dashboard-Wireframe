@@ -22,6 +22,7 @@ const server=http.createServer((req,res)=>{
   const page=await ctx.newPage();page.setDefaultTimeout(11000);
   const errors=[];page.on('pageerror',err=>errors.push(err.message));
   await page.goto(url,{waitUntil:'domcontentloaded'});
+  await page.locator('#v311FilterToggle').click();
   await page.locator('#reportPeriod').waitFor({state:'visible'});
   const logo=page.locator('.brandmark img');
   assert.equal(await logo.getAttribute('src'),'./assets/madhouse-mark.svg');
@@ -102,6 +103,7 @@ const server=http.createServer((req,res)=>{
   if(width<=1020)await page.locator('#menubtn').click();
   await page.locator('#nav [data-open="calendar"]').click();
   await page.locator('body:not(.v37-undated)').waitFor({state:'attached'});
+  await page.locator('#v311FilterToggle').click();
   assert(await page.locator('#reportPeriod').isVisible(),'dated planner enables period filter');
   assert.equal(await page.locator('.monthcard').count(),3,'three-month calendar preserved');
   await page.locator('[data-cal-tab="workload"]').click();
@@ -124,6 +126,7 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#reportPeriod').inputValue(),'2026-11','URL period restored');
  assert.equal(await page.locator('#account').inputValue(),'Madhouse');
  assert.equal(await page.locator('#platform').inputValue(),'Instagram');
+ await page.locator('#v311FilterToggle').click();
  await page.locator('#v36Clear').click();
  assert.equal(await page.locator('#reportPeriod').inputValue(),'All','clears period');
  assert.equal(await page.locator('#account').inputValue(),'All','clears account');

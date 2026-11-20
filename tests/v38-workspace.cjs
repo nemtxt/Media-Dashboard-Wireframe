@@ -82,6 +82,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.v38-account-card').count(),1,'account scope reflected in project cards');
   const visible=await page.evaluate(()=>window.MediaDashboardV35Bridge.snapshot().tasks);
   assert(visible.every(t=>t.account==='MIH'),'account click must filter original records');
+  await page.locator('#v311FilterToggle').click();
   await page.locator('[data-v36-account="All"]').click();
   await page.locator('.v38-week-day').first().click();
   assert(await page.locator('#calendar').evaluate(el=>el.classList.contains('active')),'calendar interaction navigates to planner');
