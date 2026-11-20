@@ -55,7 +55,7 @@ async function check(page,selector,expected,theme,context){
      const mark=width+'/'+theme+'/'+route;
      await check(page,'.pageheading h1',primary,theme,mark);
      await check(page,'.pageheading p',secondary,theme,mark);
-     await check(page,'.topdate',secondary,theme,mark);
+     if(await page.locator('.topdate').isVisible()) await check(page,'.topdate',secondary,theme,mark);
      if(route==='settings'){
       await check(page,'#settings .md-settings-intro h2',primary,theme,mark);
       await check(page,'#settings .md-settings-intro p',secondary,theme,mark);

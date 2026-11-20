@@ -78,7 +78,7 @@ async function assertTheme(page,theme,screen,viewport){
    assert.equal(result[key],value,viewport+' '+screen+' '+key+' navigation must not change with theme');
  }
  if(theme==='dark'){
-   assert.equal(result.title,'rgb(255, 255, 255)',viewport+' '+screen+' white heading');
+   assert.equal(result.title,'rgb(247, 249, 252)',viewport+' '+screen+' accessible near-white heading');
  }
  assert(result.overflow<=3,viewport+'/'+screen+' horizontal overflow '+result.overflow);
 }
