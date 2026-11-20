@@ -84,9 +84,8 @@ async function signature(page){
    assert.equal(await page.locator('#themeToggle').count(),1);
    await page.locator('#themeToggle').click();
    assert.equal(await page.locator('[data-md-pref="theme"]').inputValue(),'dark');
-   assert.deepEqual(await signature(page),{
-     ...baseline,selected:'rgb(31, 111, 235)'
-   },'Settings navigation remains navy, blue and yellow');
+   await page.waitForTimeout(320); // Allow the pre-existing sidebar active/hover transition to finish.
+   assert.deepEqual(await signature(page),baseline,'Settings navigation remains navy, blue and yellow');
    await page.reload();
    assert.equal(await page.locator('html').getAttribute('data-studio-theme'),'dark','prepaint saved theme persisted');
    assert.equal(await page.locator('#themeToggle').getAttribute('aria-pressed'),'true');
