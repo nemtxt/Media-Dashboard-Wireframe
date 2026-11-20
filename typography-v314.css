@@ -1,0 +1,202 @@
+/* Media Dashboard V3.14 — Shared, readable typography across appearance modes.
+   Scopes text to the workspace (NOT the persistent navy navigation).
+   No layout, reporting data, card fills or route changes. */
+html[data-studio-theme="light"] {
+ --md-text-primary:#12243A;
+ --md-text-secondary:#526276;
+ --md-text-muted:#596C83;
+ --md-text-link:#1558A6;
+ --md-text-danger:#A82640;
+ --md-text-warning:#795300;
+ --md-text-success:#176244;
+ --md-text-border:#E2E7EE;
+}
+html[data-studio-theme="dark"] {
+ --md-text-primary:#F7F9FC;
+ --md-text-secondary:#CED4DE;
+ --md-text-muted:#BFC8D4;
+ --md-text-link:#9EC6FF;
+ --md-text-danger:#FF95A7;
+ --md-text-warning:#F9D88E;
+ --md-text-success:#8AD8B6;
+ --md-text-border:#3C3C3C;
+}
+/* Global text baseline on white/light and black/dark workspace surfaces.
+   Do not apply these to .sidebar, its icon rail, brand or nav buttons. */
+html[data-studio-theme] body.v38-workspace :is(.main,.content,.page.active,.detail-overlay.open .drawer){
+ color:var(--md-text-primary)!important;
+}
+
+/* Main page titles, significant KPIs, dashboard content, labels, and details. */
+html[data-studio-theme] body.v38-workspace :is(
+ .topbar .breadcrumb b,
+ .pageheading h1,.pageheading h2,
+ .section-intro h2,.section-intro h3,
+ #overview .hero h2,
+ .page.active .stat strong,
+ .page.active .panel-header h3,
+ .page.active .kanbanhead,
+ .page.active .ticket b,.page.active .ticket strong,
+ .page.active .personcard h4,.page.active .personcard strong,
+ .page.active .monthhead,
+ .page.active .source-card b,.page.active .source-card strong,
+ .page.active .progressrow b,.page.active .ranknum,
+ .page.active .v38-task-main strong,
+ .page.active .v38-task-group-heading strong,
+ .page.active .v38-account-info strong,
+ .page.active .v38-person-meta strong,
+ .page.active .v38-next-due strong,
+ .page.active .v38-week-day strong:not(.selected),
+ .page.active .v38-team-heading strong,
+ .page.active table strong,.page.active table b,
+ #settings .md-settings-intro h2,
+ #settings .md-settings-heading h3,
+ #settings .md-settings-row-text b,
+ #settings .md-settings-mini strong,
+ #settings .md-settings-area h4,
+ #settings .md-settings-issue strong,
+ #settings .md-settings-tech-item strong,
+ #settings .md-settings-chain b,
+ #settings .md-settings-status b,
+ #settings .md-settings-table td b,
+ .detail-overlay.open .drawer-header h2,
+ .detail-overlay.open .kv strong,
+ .detail-overlay.open .v36-detail-status strong
+) {color:var(--md-text-primary)!important}
+
+/* Descriptions, tables, dates, summaries, and other supporting information. */
+html[data-studio-theme] body.v38-workspace :is(
+ .topbar .breadcrumb,.topbar .topdate,
+ .pageheading p,.pageheading .eyebrow,
+ #overview .hero p,#overview .hero .hero-kicker,
+ .page.active .stat-head,.page.active .stat-foot,
+ .page.active .panel-header p,
+ .page.active .ticket p,.page.active .personcard .role,
+ .page.active .personmini,.page.active .source-card span,
+ .page.active .v38-task-main small,
+ .page.active .v38-task-due,
+ .page.active .v38-task-legend,.page.active .v38-task-group-heading small,
+ .page.active .v38-account-info small,
+ .page.active .v38-person-meta small,
+ .page.active .v38-person-count,
+ .page.active .v38-week-day,
+ .page.active .v38-calendar-head>span,
+ .page.active .v38-widget-footer span,
+ .page.active .v38-next-due>span,
+ .page.active .v38-next-due small,
+ .page.active .monthhead small,.page.active .weekdays,
+ .page.active table tbody td,.page.active table thead th,
+ .page.active .barcol,
+ .page.active .progressrow,.page.active .empty,
+ .page.active .muted,.page.active .subtle,
+ .content>.footnote,
+ .v311-filter-summary,.v311-chip-x,
+ #settings .md-settings-intro p,
+ #settings .md-settings-status small,
+ #settings .md-settings-heading p,
+ #settings .md-settings-row-text p,
+ #settings .md-settings-mini span,
+ #settings .md-settings-area p,
+ #settings .md-settings-issue p,
+ #settings .md-settings-tech-item small,
+ #settings .md-settings-table td,
+ #settings .md-settings-table th,
+ #settings .md-settings-foot,
+ #settings .md-settings-catalog-count,
+ #settings .md-settings-field label,
+ #settings .md-settings-nav .md-settings-tab-count,
+ #settings .md-settings-note,
+ #settings .md-settings-chain,
+ .detail-overlay.open .drawer-subtitle,
+ .detail-overlay.open .kv span,
+ .detail-overlay.open .v36-detail-status,
+ .detail-overlay.open .drawer-task p,
+ .detail-overlay.open .muted
+) {color:var(--md-text-secondary)!important}
+
+/* Secondary text inside nested pills should not inherit the old pale blue
+   or washed-out gray. Keep semantic signals separately below. */
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .pill,.page.active .badge,
+ .page.active .v38-task-priority,
+ .page.active .v38-task-group-label,
+ .page.active .kanbanhead span,
+ #settings .md-settings-tag
+){color:var(--md-text-secondary)!important}
+
+/* Readable blue actions and navigation tabs on both workspace appearances. */
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .small-link,.page.active .v38-widget-footer button,
+ .page.active .v38-account-score,
+ .page.active .tab.active,
+ .page.active .pageheading .eyebrow,
+ .v311-reset-all,
+ #settings .md-settings-kicker,
+ #settings .md-settings-area small,
+ #settings .md-settings-issue small,
+ #settings .md-settings-nav button[aria-selected="true"],
+ #settings .md-settings-nav button[aria-selected="true"] .md-settings-tab-count,
+ #settings .md-settings-btn:not(.primary),
+ .detail-overlay.open .drawer-header .eyebrow
+){color:var(--md-text-link)!important}
+
+/* Inactive workspace tabs and Settings tabs are supporting, not disabled. */
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .tab:not(.active),
+ #settings .md-settings-nav button:not([aria-selected="true"]),
+ .v311-filter-toolbar .v311-filter-summary
+){color:var(--md-text-secondary)!important}
+
+/* Form and filter text is explicit rather than inheriting stale theme colors. */
+html[data-studio-theme] body.v38-workspace :is(
+ .main input,.main select,.main textarea,
+ .main .select,.main .v37-period-select,
+ .main .v311-filter-toggle,.main .v311-chip,
+ .main .v36-scope-option,.main .v36-clear,
+ #settings .md-settings-select,#settings .md-settings-field input,
+ #settings .md-settings-field select
+){color:var(--md-text-primary)!important}
+html[data-studio-theme] body.v38-workspace :is(
+ .main input::placeholder,.main textarea::placeholder
+){color:var(--md-text-muted)!important}
+html[data-studio-theme] body.v38-workspace :is(
+ .main .v36-scope-option[aria-pressed="true"],
+ .main .v311-filter-panel .v36-scope-option[aria-pressed="true"]
+){color:var(--md-text-link)!important}
+
+/* Retain meaning for warnings, deadlines and health signals without
+   introducing colored surfaces. */
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .danger,.page.active .v38-task-priority.high,
+ .page.active .v38-task-group-label.overdue,
+ .page.active .pill.red,.page.active .badge.red
+){color:var(--md-text-danger)!important}
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .v38-task-priority.medium,
+ .page.active .v38-task-group-label.review,
+ .page.active .v38-task-group-label.upcoming,
+ .page.active .pill.yellow,.page.active .warning-note,
+ #settings .md-settings-note.warning,
+ #settings .md-settings-tag.legacy
+){color:var(--md-text-warning)!important}
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .v38-task-group-label.in-progress,
+ .page.active .pill.green,
+ #settings .md-settings-tag.reference
+){color:var(--md-text-success)!important}
+
+/* Selection states that intentionally have a blue filled background keep
+   white type rather than accidentally inheriting the primary ink. */
+html[data-studio-theme] body.v38-workspace :is(
+ .page.active .v38-week-day.selected,
+ .page.active .v38-week-day.selected strong,
+ #settings .md-settings-btn.primary,
+ #settings .md-settings-switch[aria-checked="true"]
+){color:#FFFFFF!important}
+html[data-studio-theme] body.v38-workspace .v313-rail-hint{color:#FFFFFF!important}
+
+/* Remove theme-specific historical high-contrast overrides that would set
+   light ink on a dark canvas; accessible theme variables are already contrast rich. */
+body.md-high-contrast.v38-workspace .main :is(.muted,.subtle,.footnote,.stat-foot,.md-settings-row-text p,.md-settings-heading p){
+ color:var(--md-text-secondary)!important;
+}
