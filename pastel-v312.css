@@ -1,0 +1,145 @@
+/* V3.12 — pastel dashboard card hierarchy and Settings isolation.
+ * Keep the workspace canvas literal white/black; never recolor the navy navigation.
+ * Existing values, statuses, tables, interactions and Airtable documentation remain intact.
+ */
+:root{
+ --v312-blue:#DDEBFF;
+ --v312-yellow:#FFF1C5;
+ --v312-periwinkle:#E9EDFF;
+ --v312-mint:#E1F3EF;
+ --v312-ink:#183455;
+}
+/* Regression fix: V3.8's unconditional #overview display:grid leaked all Overview
+   KPIs and panels onto Settings & Data and every other workspace. */
+body.v38-workspace #overview.page:not(.active){display:none!important}
+body.v38-workspace #overview.page.active{display:grid}
+
+/* Light: white application canvas, soft fully-colored KPI cards.
+   Gradient overlays intentionally leave computed background-color white. */
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat{
+ background-color:#fff!important;
+ color:var(--v312-ink)!important;
+ box-shadow:0 4px 16px rgba(29,73,128,.035)!important;
+ transition:border-color .15s ease,box-shadow .15s ease;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat:nth-child(4n+1){
+ background-image:linear-gradient(137deg,#E8F2FF 0%,#D5E7FF 100%)!important;
+ border-color:#C5DCF8!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat:nth-child(4n+2){
+ background-image:linear-gradient(137deg,#FFF8DF 0%,#FFF0BE 100%)!important;
+ border-color:#F1DE9C!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat:nth-child(4n+3){
+ background-image:linear-gradient(137deg,#F0F2FF 0%,#E6E8FD 100%)!important;
+ border-color:#D5DBF4!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat:nth-child(4n+4){
+ background-image:linear-gradient(137deg,#EBF8F5 0%,#DFF2EB 100%)!important;
+ border-color:#CEE7DE!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat :is(strong,.stat-head){
+ color:#183455!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat .danger{color:#AC2942!important}
+html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat .stat-head svg{color:#1F6FEB!important}
+
+/* Light: intentionally zoned, varied pastel report cards. Tables remain legible. */
+html[data-studio-theme="light"] body.v38-workspace .page.active:not(#settings):not(#sources) .panel{
+ background-color:#fff!important;
+ background-image:linear-gradient(150deg,#F5F9FF 0%,#EDF4FF 100%)!important;
+ border-color:#D6E4F6!important;
+ box-shadow:0 4px 15px rgba(26,73,120,.035)!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .dashboardgrid>.panel:nth-child(4n+2),
+html[data-studio-theme="light"] body.v38-workspace #overview .v38-panel-projects{
+ background-image:linear-gradient(150deg,#FFFBED 0%,#FFF2D5 100%)!important;
+ border-color:#F2E3B4!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .dashboardgrid>.panel:nth-child(4n+3),
+html[data-studio-theme="light"] body.v38-workspace #overview .v38-panel-goals{
+ background-image:linear-gradient(150deg,#F1FAF8 0%,#E5F5EF 100%)!important;
+ border-color:#D6EAE2!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .dashboardgrid>.panel:nth-child(4n+4),
+html[data-studio-theme="light"] body.v38-workspace #overview .v38-panel-calendar{
+ background-image:linear-gradient(150deg,#F7F5FF 0%,#EDEAFE 100%)!important;
+ border-color:#E1DAF7!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .panel .panel-header{
+ background-color:transparent!important;
+ border-bottom-color:rgba(36,76,128,.10)!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .panel-header :is(h3,p){
+ color:#183455!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .panel-header p{
+ color:#5C708B!important;
+}
+
+/* Interactive account/people cards and kanban columns receive a restrained
+   accent, without turning detailed tables or dense task rows into color blocks. */
+html[data-studio-theme="light"] body.v38-workspace .page.active .v38-account-card:nth-child(3n+1),
+html[data-studio-theme="light"] body.v38-workspace .page.active .personcard:nth-child(3n+1){
+ background-color:#fff!important;background-image:linear-gradient(135deg,#F1F7FF,#E5F0FF)!important;
+ border-color:#CDE0FA!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .v38-account-card:nth-child(3n+2),
+html[data-studio-theme="light"] body.v38-workspace .page.active .personcard:nth-child(3n+2){
+ background-color:#fff!important;background-image:linear-gradient(135deg,#FFF9E6,#FFF1CC)!important;
+ border-color:#F0E0B8!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .v38-account-card:nth-child(3n+3),
+html[data-studio-theme="light"] body.v38-workspace .page.active .personcard:nth-child(3n+3){
+ background-color:#fff!important;background-image:linear-gradient(135deg,#F1F8FF,#EDF0FF)!important;
+ border-color:#DFE4F5!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .kanbancol:nth-child(2n+1){
+ background-color:#fff!important;background-image:linear-gradient(145deg,#F3F8FF,#EAF3FF)!important;
+ border-color:#D8E7F8!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .kanbancol:nth-child(2n){
+ background-color:#fff!important;background-image:linear-gradient(145deg,#FFFBF0,#FFF3D8)!important;
+ border-color:#F0E3BF!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .monthcard:nth-child(2n+1){
+ background-color:#fff!important;background-image:linear-gradient(155deg,#F3F8FF,#EBF3FF)!important;
+ border-color:#D8E6F9!important;
+}
+html[data-studio-theme="light"] body.v38-workspace .page.active .monthcard:nth-child(2n){
+ background-color:#fff!important;background-image:linear-gradient(155deg,#FFF9E9,#FFF2D9)!important;
+ border-color:#F0E3BA!important;
+}
+
+/* Dark: literal black cards/canvas, just blue and buttery-yellow edge accents.
+   Never recolor the stable navy sidebar or active navigation marker. */
+html[data-studio-theme="dark"] body.v38-workspace .page.active :is(.stats>.stat,.panel,.v38-account-card,.kanbancol,.monthcard,.personcard){
+ background-color:#000!important;background-image:none!important;
+ box-shadow:none!important;
+}
+html[data-studio-theme="dark"] body.v38-workspace .page.active .stats>.stat:nth-child(odd),
+html[data-studio-theme="dark"] body.v38-workspace .page.active .dashboardgrid>.panel:nth-child(odd),
+html[data-studio-theme="dark"] body.v38-workspace #overview .v38-panel-tasks,
+html[data-studio-theme="dark"] body.v38-workspace #overview .v38-panel-goals{
+ border-top:3px solid #9CC4FF!important;
+}
+html[data-studio-theme="dark"] body.v38-workspace .page.active .stats>.stat:nth-child(even),
+html[data-studio-theme="dark"] body.v38-workspace .page.active .dashboardgrid>.panel:nth-child(even),
+html[data-studio-theme="dark"] body.v38-workspace #overview .v38-panel-projects,
+html[data-studio-theme="dark"] body.v38-workspace #overview .v38-panel-calendar{
+ border-top:3px solid #FFE39A!important;
+}
+html[data-studio-theme="dark"] body.v38-workspace .page.active .panel-header{
+ background-color:#000!important;background-image:none!important;
+ border-bottom-color:#373737!important;
+}
+html[data-studio-theme="dark"] body.v38-workspace .page.active .v38-account-card{
+ border-color:#484848!important;
+}
+
+/* Reduce motion and keep the card treatment stable in both contrast modes. */
+@media(prefers-reduced-motion:reduce){
+ html[data-studio-theme="light"] body.v38-workspace .page.active .stats>.stat{
+  transition:none!important;
+ }
+}

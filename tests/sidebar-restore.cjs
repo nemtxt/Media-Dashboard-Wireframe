@@ -47,7 +47,7 @@ const path=require('node:path');
   assert.equal(layout.activeMarker,'rgb(255, 210, 63)',name+' left yellow marker');
   assert.equal(layout.title,'Media Dashboard');
   assert.equal(layout.titleColor,'rgb(255, 255, 255)');
-  assert.equal(layout.version,'V3.11');
+  assert.equal(layout.version,'V3.12');
   assert.equal(layout.label,'MAIN WORKSPACE');
   assert.equal(layout.source,'rgb(20, 46, 79)');
   assert.equal(layout.reportingDivider,0,'no unnecessary reporting section');
