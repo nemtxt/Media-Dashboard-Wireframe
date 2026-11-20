@@ -51,7 +51,7 @@ const server=http.createServer((req,res)=>{
     name+' page title must not slide through section label');
   assert(titlePosition.opacity>.95,name+' heading must be readable on first paint');
   const bg=await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor);
-  assert.equal(bg,'rgb(11, 31, 59)','navy sidebar restored');
+  assert.equal(bg,'rgb(8, 8, 8)','reference black sidebar');
   assert(await page.evaluate(()=>document.body.classList.contains('v38-workspace')));
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
   if(overflow>3){

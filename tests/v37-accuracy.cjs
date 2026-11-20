@@ -41,7 +41,7 @@ const server=http.createServer((req,res)=>{
   assert.deepEqual([tokens.yellow,tokens.orange,tokens.blue,tokens.navy,tokens.neutral],
     ['#FFD23F','#FF8A2A','#1F6FEB','#0B1F3B','#F2F4F7'],name+' palette tokens must match reference');
   assert.equal(tokens.body,'rgb(255, 255, 255)','pure white light-mode background');
-  assert.equal(tokens.sidebar,'rgb(11, 31, 59)','restored navy sidebar while preserving five color tokens');
+  assert.equal(tokens.sidebar,'rgb(8, 8, 8)','reference black sidebar while preserving color tokens');
   assert(await logo.evaluate(el=>el.complete && el.naturalWidth>0),name+' logo asset did not load');
   assert.equal((await page.locator('.v37-brand-title').textContent()).trim(),'Media Dashboard');
   assert((await page.locator('.topdate').textContent()).includes('DEMO AS OF'));
