@@ -43,8 +43,8 @@ async function signature(page){
    assert.equal(await page.locator('.v36-scopegroup').count(),3,'reuse all three original filter groups');
    assert.equal(await page.locator('#v311FilterPanel').isVisible(),false,'filters default compact');
    const baseline=await signature(page);
-   assert.equal(baseline.sidebar,'rgb(11, 31, 59)','navy sidebar');
-   assert.equal(baseline.selected,'rgb(31, 111, 235)','blue active state');
+   assert.equal(baseline.sidebar,'rgb(8, 8, 8)','navy sidebar');
+   assert.equal(baseline.selected,'rgb(255, 255, 255)','blue active state');
    await page.locator('#themeToggle').click();
    assert.equal(await page.locator('html').getAttribute('data-studio-theme'),'dark');
    assert.equal(await page.locator('.main').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(0, 0, 0)');

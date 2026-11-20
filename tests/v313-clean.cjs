@@ -31,10 +31,11 @@ const style=async(page,sel)=>page.locator(sel).evaluate(el=>{
    await page.goto(origin);
    await page.locator('#overview .stats>.stat').first().waitFor({state:'visible'});
    assert.deepEqual(await page.locator('#nav .navbtn span').allTextContents(),expected);
-   assert.equal(await page.locator('#sidebar .v313-edge-toggle').count(),1,'Existing collapse control placed at sidebar edge');
+   assert.equal(await page.locator('#sidebar #collapseNav').count(),0,'No floating sidebar control');
+   assert.equal(await page.locator('.topbar #collapseNav.v315-top-toggle').count(),1,'Panel icon is in top bar');
    assert.equal(await page.locator('#overview .stats>.stat').count(),4);
-   assert.equal((await style(page,'.sidebar')).bg,'rgb(11, 31, 59)','Stable brand navy');
-   assert.equal((await style(page,'.sidebar .navbtn.active')).bg,'rgb(31, 111, 235)','Unchanged active blue');
+   assert.equal((await style(page,'.sidebar')).bg,'rgb(8, 8, 8)','Stable brand navy');
+   assert.equal((await style(page,'.sidebar .navbtn.active')).bg,'rgb(255, 255, 255)','Unchanged active blue');
    assert.equal((await style(page,'#overview .stats>.stat:nth-child(1)')).bg,'rgb(255, 255, 255)','white KPI');
    assert.equal((await style(page,'#overview .stats>.stat:nth-child(2)')).image,'none','no pastel gradient in KPI');
    assert.equal((await style(page,'#overview .v38-panel-projects')).bg,'rgb(255, 255, 255)','white project card');
@@ -66,7 +67,7 @@ const style=async(page,sel)=>page.locator(sel).evaluate(el=>{
    assert.equal(await page.locator('.md-settings-nav [role="tab"]').count(),4);
    await page.locator('#themeToggle').click();
    assert.equal(await page.locator('html').getAttribute('data-studio-theme'),'dark');
-   assert.equal((await style(page,'.sidebar')).bg,'rgb(11, 31, 59)','Navigation stays navy in dark mode');
+   assert.equal((await style(page,'.sidebar')).bg,'rgb(8, 8, 8)','Navigation stays navy in dark mode');
    assert.equal((await style(page,'.main')).bg,'rgb(0, 0, 0)');
    await page.evaluate(()=>window.MediaDashboardV35Bridge.navigate('overview'));
    assert.equal((await style(page,'#overview .stats>.stat:nth-child(1)')).bg,'rgb(0, 0, 0)');

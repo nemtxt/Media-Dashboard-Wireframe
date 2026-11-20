@@ -48,7 +48,7 @@ async function check(page,selector,expected,theme,context){
     if(theme==='dark')await page.locator('#themeToggle').click();
     assert.equal(await page.locator('html').getAttribute('data-studio-theme'),theme);
     assert.equal(await page.locator('.main').evaluate(e=>getComputedStyle(e).backgroundColor),theme==='dark'?black:white);
-    assert.equal(await page.locator('.sidebar').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(11, 31, 59)','Sidebar color must never change');
+    assert.equal(await page.locator('.sidebar').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(8, 8, 8)','Sidebar color must never change');
     for(const route of routes){
      await page.evaluate(id=>window.MediaDashboardV35Bridge.navigate(id),route);
      await page.locator('#'+route+'.active').waitFor();

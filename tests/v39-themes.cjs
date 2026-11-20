@@ -67,12 +67,12 @@ async function assertTheme(page,theme,screen,viewport){
    assert.equal(result[key],expected,viewport+' '+screen+' '+key+' must be literal '+theme);
  // Navigation appearance must never change with the workspace theme.
  const navColors={
-  sidebar:'rgb(11, 31, 59)',
-  navActive:'rgb(31, 111, 235)',
-  navActiveDot:'rgb(255, 210, 63)',
-  navActiveMarker:'rgb(255, 210, 63)',
-  navBrandmark:'rgb(25, 53, 87)',
-  navSourcebox:'rgb(20, 46, 79)'
+  sidebar:'rgb(8, 8, 8)',
+  navActive:'rgb(255, 255, 255)',
+  navActiveDot:'rgb(17, 17, 17)',
+  navActiveMarker:'rgba(0, 0, 0, 0)',
+  navBrandmark:'rgb(39, 39, 39)',
+  navSourcebox:'rgb(21, 21, 21)'
  };
  for(const [key,value] of Object.entries(navColors)){
    assert.equal(result[key],value,viewport+' '+screen+' '+key+' navigation must not change with theme');

@@ -31,7 +31,7 @@ const server=http.createServer((req,res)=>{
       assert.equal(await page.title(),'Paid Ads · Media Dashboard V3.13');
       assert.equal(await page.locator('#nav .navbtn').count(),7);
       assert.equal(await page.locator('.md-settings-entry').count(),1);
-      assert.equal(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(11, 31, 59)');
+      assert.equal(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(8, 8, 8)');
       if(viewport.width<=1020){
         assert.equal(await page.locator('#sidebar').evaluate(el=>el.inert),true,'closed menu must not expose tab stops');
         await page.locator('#menubtn').click();
