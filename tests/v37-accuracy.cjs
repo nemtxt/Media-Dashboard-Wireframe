@@ -123,6 +123,7 @@ const server=http.createServer((req,res)=>{
  const ctx=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
  const page=await ctx.newPage();
  await page.goto(url+'&account=Madhouse&platform=Instagram&period=2026-11',{waitUntil:'domcontentloaded'});
+ await page.locator('#v311FilterToggle').click();
  await page.locator('#reportPeriod').waitFor();
  assert.equal(await page.locator('#reportPeriod').inputValue(),'2026-11','URL period restored');
  assert.equal(await page.locator('#account').inputValue(),'Madhouse');
@@ -134,6 +135,7 @@ const server=http.createServer((req,res)=>{
  await ctx.close();
  const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await reduced.goto(url,{waitUntil:'domcontentloaded'});
+ await reduced.locator('#v311FilterToggle').click();
  await reduced.locator('#reportPeriod').waitFor();
  assert(await reduced.locator('html').evaluate(el=>el.classList.contains('motion-paused')));
  await reduced.close();
