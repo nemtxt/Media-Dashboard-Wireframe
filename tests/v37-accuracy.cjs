@@ -128,7 +128,6 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#reportPeriod').inputValue(),'2026-11','URL period restored');
  assert.equal(await page.locator('#account').inputValue(),'Madhouse');
  assert.equal(await page.locator('#platform').inputValue(),'Instagram');
- await page.locator('#v311FilterToggle').click();
  await page.locator('#v36Clear').click();
  assert.equal(await page.locator('#reportPeriod').inputValue(),'All','clears period');
  assert.equal(await page.locator('#account').inputValue(),'All','clears account');
