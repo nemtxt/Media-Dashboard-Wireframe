@@ -157,7 +157,7 @@ function health(){
  ['Sync status','No refresh, polling or write-back configured'],
  ['Preferences','Browser-local only · no account or database changes'],
  ['Animations','CSS + version-pinned Anime.js, Motion and Animate.css'],
- ['Access controls','No sign-in or permission configuration in this prototype']
+ ['Page purpose','Accessibility, presentation preferences and source documentation only']
  ].map(([key,value])=>'<div class="md-settings-tech-item"><small>'+escapeText(key)+'</small><strong>'+escapeText(value)+'</strong></div>').join('')+'</div>'+
  note('For real deployment, route Airtable reads through a secured service or authorized connector. Never embed private Airtable API tokens in public GitHub Pages source code.',true)+
  '<div class="md-settings-actions"><button type="button" class="md-settings-btn" data-md-copy>Copy architecture summary</button><a class="md-settings-btn" href="https://github.com/nemtxt/Media-Dashboard-Wireframe" target="_blank" rel="noopener noreferrer">View repository</a></div>';
@@ -170,7 +170,7 @@ const tabs=[
 ];
 function render(){
  root.innerHTML='<div class="md-settings">'+
- '<div class="md-settings-intro"><div><div class="md-settings-kicker">WORKSPACE / PREFERENCES</div><h2>Make the dashboard work for you.</h2><p>Adjust appearance and accessibility, and inspect the reported Airtable source architecture and data-quality notes. No record editing, account permissions or operational controls.</p></div>'+
+ '<div class="md-settings-intro"><div><div class="md-settings-kicker">WORKSPACE / PREFERENCES</div><h2>Make the dashboard work for you.</h2><p>Adjust appearance and accessibility across the prototype, and inspect the reported Airtable source architecture and source-quality notes. This page contains only display preferences and source documentation.</p></div>'+
  '<div class="md-settings-status"><b><i class="md-settings-dot"></i> Demonstration mode</b><small>No Airtable sync or edits</small></div></div>'+
  '<div class="md-settings-shell"><nav class="md-settings-nav" role="tablist" aria-label="Settings categories">'+
  tabs.map(([key,label,hint])=>'<button type="button" role="tab" data-md-tab="'+key+'" aria-selected="'+(tab===key)+'" aria-controls="md-settings-panel" id="md-settings-tab-'+key+'"><span>'+label+'</span><span class="md-settings-tab-count">'+hint+'</span></button>').join('')+
